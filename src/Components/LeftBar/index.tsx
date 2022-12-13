@@ -152,7 +152,16 @@ function LeftSideBar() {
             {ItemsNavBar.map((item: NavItem, index: number) => {
               return (
                 <>
-                  <li className="p-2 hover:bg-slate-100">{item.text}</li>
+                  <li
+                    className={`${
+                      item.icon
+                        ? "flex justify-between items-center text-base "
+                        : ""
+                    } p-2 hover:bg-slate-100`}
+                  >
+                    <p className="">{item.text}</p>
+                    {item.icon}
+                  </li>
                 </>
               );
             })}
