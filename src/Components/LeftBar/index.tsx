@@ -54,7 +54,7 @@ const Items: IconItem[] = [
     text: "Tạo",
   },
   {
-    icon: <div className="rounded-[50%] h-[20px] w-[20px] bg-red-400 "></div>,
+    icon: <div className="circle h-[20px] w-[20px]"></div>,
     text: "Trang Cá Nhân",
   },
 ];
@@ -90,7 +90,7 @@ function LeftSideBar() {
   };
   return (
     <>
-      <div className="relative py-3 px-2 pb-3 hidden md:block h-full w-[250px]">
+      <div className="relative z-[1] border-l border-red-50 py-3 px-2 pb-3 hidden md:block h-full w-[250px] bg-white">
         <div className="my-2 px-2 py-4">
           <svg
             aria-label="Instagram"
