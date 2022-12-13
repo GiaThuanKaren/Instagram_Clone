@@ -94,7 +94,7 @@ function LeftSideBar() {
         <div className="my-2 px-2 py-4">
           <svg
             aria-label="Instagram"
-            class="_ab6-"
+            className="_ab6-"
             color="#262626"
             fill="#262626"
             height="29"
@@ -152,7 +152,7 @@ function LeftSideBar() {
             {ItemsNavBar.map((item: NavItem, index: number) => {
               return (
                 <>
-                  <li className="p-4">{item.text}</li>
+                  <li className="p-2 hover:bg-slate-100">{item.text}</li>
                 </>
               );
             })}
