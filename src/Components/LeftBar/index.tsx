@@ -90,7 +90,7 @@ function LeftSideBar() {
   };
   return (
     <>
-      <div className="relative z-[1] border-l border-red-50 py-3 px-2 pb-3 hidden md:block h-full w-[250px] bg-white">
+      <div className="fixed z-[1] border-l border-red-50 py-3 px-2 pb-3 hidden md:block h-full w-[250px] bg-white">
         <div className="my-2 px-2 py-4">
           <svg
             aria-label="Instagram"
@@ -147,7 +147,7 @@ function LeftSideBar() {
           <ul
             className={`${
               IsOpen ? "block" : "hidden"
-            } absolute top-0 translate-y-[-100%] shadow-lg w-max whitespace-nowrap`}
+            } absolute top-0 translate-y-[-100%] bg-white shadow-lg w-max whitespace-nowrap`}
           >
             {ItemsNavBar.map((item: NavItem, index: number) => {
               return (
@@ -159,7 +159,7 @@ function LeftSideBar() {
                         : ""
                     } p-2 hover:bg-slate-100`}
                   >
-                    <p className="">{item.text}</p>
+                    <p className="mr-2">{item.text}</p>
                     {item.icon}
                   </li>
                 </>

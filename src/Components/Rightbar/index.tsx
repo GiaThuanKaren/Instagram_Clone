@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import UserPost from "../UserPost";
+import Stories from "../Stories";
 function RightSideBar() {
+  const WidthLeft = 70;
+
   const [peopleSuggest, setpeopleSuggest] = useState([
     {
       name: "Thuan",
@@ -25,18 +29,36 @@ function RightSideBar() {
   ]);
   return (
     <>
-      <div className=" h-full flex-1 bg-red-200">
-        <div className="container mx-auto pt-[28px] rounded overflow-hidden h-full w-2/3 md:w-3/6 ">
-          <div className="flex">
-            <div className="flex-[3] mx-[-2px] px-[2px] bg-slate-50 h-4"></div>
-            <div className="pl-2 flex-[2] mx-[-2px] px-[2px] bg-slate-400 max-h-max">
+      <div className="ml-[250px] h-fit  flex-1 bg-[#FAFAFA] ">
+        <div className="container  mx-auto pt-[28px] rounded  h-full w-2/3 md:w-3/6 ">
+          <div className="flex h-full">
+            <div
+              style={{
+                width: `${WidthLeft}%`,
+              }}
+              className={`min-h-[10vh] mx-[-2px] px-[2px] bg-white h-4`}
+            >
+              <Stories />
+              <UserPost />
+              <UserPost />
+              <UserPost />
+              <UserPost />
+            </div>
+            <div
+              style={{
+                width: `${100 - WidthLeft}%`,
+              }}
+              className={`pl-2 mx-[-2px] px-[2px]  max-h-max`}
+            >
               <div className="h-[53px] flex justify-between items-center">
-                <div className="circle h-[53px] w-[53px] "></div>
+                <div className="circle h-[50px] w-[50px] "></div>
                 <div>
-                  <p className=" font-medium">Name Profile</p>
-                  <p>Gia Thuận Nguyễn</p>
+                  <p className="text-[0.8rem] font-medium">Name Profile</p>
+                  <p className="text-[0.8rem] whitespace-nowrap">
+                    Gia Thuận Nguyễn
+                  </p>
                 </div>
-                <div>Chuyển</div>
+                <p className="text-base">Chuyển</p>
               </div>
 
               <div className="flex justify-between py-4">
@@ -54,7 +76,7 @@ function RightSideBar() {
                         <p>{item.name}</p>
                       </div>
 
-                      <div>Theo Dõi</div>
+                      <p>Theo Dõi</p>
                     </div>
                   </>
                 );
