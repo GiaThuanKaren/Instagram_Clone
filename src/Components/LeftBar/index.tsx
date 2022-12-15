@@ -90,7 +90,7 @@ function LeftSideBar() {
   };
   return (
     <>
-      <div className="fixed z-[1] border-l border-red-50 py-3 px-2 pb-3 hidden md:block h-full w-[250px] bg-white">
+      <div className="fixed z-[1] border-l border-r-2 border-red-50 py-3 px-2 pb-3 hidden md:block h-full w-[250px] bg-white ">
         <div className="my-2 px-2 py-4">
           <svg
             aria-label="Instagram"
@@ -115,7 +115,7 @@ function LeftSideBar() {
             return (
               <>
                 <li
-                  className="cursor-pointer"
+                  className="cursor-pointer hover:bg-[#FAFAFA] hover:rounded-[20px]"
                   onClick={() => {
                     handleChooseItem(index);
                   }}

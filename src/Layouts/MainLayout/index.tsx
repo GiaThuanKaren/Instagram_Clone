@@ -6,12 +6,12 @@ interface Props {
   children: ReactNode;
 }
 
-function MainLayout() {
+function MainLayout({ children }: Props) {
   return (
     <>
-      <div className="flex h-[100vh] max-h-[100vh]">
+      <div className="flex min-h-screen">
         <LeftSideBar />
-        <RightSideBar />
+        <RightSideBar>{children}</RightSideBar>
       </div>
     </>
   );

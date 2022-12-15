@@ -50,3 +50,11 @@ a {
     @apply text-base;
   }
 }
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  background-repeat: no-repeat !important;
+  background-position: -294px -273px !important;
+  height: 45px !important;
+  width: 45px !important;
+}
