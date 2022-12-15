@@ -4,7 +4,9 @@ import Link from "next/link";
 import { ReactNode, useState } from "react";
 import Stories from "../src/Components/Stories";
 import UserPost from "../src/Components/UserPost";
+import { BsPatchCheckFill } from "react-icons/bs";
 import { MainLayout } from "../src/Layouts";
+import { ICON, IconRegular, IconSolid } from "../src/utils/icon";
 import styles from "../styles/Home.module.css";
 interface Props {
   children?: ReactNode;
@@ -76,12 +78,17 @@ export default function Home() {
               return (
                 <>
                   <div className="py-2 flex items-center justify-between">
-                    <div className="flex">
+                    <div className="flex items-center">
                       <div className="circle h-[20px] w-[20px] mr-3 "></div>
-                      <p>{item.name}</p>
+                      <p className="font-medium">{item.name}</p>
+                      {/* <FontAwesomeIcon icon="fa-sharp fa-solid fa-badge-check" /> */}
+                      {/* <ICON icon={IconSolid.faCheck} /> */}
+                      <BsPatchCheckFill className="ml-1 text-[#20A2F7]" />
                     </div>
 
-                    <p>Theo Dõi</p>
+                    <p className="text-[rgb(58,172,247)] font-[500] text-[0.8rem]">
+                      Theo Dõi
+                    </p>
                   </div>
                 </>
               );

@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect, useState } from "react";
+import NextNProgress from "nextjs-progressbar";
 export default function App({ Component, pageProps }: AppProps) {
   const [showChild, setShowChild] = useState(false);
   useEffect(() => {
@@ -14,5 +15,11 @@ export default function App({ Component, pageProps }: AppProps) {
   }
   if (typeof window === "undefined") {
     return <></>;
-  } else return <Component {...pageProps} />;
+  } else
+    return (
+      <>
+        <NextNProgress />
+        <Component {...pageProps} />;
+      </>
+    );
 }

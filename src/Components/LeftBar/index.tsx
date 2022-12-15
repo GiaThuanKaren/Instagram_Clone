@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useState } from "react";
 import {
   BiHome,
@@ -11,6 +12,7 @@ import { ICON, IconBrand, IconRegular, IconSolid } from "../../utils/icon";
 interface IconItem {
   icon: JSX.Element;
   text: string;
+  link?: string;
 }
 
 interface NavItem {
@@ -32,30 +34,79 @@ const Items: IconItem[] = [
   {
     icon: <ICON icon={IconSolid.faHouse} />,
     text: "Trang Chủ",
+    link: "/",
   },
   {
     icon: <ICON icon={IconSolid.faMagnifyingGlass} />,
     text: "Tìm Kiếm",
+    link: "/",
   },
   {
     icon: <ICON icon={IconRegular.faCompass} />,
     text: "Khám Phá",
+    link: "/explore",
   },
   {
     icon: <ICON icon={IconBrand.faFacebookMessenger} />,
     text: "Tin Nhắn",
+    link: "/direct/inbox",
   },
   {
     icon: <ICON icon={IconRegular.faHeart} />,
     text: "Thông Báo",
+    link: "/nofti",
   },
   {
-    icon: <ICON icon={IconRegular.faSquarePlus} />,
+    icon: (
+      <svg
+        aria-label="Bài viết mới"
+        className="_ab6-"
+        color="#262626"
+        fill="#262626"
+        height="24"
+        role="img"
+        viewBox="0 0 24 24"
+        width="24"
+      >
+        <path
+          d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552Z"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        ></path>
+        <line
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          x1="6.545"
+          x2="17.455"
+          y1="12.001"
+          y2="12.001"
+        ></line>
+        <line
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          x1="12.003"
+          x2="12.003"
+          y1="6.545"
+          y2="17.455"
+        ></line>
+      </svg>
+    ),
     text: "Tạo",
+    link: "/create",
   },
   {
     icon: <div className="circle h-[20px] w-[20px]"></div>,
     text: "Trang Cá Nhân",
+    link: "/myprofile",
   },
 ];
 
@@ -114,24 +165,26 @@ function LeftSideBar() {
           {Items.map((item: IconItem, index: number) => {
             return (
               <>
-                <li
-                  className="cursor-pointer hover:bg-[#FAFAFA] hover:rounded-[20px]"
-                  onClick={() => {
-                    handleChooseItem(index);
-                  }}
-                >
-                  <div className="flex items-center p-3">
-                    <div className="mr-2  ">{item.icon}</div>
+                <Link href={`${item.link}`}>
+                  <li
+                    className="cursor-pointer hover:bg-[#FAFAFA] hover:rounded-[20px]"
+                    onClick={() => {
+                      handleChooseItem(index);
+                    }}
+                  >
+                    <div className="flex items-center p-3">
+                      <div className="mr-2  ">{item.icon}</div>
 
-                    <p
-                      className={`text-base ${
-                        isActive == index ? "font-[600]" : "font-[400]"
-                      }  `}
-                    >
-                      {item.text}
-                    </p>
-                  </div>
-                </li>
+                      <p
+                        className={`text-base ${
+                          isActive == index ? "font-[600]" : "font-[400]"
+                        }  `}
+                      >
+                        {item.text}
+                      </p>
+                    </div>
+                  </li>
+                </Link>
               </>
             );
           })}
