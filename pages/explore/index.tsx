@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { MainLayout } from "../../src/Layouts";
 
-
-
 function Explore() {
   const [ArrPost, setArrPost] = useState(() => {
     const arr = Array.from(Array(50).keys());
