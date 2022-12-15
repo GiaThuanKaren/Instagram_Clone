@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MainLayout } from "../../src/Layouts";
 
-import { LazyLoadImage } from "react-lazy-load-image-component";
+
 
 function Explore() {
   const [ArrPost, setArrPost] = useState(() => {

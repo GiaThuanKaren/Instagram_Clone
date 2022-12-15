@@ -7,11 +7,11 @@ import { ICON, IconRegular, IconSolid } from "../../utils/icon";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import { ImagePost } from "../../Model";
-const ListImagePost = function ({ ArrImagePost }: ImagePost[]) {
+const ListImagePost = function ({ ArrImagePost }: any) {
   return (
     <>
       <Swiper pagination={true} modules={[Pagination]} className="mySwiper">
-        {ArrImagePost.map((item, index) => {
+        {ArrImagePost.map((item: any, index: number) => {
           return (
             <>
               <SwiperSlide>
@@ -52,7 +52,7 @@ function UserPost() {
             </div>
           </div>
           <div>
-            {ArrImagePost.length > 0 ? <ListImagePost ArrImagePost={[]} /> : ""}
+            {/* {ArrImagePost.length > 0 ? <ListImagePost ArrImagePost={[]} /> : ""} */}
             {/* <Image
               className="h-[530px] w-full "Da
               height={530}
@@ -121,10 +121,7 @@ function UserPost() {
               }}
               onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
                 if (e.code == "Enter") {
-                  console.log(
-                    [InputCommentEle.current],
-                    InputCommentEle?.current?.value
-                  );
+                  console.log([InputCommentEle.current]);
                 }
               }}
               ref={InputCommentEle}
