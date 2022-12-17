@@ -8,6 +8,7 @@ import { BsPatchCheckFill } from "react-icons/bs";
 import { MainLayout } from "../src/Layouts";
 import { ICON, IconRegular, IconSolid } from "../src/utils/icon";
 import styles from "../styles/Home.module.css";
+import CreatePostModal from "../src/Components/CreatePost";
 interface Props {
   children?: ReactNode;
 }
@@ -38,6 +39,7 @@ export default function Home() {
   return (
     <>
       <MainLayout>
+        <CreatePostModal />
         <div className="flex  h-full justify-center p">
           <div
             style={{
