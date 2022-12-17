@@ -243,7 +243,7 @@ function PersonalProfile() {
                 ></path>
               </svg>
             </div>
-            <div className="flex justify-between py-3 my-1">
+            <div className="hidden md:flex justify-between py-3 my-1">
               <p>
                 <p className="inline font-medium">3</p> Bài viết
               </p>
@@ -273,6 +273,19 @@ function PersonalProfile() {
           </div>
         </div>
 
+        <div className="flex md:hidden justify-between py-3 my-1 px-3">
+          <p>
+            <p className="text-center font-medium">3</p> Bài viết
+          </p>
+          <p>
+            <p className="text-center font-medium">29</p> Người theo dõi
+          </p>
+          <p>
+            Đang theo dõi <p className="text-center font-medium">84</p> người
+            dùng
+          </p>
+        </div>
+
         <div className="border-t-[2px] mt-2 flex justify-center items-center ">
           <div className="flex items-center">
             {NavItems.map((item: NavItemType, index: number) => {
@@ -289,7 +302,7 @@ function PersonalProfile() {
                     } flex items-center`}
                   >
                     {item.icon}
-                    <h3 className="px-2 mr-1">{item.text} </h3>
+                    <h3 className="px-2 mr-1 hidden sm:block ">{item.text}</h3>
                   </div>
                 </>
               );

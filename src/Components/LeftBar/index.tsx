@@ -182,15 +182,15 @@ function LeftSideBar() {
   const handleChooseItem = function (index: number) {
     setisActive(index);
   };
-  
+
   return (
     <>
       {/* w-[250px] */}
-      <div className="fixed z-[1] border-l border-r-2 border-red-50 py-3 px-2 pb-3 hidden md:block h-full  w-max bg-white ">
+      <div className="fixed z-[1] border-l border-r-2 border-red-50 py-3 px-2 pb-3 hidden sm:block h-full  w-max bg-white ">
         <div className="my-2 px-2 py-4">
           <svg
             aria-label="Instagram"
-            className="_ab6- hidden lg:block "
+            className="_ab6- hidden xl:block "
             color="#262626"
             fill="#262626"
             height="29"
@@ -208,7 +208,7 @@ function LeftSideBar() {
 
           <svg
             aria-label="Instagram"
-            className="_ab6- lg:hidden"
+            className="_ab6- xl:hidden"
             color="#262626"
             fill="#262626"
             height="24"
@@ -234,7 +234,7 @@ function LeftSideBar() {
                       <div className="mr-2  ">{item.icon}</div>
 
                       <p
-                        className={`text-base hidden lg:block ${
+                        className={`text-base hidden xl:block ${
                           router.asPath == item.link
                             ? "font-[600]"
                             : "font-[400]"
@@ -256,7 +256,7 @@ function LeftSideBar() {
           className="py-3 flex items-center h-5 p-3 absolute bottom-0 mb-3 cursor-pointer"
         >
           <ICON className="mr-2" icon={IconSolid.faBars} />
-          <p className="hidden lg:block">Xem Thêm </p>
+          <p className="hidden xl:block">Xem Thêm </p>
           <ul
             onClick={(e: React.MouseEvent<HTMLUListElement, MouseEvent>) => {
               e.stopPropagation();

@@ -111,7 +111,7 @@ const Items: IconItem[] = [
 const HeaderMobile = function () {
   return (
     <>
-      <div className="bg-white flex items-center justify-between px-4 fixed h-[60px] top-0 left-0 right-0 w-full sm:hidden border-b-2  boder-[#DBDBDB]">
+      <div className=" bg-white flex items-center justify-between px-4 fixed h-[60px] top-0 left-0 right-0 w-full sm:hidden border-b-2  boder-[#DBDBDB]">
         <div className="flex items-center">
           <svg
             aria-label="Instagram"
