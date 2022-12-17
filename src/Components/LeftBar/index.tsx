@@ -260,7 +260,7 @@ function LeftSideBar() {
           className="py-3 flex items-center h-5 p-3 absolute bottom-0 mb-3 cursor-pointer"
         >
           <ICON className="mr-2" icon={IconSolid.faBars} />
-          <p className="hidden lg:block">Xem Thêm </p>
+          <p className="hidden xl:block">Xem Thêm </p>
           <ul
             onClick={(e: React.MouseEvent<HTMLUListElement, MouseEvent>) => {
               e.stopPropagation();
