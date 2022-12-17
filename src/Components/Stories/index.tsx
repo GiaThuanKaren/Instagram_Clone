@@ -26,7 +26,7 @@ function Stories() {
         }}
         navigation={true}
         modules={[Pagination, Navigation]}
-        className="mySwiper"
+        className="mySwiper "
       >
         {arr.map((item, index) => {
           return (

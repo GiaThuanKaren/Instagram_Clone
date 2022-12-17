@@ -13,7 +13,7 @@ function Explore() {
           {ArrPost.map((item, index) => {
             return (
               <>
-                <div className="relative min-h-[287px] w-[calc(33.333%_-_28px)] m-1 bg-purple-600">
+                <div className="relative  h-max w-[calc(33.333%_-_28px)] m-1 bg-purple-600">
                   <img
                     className=" w-full overflow-hidden aspect-[2/3] object-cover"
                     alt="123"

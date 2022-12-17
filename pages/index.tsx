@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <>
       <MainLayout>
-        <div className="flex  h-full justify-center">
+        <div className="flex  h-full justify-center p">
           <div
             style={{
               width: `${WidthLeft}%`,
@@ -77,7 +77,7 @@ export default function Home() {
             {peopleSuggest.map((item, index) => {
               return (
                 <>
-                  <div className="py-2 flex items-center justify-between">
+                  <div className="py-2 flex items-center justify-between cursor-pointer">
                     <div className="flex items-center">
                       <div className="circle h-[20px] w-[20px] mr-3 "></div>
                       <p className="font-medium">{item.name}</p>
@@ -86,7 +86,7 @@ export default function Home() {
                       <BsPatchCheckFill className="ml-1 text-[#20A2F7]" />
                     </div>
 
-                    <p className="text-[rgb(58,172,247)] font-[500] text-[0.8rem]">
+                    <p className="text-[rgb(58,172,247)] font-[500] text-[0.8rem] ">
                       Theo Dõi
                     </p>
                   </div>

@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
+import { ICON, IconSolid } from "../../../utils/icon";
 
-function ReelsVideo() {
+interface ReelVideos {
+  isMute?: boolean;
+}
+
+function ReelsVideo({ isMute = true }: ReelVideos) {
+  const [IsVolumMute, setIsVolumMute] = useState<boolean>(isMute);
   return (
-    <div className="flex  h-[90%] my-[20px]    overflow-hidden">
-      <div className="w-[470px] h-full bg-black rounded-md">
+    <div className="flex w-full    h-[90%] my-[20px]    overflow-hidden">
+      <div className="w-[470px] h-full bg-black rounded-md relative">
         <video src=""></video>
+        <div
+          onClick={() => {
+            setIsVolumMute(!IsVolumMute);
+          }}
+          className="absolute right-0 top-0 z-[1] text-white p-2"
+        >
+          {IsVolumMute ? (
+            <ICON icon={IconSolid.faVolumeMute} />
+          ) : (
+            <ICON icon={IconSolid.faVolumeHigh} />
+          )}
+        </div>
       </div>
       <div className="flex flex-col justify-end px-3 w-max">
         <div className="flex flex-col items-center min-w-[20px] mb-[30px]">
