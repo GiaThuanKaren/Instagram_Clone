@@ -9,7 +9,7 @@ function Explore() {
   return (
     <>
       <MainLayout>
-        <div className="flex flex-wrap ">
+        <div className="flex flex-wrap justify-center ">
           {ArrPost.map((item, index) => {
             return (
               <>

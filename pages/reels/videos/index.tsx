@@ -5,6 +5,7 @@ import { MainLayout } from "../../../src/Layouts";
 function ReelPage() {
   return (
     <MainLayout>
+      
       <ReelsVideo />
       <ReelsVideo />
       <ReelsVideo />
