@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <>
       <MainLayout>
-        <div className="flex  h-full">
+        <div className="flex  h-full justify-center">
           <div
             style={{
               width: `${WidthLeft}%`,
@@ -55,7 +55,7 @@ export default function Home() {
             style={{
               width: `${100 - WidthLeft}%`,
             }}
-            className={`pl-2 mx-[-2px] px-[2px]  max-h-max`}
+            className={`hidden lg:block pl-2 mx-[-2px] px-[2px]  max-h-max`}
           >
             <div className="h-[53px] flex justify-between items-center">
               <div className="circle h-[50px] w-[50px] "></div>

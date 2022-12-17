@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect, useState } from "react";
 import NextNProgress from "nextjs-progressbar";
+import { ThemeProvider } from "next-themes";
 export default function App({ Component, pageProps }: AppProps) {
   const [showChild, setShowChild] = useState(false);
   useEffect(() => {
@@ -19,7 +20,9 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
       <>
         <NextNProgress />
-        <Component {...pageProps} />;
+        <ThemeProvider attribute="class">
+          <Component {...pageProps} />
+        </ThemeProvider>
       </>
     );
 }

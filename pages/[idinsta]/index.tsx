@@ -182,7 +182,7 @@ const ListUserPost = function ({ ArrImagePost = [] }: any) {
 
                 <div className="absolute w-full h-full top-0 left-0 right-0 bottom-0 bg-[#0000009e] flex items-center justify-center">
                   <div className="w-full h-4 bg-red-500 flex items-center justify-center text-white">
-                    <ICON icon={IconSolid.faHeart} />
+                    <ICON icon={IconSolid.faHeart} className="icon-cog" />
                     <ICON icon={IconSolid.faComment} />
                   </div>
                 </div>

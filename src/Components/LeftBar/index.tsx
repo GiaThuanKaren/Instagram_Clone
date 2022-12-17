@@ -1,5 +1,6 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import {
   BiHome,
   BiSearch,
@@ -8,6 +9,7 @@ import {
   BiPlusCircle,
 } from "react-icons/bi";
 import { ICON, IconBrand, IconRegular, IconSolid } from "../../utils/icon";
+import { useRouter } from "next/router";
 
 interface IconItem {
   icon: JSX.Element;
@@ -18,6 +20,7 @@ interface IconItem {
 interface NavItem {
   icon?: any;
   text: string;
+  functionHandle?: MouseEventHandler<HTMLLIElement>;
 }
 const NavItemsMore = function ({ icon, text }: NavItem) {
   return (
@@ -131,42 +134,63 @@ const Items: IconItem[] = [
   },
 ];
 
-const ItemsNavBar: NavItem[] = [
-  {
-    icon: <ICON icon={IconSolid.faGear} />,
-    text: "Cài Đặt",
-  },
-  {
-    icon: <ICON icon={IconRegular.faBookmark} />,
-    text: "Đã Lưu",
-  },
-  {
-    icon: <ICON icon={IconRegular.faArrowAltCircleRight} />,
-    text: "Báo Cáo Sự Cố",
-  },
-  {
-    icon: null,
-    text: "Chuyển Tài Khoản",
-  },
-  {
-    icon: null,
-    text: "Đăng Xuất",
-  },
-];
-
 function LeftSideBar() {
   const [isActive, setisActive] = useState<number>(0);
   const [IsOpen, setIsOpen] = useState<boolean>(false);
+  const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const ItemsNavBar: NavItem[] = [
+    {
+      icon: <ICON icon={IconSolid.faGear} />,
+      text: "Cài Đặt",
+      functionHandle: () => {},
+    },
+    {
+      icon: <ICON icon={IconRegular.faBookmark} />,
+      text: "Đã Lưu",
+      functionHandle: () => {},
+    },
+    {
+      icon: <ICON icon={IconRegular.faMoon} />,
+      text: "Chuyển Chế Độ",
+      functionHandle: () => {
+        if (isMounted) {
+          setTheme(theme === "light" ? "dark" : "light");
+        }
+      },
+    },
+    {
+      icon: <ICON icon={IconRegular.faArrowAltCircleRight} />,
+      text: "Báo Cáo Sự Cố",
+      functionHandle: () => {},
+    },
+    {
+      icon: null,
+      text: "Chuyển Tài Khoản",
+      functionHandle: () => {},
+    },
+    {
+      icon: null,
+      text: "Đăng Xuất",
+      functionHandle: () => {},
+    },
+  ];
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const handleChooseItem = function (index: number) {
     setisActive(index);
   };
+  
   return (
     <>
-      <div className="fixed z-[1] border-l border-r-2 border-red-50 py-3 px-2 pb-3 hidden md:block h-full w-[250px] bg-white ">
+      {/* w-[250px] */}
+      <div className="fixed z-[1] border-l border-r-2 border-red-50 py-3 px-2 pb-3 hidden md:block h-full  w-max bg-white ">
         <div className="my-2 px-2 py-4">
           <svg
             aria-label="Instagram"
-            className="_ab6-"
+            className="_ab6- hidden lg:block "
             color="#262626"
             fill="#262626"
             height="29"
@@ -180,6 +204,19 @@ function LeftSideBar() {
               fill="currentColor"
               fill-rule="evenodd"
             ></path>
+          </svg>
+
+          <svg
+            aria-label="Instagram"
+            className="_ab6- lg:hidden"
+            color="#262626"
+            fill="#262626"
+            height="24"
+            role="img"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path d="M12 2.982c2.937 0 3.285.011 4.445.064a6.087 6.087 0 0 1 2.042.379 3.408 3.408 0 0 1 1.265.823 3.408 3.408 0 0 1 .823 1.265 6.087 6.087 0 0 1 .379 2.042c.053 1.16.064 1.508.064 4.445s-.011 3.285-.064 4.445a6.087 6.087 0 0 1-.379 2.042 3.643 3.643 0 0 1-2.088 2.088 6.087 6.087 0 0 1-2.042.379c-1.16.053-1.508.064-4.445.064s-3.285-.011-4.445-.064a6.087 6.087 0 0 1-2.043-.379 3.408 3.408 0 0 1-1.264-.823 3.408 3.408 0 0 1-.823-1.265 6.087 6.087 0 0 1-.379-2.042c-.053-1.16-.064-1.508-.064-4.445s.011-3.285.064-4.445a6.087 6.087 0 0 1 .379-2.042 3.408 3.408 0 0 1 .823-1.265 3.408 3.408 0 0 1 1.265-.823 6.087 6.087 0 0 1 2.042-.379c1.16-.053 1.508-.064 4.445-.064M12 1c-2.987 0-3.362.013-4.535.066a8.074 8.074 0 0 0-2.67.511 5.392 5.392 0 0 0-1.949 1.27 5.392 5.392 0 0 0-1.269 1.948 8.074 8.074 0 0 0-.51 2.67C1.012 8.638 1 9.013 1 12s.013 3.362.066 4.535a8.074 8.074 0 0 0 .511 2.67 5.392 5.392 0 0 0 1.27 1.949 5.392 5.392 0 0 0 1.948 1.269 8.074 8.074 0 0 0 2.67.51C8.638 22.988 9.013 23 12 23s3.362-.013 4.535-.066a8.074 8.074 0 0 0 2.67-.511 5.625 5.625 0 0 0 3.218-3.218 8.074 8.074 0 0 0 .51-2.67C22.988 15.362 23 14.987 23 12s-.013-3.362-.066-4.535a8.074 8.074 0 0 0-.511-2.67 5.392 5.392 0 0 0-1.27-1.949 5.392 5.392 0 0 0-1.948-1.269 8.074 8.074 0 0 0-2.67-.51C15.362 1.012 14.987 1 12 1Zm0 5.351A5.649 5.649 0 1 0 17.649 12 5.649 5.649 0 0 0 12 6.351Zm0 9.316A3.667 3.667 0 1 1 15.667 12 3.667 3.667 0 0 1 12 15.667Zm5.872-10.859a1.32 1.32 0 1 0 1.32 1.32 1.32 1.32 0 0 0-1.32-1.32Z"></path>
           </svg>
         </div>
         <ul>
@@ -197,8 +234,10 @@ function LeftSideBar() {
                       <div className="mr-2  ">{item.icon}</div>
 
                       <p
-                        className={`text-base ${
-                          isActive == index ? "font-[600]" : "font-[400]"
+                        className={`text-base hidden lg:block ${
+                          router.asPath == item.link
+                            ? "font-[600]"
+                            : "font-[400]"
                         }  `}
                       >
                         {item.text}
@@ -217,8 +256,11 @@ function LeftSideBar() {
           className="py-3 flex items-center h-5 p-3 absolute bottom-0 mb-3 cursor-pointer"
         >
           <ICON className="mr-2" icon={IconSolid.faBars} />
-          <p>Xem Thêm </p>
+          <p className="hidden lg:block">Xem Thêm </p>
           <ul
+            onClick={(e: React.MouseEvent<HTMLUListElement, MouseEvent>) => {
+              e.stopPropagation();
+            }}
             className={`${
               IsOpen ? "block" : "hidden"
             } absolute top-0 translate-y-[-100%] bg-white shadow-lg w-max whitespace-nowrap`}
@@ -227,6 +269,7 @@ function LeftSideBar() {
               return (
                 <>
                   <li
+                    onClick={item.functionHandle}
                     className={`${
                       item.icon
                         ? "flex justify-between items-center text-base "
