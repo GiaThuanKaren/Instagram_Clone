@@ -52,14 +52,6 @@ function UserPost() {
             </div>
           </div>
           <div>
-            {/* {ArrImagePost.length > 0 ? <ListImagePost ArrImagePost={[]} /> : ""} */}
-            {/* <Image
-              className="h-[530px] w-full "Da
-              height={530}
-              width={"100"}
-              alt="123"
-              src="https://images.unsplash.com/photo-1670889505554-2e027664f7df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80"
-            /> */}
             <img
               className=" w-full overflow-hidden aspect-[2/3] object-contain"
               alt="123"

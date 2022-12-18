@@ -65,11 +65,11 @@ export default function Home() {
               <div className="circle h-[50px] w-[50px] "></div>
               <div>
                 <p className="text-[0.8rem] font-medium">Name Profile</p>
-                <p className="text-[0.8rem] whitespace-nowrap">
+                <p className="text-[0.8rem] whitespace-nowrap font-medium text-[#ACACAC] ">
                   Gia Thuận Nguyễn
                 </p>
               </div>
-              <p className="text-base">Chuyển</p>
+              <p className="text-base font-medium text-[0.75rem] text-[#20A2F7]">Chuyển</p>
             </div>
 
             <div className="flex justify-between py-4">
