@@ -90,7 +90,7 @@ function UserPost() {
           </div>
           <p className=" px-2 font-medium text-[1rem]">3.055.175 lượt thích</p>
 
-          <div  className="flex  px-2 ">
+          <div className="flex  px-2 ">
             <p className="font-medium mr-2">jennierubyjane</p>
             <p className="break-words ">havsdhjgajhsdgjhagsdgahsdghjg</p>
           </div>

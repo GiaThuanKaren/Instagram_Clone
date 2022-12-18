@@ -40,7 +40,7 @@ export default function Home() {
     <>
       <MainLayout>
         {/* <CreatePostModal /> */}
-        <div className="flex   h-full sm:justify-center p">
+        <div className="flex    h-full sm:justify-center p">
           <div
             style={
               {
