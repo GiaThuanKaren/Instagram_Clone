@@ -39,13 +39,15 @@ export default function Home() {
   return (
     <>
       <MainLayout>
-        <CreatePostModal />
-        <div className="flex  h-full justify-center p">
+        {/* <CreatePostModal /> */}
+        <div className="flex   h-full sm:justify-center p">
           <div
-            style={{
-              width: `${WidthLeft}%`,
-            }}
-            className={` mx-[-2px] px-[2px] bg-white h-4`}
+            style={
+              {
+                // width: `${WidthLeft}%`,
+              }
+            }
+            className={`w-screen sm:w-[70%]  mx-[-2px] px-[2px] bg-white h-4`}
           >
             <Stories />
             <UserPost />
