@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  fe:
+    build: "./"
+    container_name: "insta_client_fe"
+    ports:
+      - 3000:3000
