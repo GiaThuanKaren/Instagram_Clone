@@ -15,7 +15,7 @@ interface IconItem {
   icon: JSX.Element;
   text: string;
   link?: string;
-  functionHandle?: MouseEventHandler<HTMLLIElement>;
+  functionHandle?: any;
 }
 
 interface NavItem {
@@ -324,7 +324,11 @@ function LeftSideBar() {
       text: "Tìm Kiếm",
       link: "/",
       functionHandle: () => {
-        setDrawerActiveArr("/search");
+        setDrawerActiveArr((prev) => {
+          if (prev === "/search") {
+            return "";
+          } else return "/search";
+        });
       },
     },
     {
@@ -436,7 +440,10 @@ function LeftSideBar() {
       text: "Thông Báo",
       link: "/",
       functionHandle: () => {
-        setDrawerActiveArr("/nofti");
+        setDrawerActiveArr((prev) => {
+          if (prev === "/nofti") return "";
+          else return "/nofti";
+        });
       },
     },
     {
@@ -505,7 +512,7 @@ function LeftSideBar() {
   return (
     <>
       {/* w-[250px] */}
-      <div className="fixed z-[2] border-l  border-r-2 border-red-50 py-3 px-2 pb-3 hidden sm:block h-screen  w-max  bg-white ">
+      <div className="fixed z-[3] border-l  border-r-2 border-red-50 py-3 px-2 pb-3 hidden sm:block h-screen  w-max  bg-white ">
         {/*  Thong bao Drawer */}
         {DrawerActiveArr === "/search" && <SearchDrawer />}
         {DrawerActiveArr === "/nofti" && <NoftiDrawer />}
