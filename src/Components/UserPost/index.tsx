@@ -41,7 +41,7 @@ function UserPost() {
   return (
     <>
       <>
-        <div className="rounded-md border-[1px] border-[#DBDBDB] bg-white  py-3 my-10 pb-0 ">
+        <div className="rounded-md border-[1px] border-[#DBDBDB] bg-white  py-3 my-10 pb-0 text-black">
           <div className="h-[53px] pb-2 py-2 mb-3 px-2  ">
             <div className="flex justify-between items-center">
               <div className="flex items-center ">

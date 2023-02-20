@@ -51,6 +51,8 @@ export default function Home() {
           >
             <Stories />
             <UserPost />
+            <UserPost />
+            <UserPost />
             {/* <UserPost />
             <UserPost />
             <UserPost />
