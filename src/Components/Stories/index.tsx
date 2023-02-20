@@ -26,12 +26,12 @@ function Stories() {
         }}
         navigation={true}
         modules={[Pagination, Navigation]}
-        className="mySwiper "
+        className="mySwiper h-28 "
       >
         {arr.map((item, index) => {
           return (
             <>
-              <SwiperSlide className="min-h-[70px]">
+              <SwiperSlide className="min-h-[70px] flex justify-center items-center">
                 <div className="circle h-[50px] w-[50px] "></div>
               </SwiperSlide>
             </>

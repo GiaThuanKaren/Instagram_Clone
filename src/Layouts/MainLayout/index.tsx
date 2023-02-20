@@ -161,7 +161,7 @@ function MainLayout({ children }: Props) {
       <div className="mt-[60px] sm:mt-0 flex min-h-screen">
         <LeftSideBar />
         <RightSideBar>{children}</RightSideBar>
-        <ul className="sm:hidden  bg-white border-t-[2px] w-full pb-5 px-1 z-[2] flex justify-between h-10 fixed bottom-0 left-0 right-0">
+        <ul className="sm:hidden  bg-white border-t-[2px] w-full  px-1 z-[2] flex items-center justify-between  fixed bottom-0 left-0 right-0">
           {Items.map((item: IconItem, index: number) => {
             return (
               <>

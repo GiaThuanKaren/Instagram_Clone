@@ -40,20 +40,21 @@ export default function Home() {
     <>
       <MainLayout>
         {/* <CreatePostModal /> */}
-        <div className="flex    h-full sm:justify-center p">
+        <div className="flex    h-full sm:justify-center mt-10">
           <div
             style={
               {
                 // width: `${WidthLeft}%`,
               }
             }
-            className={`w-screen sm:w-[70%]  mx-[-2px] px-[2px] bg-white h-4`}
+            className={`w-screen sm:w-[70%]  mx-[-2px] px-[2px] bg-white h-4 `}
           >
             <Stories />
             <UserPost />
+            {/* <UserPost />
             <UserPost />
             <UserPost />
-            <UserPost />
+            <UserPost /> */}
           </div>
           <div
             style={{
@@ -69,7 +70,9 @@ export default function Home() {
                   Gia Thuận Nguyễn
                 </p>
               </div>
-              <p className="text-base font-medium text-[0.75rem] text-[#20A2F7]">Chuyển</p>
+              <p className="text-base font-medium text-[0.75rem] text-[#20A2F7]">
+                Chuyển
+              </p>
             </div>
 
             <div className="flex justify-between py-4">
@@ -84,7 +87,7 @@ export default function Home() {
                   <div className="py-2 flex items-center justify-between cursor-pointer">
                     <div className="flex items-center">
                       <div className="circle h-[20px] w-[20px] mr-3 "></div>
-                      <p className="font-medium">{item.name}</p>
+                      <p className="font-medium text-black">{item.name}</p>
                       {/* <FontAwesomeIcon icon="fa-sharp fa-solid fa-badge-check" /> */}
                       {/* <ICON icon={IconSolid.faCheck} /> */}
                       <BsPatchCheckFill className="ml-1 text-[#20A2F7]" />
