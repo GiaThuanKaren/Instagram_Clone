@@ -154,36 +154,46 @@ const NavItems: NavItemType[] = [
 const ListUserPost = function ({ ArrImagePost = [] }: any) {
   return (
     <>
-      <div className="flex ">
+      <div className="flex flex-wrap ">
         {ArrImagePost.map((item: any, index: number) => {
           return (
             <>
-              <div className="relative min-h-[287px] w-[calc(278px] m-1 bg-purple-600">
-                <img
-                  className=" w-full overflow-hidden aspect-[2/3] object-cover"
-                  alt="123"
-                  src="https://images.unsplash.com/photo-1670993744250-94a791464249?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
-                />
-                <div className="absolute right-0 top-0 pt-1 pr-1  ">
-                  <svg
-                    aria-label="Quay vòng"
-                    className="x1lliihq x1n2onr6 x1hfr7tm"
-                    color="#ffffff"
-                    fill="#ffffff"
-                    height="24"
-                    role="img"
-                    viewBox="0 0 48 48"
-                    width="24"
-                  >
-                    <title>Quay vòng</title>
-                    <path d="M34.8 29.7V11c0-2.9-2.3-5.2-5.2-5.2H11c-2.9 0-5.2 2.3-5.2 5.2v18.7c0 2.9 2.3 5.2 5.2 5.2h18.7c2.8-.1 5.1-2.4 5.1-5.2zM39.2 15v16.1c0 4.5-3.7 8.2-8.2 8.2H14.9c-.6 0-.9.7-.5 1.1 1 1.1 2.4 1.8 4.1 1.8h13.4c5.7 0 10.3-4.6 10.3-10.3V18.5c0-1.6-.7-3.1-1.8-4.1-.5-.4-1.2 0-1.2.6z"></path>
-                  </svg>
-                </div>
+              <div className="relative min-h-[287px] basis-1/3 my-1 p-2">
+                <div className="relative">
+                  <img
+                    className=" w-full overflow-hidden aspect-[2/3] object-cover"
+                    alt="123"
+                    src="https://images.unsplash.com/photo-1670993744250-94a791464249?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
+                  />
+                  <div className="absolute right-0 top-0 pt-1 pr-1  ">
+                    <svg
+                      aria-label="Quay vòng"
+                      className="x1lliihq x1n2onr6 x1hfr7tm"
+                      color="#ffffff"
+                      fill="#ffffff"
+                      height="24"
+                      role="img"
+                      viewBox="0 0 48 48"
+                      width="24"
+                    >
+                      <path d="M34.8 29.7V11c0-2.9-2.3-5.2-5.2-5.2H11c-2.9 0-5.2 2.3-5.2 5.2v18.7c0 2.9 2.3 5.2 5.2 5.2h18.7c2.8-.1 5.1-2.4 5.1-5.2zM39.2 15v16.1c0 4.5-3.7 8.2-8.2 8.2H14.9c-.6 0-.9.7-.5 1.1 1 1.1 2.4 1.8 4.1 1.8h13.4c5.7 0 10.3-4.6 10.3-10.3V18.5c0-1.6-.7-3.1-1.8-4.1-.5-.4-1.2 0-1.2.6z"></path>
+                    </svg>
+                  </div>
 
-                <div className="absolute w-full h-full top-0 left-0 right-0 bottom-0 bg-[#0000009e] flex items-center justify-center">
-                  <div className="w-full h-4 bg-red-500 flex items-center justify-center text-white">
-                    <ICON icon={IconSolid.faHeart} className="icon-cog" />
-                    <ICON icon={IconSolid.faComment} />
+                  <div className="absolute w-full h-full top-0 left-0 right-0 bottom-0 bg-[#0000009e] flex items-center justify-center">
+                    <div className="w-full h-4 bg-red-500 flex items-center justify-center text-white">
+                      <div className="flex items-center mx-5">
+                        <ICON
+                          icon={IconSolid.faHeart}
+                          className="icon-cog mx-5"
+                        />
+                        <p className="text-white">20</p>
+                      </div>
+                      <div className="flex items-center mx-5">
+                        <ICON className="mx-5" icon={IconSolid.faComment} />
+                        <p className="text-white">20</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -263,13 +273,13 @@ function PersonalProfile() {
         <div className="flex min-h-[130px] items-center my-3 ">
           <div className="text-center mr-6">
             <div className="circle h-[90px] w-[90px] mb-2"></div>
-            <p>Hug ??</p>
+            <p className="text-xs font-medium">Hug ??</p>
           </div>
           <div className="text-center ">
             <div className="rounded-[50%] h-[90px] w-[90px] mb-2 border-[4px] flex justify-center items-center text-[2rem]">
               <ICON icon={IconSolid.faPlus} />
             </div>
-            <p>Tạo</p>
+            <p className="text-xs font-medium">Tạo</p>
           </div>
         </div>
 

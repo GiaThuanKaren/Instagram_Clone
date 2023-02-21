@@ -34,7 +34,7 @@ function RightSideBar({ children }: Props) {
     <>
       {/* md:ml-[100px] lg:ml-[250px] */}
       <div className="sm:ml-[80px]  ml-0   t-[28px]   flex sm:justify-center flex-1 ">
-        <div className="w-screen sm:w-[calc(100vw_-_100px)] lg:w-[820px] sm:px-0 ">
+        <div className="w-screen sm:w-[calc(100vw_-_100px)] lg:w-[820px] sm:px-0 mt-10  ">
           {children}
         </div>
       </div>

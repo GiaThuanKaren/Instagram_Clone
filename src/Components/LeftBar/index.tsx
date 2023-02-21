@@ -322,7 +322,7 @@ function LeftSideBar() {
         </svg>
       ),
       text: "Tìm Kiếm",
-      link: "/",
+      link: "",
       functionHandle: () => {
         setDrawerActiveArr((prev) => {
           if (prev === "/search") {
@@ -438,7 +438,7 @@ function LeftSideBar() {
         </svg>
       ),
       text: "Thông Báo",
-      link: "/",
+      link: "",
       functionHandle: () => {
         setDrawerActiveArr((prev) => {
           if (prev === "/nofti") return "";
@@ -559,30 +559,29 @@ function LeftSideBar() {
           {Items.map((item: IconItem, index: number) => {
             return (
               <>
-                <Link href={`${item.link}`}>
-                  <li
-                    className="py-1 cursor-pointer hover:bg-[#FAFAFA] hover:rounded-[20px]"
-                    onClick={() => {
-                      item?.functionHandle();
+                <li
+                  className="py-1 cursor-pointer hover:bg-[#FAFAFA] hover:rounded-[20px]"
+                  onClick={async () => {
+                    if (item?.link != "") {
+                      router.push(item.link as string );
+                    }
+                    item?.functionHandle();
 
-                      handleChooseItem(index);
-                    }}
-                  >
-                    <div className="flex items-center p-3">
-                      <div className="mr-2  ">{item.icon}</div>
+                    handleChooseItem(index);
+                  }}
+                >
+                  <div className="flex items-center p-3">
+                    <div className="mr-2  ">{item.icon}</div>
 
-                      <p
-                        className={`text-base hidden xl:block ${
-                          router.asPath == item.link
-                            ? "font-[600]"
-                            : "font-[400]"
-                        }  `}
-                      >
-                        {item.text}
-                      </p>
-                    </div>
-                  </li>
-                </Link>
+                    <p
+                      className={`text-base text-black hidden xl:block ${
+                        router.asPath == item.link ? "font-[600]" : "font-[400]"
+                      }  `}
+                    >
+                      {item.text}
+                    </p>
+                  </div>
+                </li>
               </>
             );
           })}
