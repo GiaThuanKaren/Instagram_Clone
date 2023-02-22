@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { MainLayout } from "../../src/Layouts";
 import { ICON, IconRegular, IconSolid } from "../../src/utils/icon";
 
@@ -158,13 +159,14 @@ const ListUserPost = function ({ ArrImagePost = [] }: any) {
         {ArrImagePost.map((item: any, index: number) => {
           return (
             <>
-              <div className="relative min-h-[287px] basis-1/3 my-1 p-2">
+              <div className="relative min-h-[100px]  basis-1/3 my-1  p-2">
                 <div className="relative">
-                  <img
+                  <LazyLoadImage
                     className=" w-full overflow-hidden aspect-[2/3] object-cover"
                     alt="123"
                     src="https://images.unsplash.com/photo-1670993744250-94a791464249?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
                   />
+
                   <div className="absolute right-0 top-0 pt-1 pr-1  ">
                     <svg
                       aria-label="Quay vòng"
@@ -181,17 +183,17 @@ const ListUserPost = function ({ ArrImagePost = [] }: any) {
                   </div>
 
                   <div className="absolute w-full h-full top-0 left-0 right-0 bottom-0 bg-[#0000009e] flex items-center justify-center">
-                    <div className="w-full h-4 bg-red-500 flex items-center justify-center text-white">
-                      <div className="flex items-center mx-5">
+                    <div className="w-full h-4  flex items-center justify-center text-white">
+                      <div className="flex items-center mx-0 sm:mx-5">
                         <ICON
                           icon={IconSolid.faHeart}
-                          className="icon-cog mx-5"
+                          className="icon-cog mx-3 "
                         />
-                        <p className="text-white">20</p>
+                        <p className="text-white font-medium">20</p>
                       </div>
-                      <div className="flex items-center mx-5">
-                        <ICON className="mx-5" icon={IconSolid.faComment} />
-                        <p className="text-white">20</p>
+                      <div className="flex items-center mx-0 sm:mx-5">
+                        <ICON className="mx-3" icon={IconSolid.faComment} />
+                        <p className="text-white font-medium">20</p>
                       </div>
                     </div>
                   </div>
@@ -211,13 +213,18 @@ function PersonalProfile() {
   return (
     <>
       <MainLayout>
-        <div className="h-[150px] mb-3  w-full flex justify-between">
+        <div className="h-[90px] sm:h-[150px] mb-3  w-full flex justify-between  sm:px-0">
           <div className="grow-[1]">
-            <div className=" circle h-[150px] w-[150px] bg-black overflow-hidden"></div>
+            <div className=" circle h-[70px] w-[70px]  md:h-[150px] md:w-[150px]  overflow-hidden">
+              <LazyLoadImage
+                className="w-full h-ful"
+                src="https://avatars.githubusercontent.com/u/86192249?v=4"
+              />
+            </div>
           </div>
           <div className="h-full grow-[3]">
             {/* Heading */}
-            <div className="flex justify-between h-[32px] w-max">
+            <div className="flex justify-between h-[32px] w-max ">
               <h2>Gia Thuan</h2>
               <div className=" border-[1px] border-[#DBDBDB] px-3 mx-3">
                 <p className="text-[0.8rem] font-medium">
@@ -270,13 +277,18 @@ function PersonalProfile() {
           </div>
         </div>
 
-        <div className="flex min-h-[130px] items-center my-3 ">
+        <div className="flex min-h-[130px] items-center my-3 px-4 sm:px-0">
           <div className="text-center mr-6">
-            <div className="circle h-[90px] w-[90px] mb-2"></div>
+            <div className="circle overflow-hidden h-[50px] w-[50px]  md:h-[80px] md:w-[80px] mb-2">
+              <LazyLoadImage
+                src="https://avatars.githubusercontent.com/u/86192249?v=4"
+                className="h-full w-full overflow-hidden"
+              />
+            </div>
             <p className="text-xs font-medium">Hug ??</p>
           </div>
           <div className="text-center ">
-            <div className="rounded-[50%] h-[90px] w-[90px] mb-2 border-[4px] flex justify-center items-center text-[2rem]">
+            <div className="circle h-[50px] w-[50px]  md:h-[80px] md:w-[80px] mb-2 border-[4px] flex justify-center items-center text-[2rem]">
               <ICON icon={IconSolid.faPlus} />
             </div>
             <p className="text-xs font-medium">Tạo</p>
@@ -284,14 +296,14 @@ function PersonalProfile() {
         </div>
 
         <div className="flex md:hidden justify-between py-3 my-1 px-3">
-          <p>
-            <p className="text-center font-medium">3</p> Bài viết
+          <p className="text-xs">
+            <p className=" text-center font-medium">3</p> Bài viết
           </p>
-          <p>
-            <p className="text-center font-medium">29</p> Người theo dõi
+          <p className="text-xs">
+            <p className=" text-center font-medium">29</p> Người theo dõi
           </p>
-          <p>
-            Đang theo dõi <p className="text-center font-medium">84</p> người
+          <p className="text-xs">
+            Đang theo dõi <p className=" text-center font-medium">84</p> người
             dùng
           </p>
         </div>
@@ -311,7 +323,8 @@ function PersonalProfile() {
                         : ""
                     } flex items-center`}
                   >
-                    {item.icon}
+                    <p className="text-xl">{item.icon}</p>
+
                     <h3 className="px-2 mr-1 hidden sm:block ">{item.text}</h3>
                   </div>
                 </>

@@ -495,7 +495,7 @@ function LeftSideBar() {
       functionHandle: () => {},
     },
     {
-      icon: <div className="circle h-[20px] w-[20px]"></div>,
+      icon: <div className="circle bg-red-300 h-[20px] w-[20px]"></div>,
       text: "Trang Cá Nhân",
       link: "/myprofile",
       functionHandle: () => {},
@@ -563,7 +563,7 @@ function LeftSideBar() {
                   className="py-1 cursor-pointer hover:bg-[#FAFAFA] hover:rounded-[20px]"
                   onClick={async () => {
                     if (item?.link != "") {
-                      router.push(item.link as string );
+                      router.push(item.link as string);
                     }
                     item?.functionHandle();
 

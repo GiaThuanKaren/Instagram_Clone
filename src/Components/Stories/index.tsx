@@ -4,6 +4,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function Stories() {
   var settings = {
@@ -32,7 +33,13 @@ function Stories() {
           return (
             <>
               <SwiperSlide className="min-h-[70px] flex justify-center items-center">
-                <div className="circle h-[50px] w-[50px] "></div>
+                <div className="circle bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 h-[50px] w-[50px] overflow-hidden  ">
+                  <LazyLoadImage
+                    className=" circle  "
+                    alt="123"
+                    src="https://images.unsplash.com/photo-1670993744250-94a791464249?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
+                  />
+                </div>
               </SwiperSlide>
             </>
           );

@@ -11,5 +11,6 @@ export const authOptions = {
       clientSecret: "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",
     }),
   ],
+  
 };
 export default NextAuth(authOptions);

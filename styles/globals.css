@@ -40,7 +40,7 @@ a {
   }
 
   .circle {
-    @apply rounded-[50%]  bg-red-400;
+    @apply rounded-[50%]  ;
   }
 }
 

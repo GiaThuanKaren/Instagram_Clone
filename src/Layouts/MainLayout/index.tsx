@@ -102,7 +102,7 @@ const Items: IconItem[] = [
     link: "/create",
   },
   {
-    icon: <div className="circle h-[30px] w-[30px]"></div>,
+    icon: <div className="circle bg-red-400 h-[30px] w-[30px]"></div>,
     text: "Trang Cá Nhân",
     link: "/myprofile",
   },
