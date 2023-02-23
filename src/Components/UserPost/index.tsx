@@ -7,6 +7,7 @@ import { ICON, IconRegular, IconSolid } from "../../utils/icon";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import { ImagePost } from "../../Model";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 const ListImagePost = function ({ ArrImagePost }: any) {
   return (
     <>
@@ -45,7 +46,9 @@ function UserPost() {
           <div className="h-[53px] pb-2 py-2 mb-3 px-2  ">
             <div className="flex justify-between items-center">
               <div className="flex items-center ">
-                <div className="circle h-[50px] w-[50px] mr-2"></div>
+                <div className="circle h-[50px] w-[50px] mr-2 overflow-hidden">
+                  <LazyLoadImage src="https://avatars.githubusercontent.com/u/86192249?v=4" className="w-full h-full " />
+                </div>
                 <p className="font-medium">Gia Thuận</p>
               </div>
               <ICON icon={IconSolid.faEllipsis} />

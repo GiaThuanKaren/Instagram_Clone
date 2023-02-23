@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import ModalPost from "../../src/Components/ModalPost";
 import { MainLayout } from "../../src/Layouts";
 import { ICON, IconRegular, IconSolid } from "../../src/utils/icon";
 
@@ -155,6 +156,7 @@ const NavItems: NavItemType[] = [
 const ListUserPost = function ({ ArrImagePost = [] }: any) {
   return (
     <>
+      <ModalPost />
       <div className="flex flex-wrap ">
         {ArrImagePost.map((item: any, index: number) => {
           return (

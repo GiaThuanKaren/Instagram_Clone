@@ -10,6 +10,7 @@ import {
 } from "react-icons/bi";
 import { ICON, IconBrand, IconRegular, IconSolid } from "../../utils/icon";
 import { useRouter } from "next/router";
+import CreatePostModal from "../CreatePost";
 
 interface IconItem {
   icon: JSX.Element;
@@ -232,6 +233,7 @@ function LeftSideBar() {
   const [IsOpen, setIsOpen] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [isOpenCreateNewPost, setisOpenCreateNewPost] = useState(false);
   const ItemsNavBar: NavItem[] = [
     {
       icon: <ICON icon={IconSolid.faGear} />,
@@ -491,8 +493,10 @@ function LeftSideBar() {
         </svg>
       ),
       text: "Tạo",
-      link: "/create",
-      functionHandle: () => {},
+      link: "",
+      functionHandle: () => {
+        setisOpenCreateNewPost(!isOpenCreateNewPost);
+      },
     },
     {
       icon: <div className="circle bg-red-300 h-[20px] w-[20px]"></div>,
@@ -512,8 +516,11 @@ function LeftSideBar() {
   return (
     <>
       {/* w-[250px] */}
-      <div className="fixed z-[3] border-l  border-r-2 border-red-50 py-3 px-2 pb-3 hidden sm:block h-screen  w-max  bg-white ">
+      <div className="fixed z-[5] border-l  border-r-2 border-red-50 py-3 px-2 pb-3 hidden sm:block h-screen  w-max  bg-white ">
         {/*  Thong bao Drawer */}
+        {isOpenCreateNewPost && (
+          <CreatePostModal HandleFUNC={setisOpenCreateNewPost} />
+        )}
         {DrawerActiveArr === "/search" && <SearchDrawer />}
         {DrawerActiveArr === "/nofti" && <NoftiDrawer />}
         {/* Tim kim drawer */}
