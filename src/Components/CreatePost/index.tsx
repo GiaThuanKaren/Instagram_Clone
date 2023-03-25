@@ -16,7 +16,7 @@ interface Statetab {
 function CreatePostModal({ HandleFUNC }: Props) {
   const InputFIleRef = React.useRef<any>();
   const [ImageSource, SetImageSource] = React.useState<string[]>([]);
-
+  const [ImageIndexPreview, setImageIndexPreview] = React.useState<number>(0);
   return (
     <>
       <div className="transition-all fixed w-screen h-screen top-0 bottom-0 right-0 left-0 overflow-hidden bg-[#595959be] z-[2] flex justify-center items-center">
@@ -51,10 +51,27 @@ function CreatePostModal({ HandleFUNC }: Props) {
                 Pick some files
               </div>
             </div> : <>
-              <div className="h-[60%] overflow-y-hidden ">
-                {ImageSource.map((item: string, index) => {
-                  return <img className="object-contain h-full w-full" src={item} key={index} />
-                })}
+
+              <div className="h-[60%] overflow-y-hidden  ">
+                <div className="h-full w-full relative">
+                  {
+                    ImageIndexPreview > 0
+                    &&
+                    <ICON className="absolute left-0  top-1/2 p-5" onClick={() => {
+                      setImageIndexPreview(prev=>prev-1)
+                    }} icon={IconSolid.faAngleLeft} />
+
+                  }
+                  <img className="object-contain h-full w-full" src={ImageSource[ImageIndexPreview]} />
+                  {
+                    ImageIndexPreview < ImageSource.length - 1 &&
+                    <ICON onClick={() => {
+                      setImageIndexPreview(prev=>prev+1)
+                    }}  className="absolute right-0  top-1/2 p-5" icon={IconSolid.faAngleRight} />
+                  }
+
+                </div>
+
               </div>
             </>
           }
