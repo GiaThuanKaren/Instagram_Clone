@@ -233,6 +233,8 @@ function LeftSideBar() {
   console.log({ width: screen?.width, height: screen?.height })
   const [isActive, setisActive] = useState<number>(0);
   const [DrawerActiveArr, setDrawerActiveArr] = useState<string>("");
+
+
   const [IsOpen, setIsOpen] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -497,7 +499,8 @@ function LeftSideBar() {
       ),
       text: "Tạo",
       link: "",
-      functionHandle: () => {
+      functionHandle: async() => {
+        
         setisOpenCreateNewPost(!isOpenCreateNewPost);
       },
     },
@@ -527,7 +530,7 @@ function LeftSideBar() {
     <>
       {/* w-[250px] */}
 
-      <div className="fixed z-[100] border-l  border-r-2 border-red-50 py-3 px-2 pb-3 hidden sm:block h-screen  w-max  bg-white">
+      <div className="transition-all fixed z-[100] border-l  border-r-2 border-red-50 py-3 px-2 pb-3 hidden sm:block h-screen  w-max  bg-white">
         {/*  Thong bao Drawer */}
         {isOpenCreateNewPost && (
           <CreatePostModal HandleFUNC={setisOpenCreateNewPost} />
