@@ -9,7 +9,7 @@ interface NavItemType {
   icon: JSX.Element;
 }
 
-interface ListPostType {
+interface ListPostType {  
   type: string;
 }
 
@@ -156,7 +156,7 @@ const NavItems: NavItemType[] = [
 const ListUserPost = function ({ ArrImagePost = [] }: any) {
   return (
     <>
-      <ModalPost />
+      {/* <ModalPost /> */}
       <div className="flex flex-wrap ">
         {ArrImagePost.map((item: any, index: number) => {
           return (
@@ -319,11 +319,10 @@ function PersonalProfile() {
                     onClick={() => {
                       setindexActive(index);
                     }}
-                    className={`mr-[60px] ${
-                      index == indexActive
-                        ? "border-t-black border-t-[2px]"
-                        : ""
-                    } flex items-center`}
+                    className={`mr-[60px] ${index == indexActive
+                      ? "border-t-black border-t-[2px]"
+                      : ""
+                      } flex items-center`}
                   >
                     <p className="text-xl">{item.icon}</p>
 

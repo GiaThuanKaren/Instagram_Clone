@@ -6,15 +6,15 @@ module.exports = {
       keyframes: {
         SlideIn: {
           "0%": {
-            display: "none",
-            opacity: "0",
+            // display: "none",
+            // opacity: "0",
             transform: "translateX(-100%)",
-            ["z-index"]: "0",
+
           },
           "100%": {
             display: "block",
             opacity: "1",
-            ["z-index"]: "2",
+
           },
         },
         SlideOut: {

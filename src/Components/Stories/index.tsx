@@ -7,6 +7,7 @@ import { Pagination, Navigation } from "swiper";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function Stories() {
+  
   var settings = {
     dots: true,
     infinite: true,
