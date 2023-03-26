@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb+srv://instagram:giathuan123456@cluster0.a6cyoli.mongodb.net/instagram?retryWrites=true&w=majority"
+}
+
+model User {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  UserName   String
+  v          Int      @map("__v")
+  createdAt  DateTime @db.Date
+  email      String   @unique(map: "email_1")
+  folderId   String
+  foldername String
+  key        String
+  password   String
+  updatedAt  DateTime @db.Date
+}
+
+model accounts {
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  access_token      String
+  expires_at        Int
+  id_token          String
+  provider          String
+  providerAccountId String
+  scope             String
+  token_type        String
+  type              String
+  userId            String @db.ObjectId
+}
+
+model posts {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  v            Int      @map("__v")
+  createdAt    DateTime @db.Date
+  descripttion String
+  media        String[]
+  title        String
+  updatedAt    DateTime @db.Date
+}
+
+model sessions {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  expires      DateTime @db.Date
+  sessionToken String
+  userId       String   @db.ObjectId
+}
+
+model users {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  email         String
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  emailVerified Json?
+  image         String
+  name          String
+}

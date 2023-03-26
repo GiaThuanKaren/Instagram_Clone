@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import ModalPost from "../../src/Components/ModalPost";
@@ -9,7 +10,7 @@ interface NavItemType {
   icon: JSX.Element;
 }
 
-interface ListPostType {  
+interface ListPostType {
   type: string;
 }
 
@@ -154,6 +155,7 @@ const NavItems: NavItemType[] = [
 ];
 
 const ListUserPost = function ({ ArrImagePost = [] }: any) {
+
   return (
     <>
       {/* <ModalPost /> */}
@@ -211,7 +213,7 @@ const ListUserPost = function ({ ArrImagePost = [] }: any) {
 
 function PersonalProfile() {
   const [indexActive, setindexActive] = useState<number>(0);
-
+  const { data: session, status } = useSession()
   return (
     <>
       <MainLayout>
@@ -220,14 +222,14 @@ function PersonalProfile() {
             <div className=" circle h-[70px] w-[70px]  md:h-[150px] md:w-[150px]  overflow-hidden">
               <LazyLoadImage
                 className="w-full h-ful"
-                src="https://avatars.githubusercontent.com/u/86192249?v=4"
+                src={session?.user?.image ? session?.user?.image : "https://avatars.githubusercontent.com/u/86192249?v=4"}
               />
             </div>
           </div>
           <div className="h-full grow-[3]">
             {/* Heading */}
             <div className="flex justify-between h-[32px] w-max ">
-              <h2>Gia Thuan</h2>
+              <h2>{session?.user?.name}</h2>
               <div className=" border-[1px] border-[#DBDBDB] px-3 mx-3">
                 <p className="text-[0.8rem] font-medium">
                   Chỉnh Sửa Trang Cá Nhân{" "}
@@ -274,8 +276,8 @@ function PersonalProfile() {
                 dùng
               </p>
             </div>
-            <h3 className="font-medium">Gia Thuận Nguyễn</h3>
-            <p>Nguyễn Quang Gia Thuận </p>
+            <h3 className="font-medium">{session?.user?.name}</h3>
+            <p>{session?.user?.name}</p>
           </div>
         </div>
 

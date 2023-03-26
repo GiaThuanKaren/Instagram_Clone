@@ -9,11 +9,15 @@ import { MainLayout } from "../src/Layouts";
 import { ICON, IconRegular, IconSolid } from "../src/utils/icon";
 import styles from "../styles/Home.module.css";
 import CreatePostModal from "../src/Components/CreatePost";
+import { useSession } from "next-auth/react";
 interface Props {
   children?: ReactNode;
 }
 export default function Home() {
   const WidthLeft = 70;
+  const { data: session, status } = useSession()
+
+
   const [peopleSuggest, setpeopleSuggest] = useState([
     {
       name: "Thuan",
@@ -65,11 +69,13 @@ export default function Home() {
             className={`hidden lg:block pl-2 mx-[-2px] px-[2px]  max-h-max`}
           >
             <div className="h-[53px] flex justify-between items-center">
-              <div className="circle h-[50px] w-[50px] "></div>
+              <div className="circle h-[50px] w-[50px] overflow-hidden">
+                <img src={session?.user?.image ? session?.user?.image : ""} alt="" />
+              </div>
               <div>
-                <p className="text-[0.8rem] font-medium">Name Profile</p>
+                <p className="text-[0.8rem] font-medium">{session?.user?.name}</p>
                 <p className="text-[0.8rem] whitespace-nowrap font-medium text-[#ACACAC] ">
-                  Gia Thuận Nguyễn
+                  {session?.user?.name}
                 </p>
               </div>
               <p className="text-base font-medium text-[0.75rem] text-[#20A2F7]">

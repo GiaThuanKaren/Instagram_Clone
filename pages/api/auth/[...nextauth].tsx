@@ -4,7 +4,9 @@ import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "../../../src/utils/lib";
-
+import { PrismaClient } from "@prisma/client";
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+const prisma = new PrismaClient()
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
@@ -22,7 +24,7 @@ export const authOptions = {
     // ...add more providers here
   ],
   secret: "giathuan",
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: PrismaAdapter(prisma),
 
 
 };

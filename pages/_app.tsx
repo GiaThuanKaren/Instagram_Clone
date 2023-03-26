@@ -5,7 +5,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { useEffect, useState } from "react";
 import NextNProgress from "nextjs-progressbar";
 import { ThemeProvider } from "next-themes";
-export default function App({ Component, pageProps }: AppProps) {
+import { SessionProvider } from "next-auth/react"
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [showChild, setShowChild] = useState(false);
   useEffect(() => {
     setShowChild(true);
@@ -19,10 +20,12 @@ export default function App({ Component, pageProps }: AppProps) {
   } else
     return (
       <>
-        <NextNProgress />
-        <ThemeProvider attribute="class">
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <SessionProvider session={session}>
+          <NextNProgress />
+          <ThemeProvider attribute="class">
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </SessionProvider>
       </>
     );
 }
