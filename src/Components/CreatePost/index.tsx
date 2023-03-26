@@ -13,12 +13,13 @@ interface Props {
 interface Statetab {
   handleFUNC: React.Dispatch<React.SetStateAction<any>>;
 }
+const Editor = dynamic(() => import("../Editor"), { ssr: false });
 
 function CreatePostModal({ HandleFUNC }: Props) {
   const InputFIleRef = React.useRef<any>();
+  const [valueText, setValueText] = React.useState<any>()
   const [ImageSource, SetImageSource] = React.useState<string[]>([]);
   const [ImageIndexPreview, setImageIndexPreview] = React.useState<number>(0);
-  const Editor = dynamic(() => import("../Editor"), { ssr: false });
   return (
     <>
       <div className="transition-all fixed w-screen h-screen top-0 bottom-0 right-0 left-0 overflow-hidden bg-[#595959be] z-[2] flex justify-center items-center">
@@ -76,8 +77,10 @@ function CreatePostModal({ HandleFUNC }: Props) {
 
 
               </div>
-              <div className="h-[40%] max-h-[40%] overflow-y-auto w-full bg-red-100">
-                <Editor />
+              <div className="h-[40%] max-h-[40%] overflow-y-auto w-full ">
+                <Editor value={valueText} onChange={(data:any) => {
+                  setValueText(data)
+                }} />
               </div>
             </>
           }

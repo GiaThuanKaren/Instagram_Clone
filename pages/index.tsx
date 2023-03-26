@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <>
       <MainLayout>
-        {/* <CreatePostModal /> */}
+        {/* <Cr eatePostModal /> */}
         <div className="flex    h-full sm:justify-center mt-10">
           <div
             style={

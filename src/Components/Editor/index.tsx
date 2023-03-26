@@ -11,10 +11,12 @@ const Editor = ({
 }) => {
     return (
         <CKEditor
+        
             editor={ClassicEditor}
             data={value}
             onChange={(event: any, editor: { getData: () => any; }) => {
                 const data = editor.getData();
+                console.log(data)
                 onChange(data);
             }}
         />
