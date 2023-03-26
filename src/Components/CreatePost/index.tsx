@@ -5,6 +5,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ICON, IconSolid } from "../../utils/icon";
+import dynamic from "next/dynamic";
 interface Props {
   HandleFUNC: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -17,6 +18,7 @@ function CreatePostModal({ HandleFUNC }: Props) {
   const InputFIleRef = React.useRef<any>();
   const [ImageSource, SetImageSource] = React.useState<string[]>([]);
   const [ImageIndexPreview, setImageIndexPreview] = React.useState<number>(0);
+  const Editor = dynamic(() => import("../Editor"), { ssr: false });
   return (
     <>
       <div className="transition-all fixed w-screen h-screen top-0 bottom-0 right-0 left-0 overflow-hidden bg-[#595959be] z-[2] flex justify-center items-center">
@@ -58,7 +60,7 @@ function CreatePostModal({ HandleFUNC }: Props) {
                     ImageIndexPreview > 0
                     &&
                     <ICON className="absolute left-0  top-1/2 p-5" onClick={() => {
-                      setImageIndexPreview(prev=>prev-1)
+                      setImageIndexPreview(prev => prev - 1)
                     }} icon={IconSolid.faAngleLeft} />
 
                   }
@@ -66,12 +68,16 @@ function CreatePostModal({ HandleFUNC }: Props) {
                   {
                     ImageIndexPreview < ImageSource.length - 1 &&
                     <ICON onClick={() => {
-                      setImageIndexPreview(prev=>prev+1)
-                    }}  className="absolute right-0  top-1/2 p-5" icon={IconSolid.faAngleRight} />
+                      setImageIndexPreview(prev => prev + 1)
+                    }} className="absolute right-0  top-1/2 p-5" icon={IconSolid.faAngleRight} />
                   }
 
                 </div>
 
+
+              </div>
+              <div className="h-[40%] max-h-[40%] overflow-y-auto w-full bg-red-100">
+                <Editor />
               </div>
             </>
           }

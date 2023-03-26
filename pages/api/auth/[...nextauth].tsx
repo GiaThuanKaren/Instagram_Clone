@@ -23,9 +23,9 @@ export const authOptions = {
 
     // ...add more providers here
   ],
+ 
   secret: "giathuan",
-  adapter: PrismaAdapter(prisma),
-
+  adapter: MongoDBAdapter(clientPromise),
 
 };
 export default NextAuth(authOptions);

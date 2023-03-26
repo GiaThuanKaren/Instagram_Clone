@@ -12,6 +12,7 @@ import { useScreen } from 'usehooks-ts'
 import { ICON, IconBrand, IconRegular, IconSolid } from "../../utils/icon";
 import { useRouter } from "next/router";
 import CreatePostModal from "../CreatePost";
+import { useSession } from "next-auth/react";
 
 interface IconItem {
   icon: JSX.Element;
@@ -230,6 +231,7 @@ function NoftiDrawer() {
 function LeftSideBar() {
   const router = useRouter();
   const screen = useScreen()
+  const { data: session, status } = useSession()
   console.log({ width: screen?.width, height: screen?.height })
   const [isActive, setisActive] = useState<number>(0);
   const [DrawerActiveArr, setDrawerActiveArr] = useState<string>("");
@@ -499,13 +501,15 @@ function LeftSideBar() {
       ),
       text: "Tạo",
       link: "",
-      functionHandle: async() => {
-        
+      functionHandle: async () => {
+
         setisOpenCreateNewPost(!isOpenCreateNewPost);
       },
     },
     {
-      icon: <div className="circle bg-red-300 h-[20px] w-[20px]"></div>,
+      icon: <div className="circle bg-red-300 h-[25px] w-[25px] overflow-hidden">
+        <img src={session?.user?.image ? session?.user?.image : ""} alt="" />
+      </div>,
       text: "Trang Cá Nhân",
       link: "/myprofile",
       functionHandle: () => { },
