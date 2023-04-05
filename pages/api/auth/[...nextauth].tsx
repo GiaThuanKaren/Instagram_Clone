@@ -1,16 +1,15 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "../../../src/utils/lib";
 import { PrismaClient } from "@prisma/client"
 const prisma1 = new PrismaClient()
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import prisma from "../../../src/utils/lib/prisma"
 
-export const authOptions = {
+export const authOptions:AuthOptions = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
@@ -40,14 +39,17 @@ export const authOptions = {
     // ...add more providers here
   ],
   callbacks: {
-    session({ session, user }) {
+    session({ session, user }: {
+      session: any;
+      user: any
+    }) {
       if (user) {
         session.user = user;
       }
 
       return session;
     },
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn() {
       return true;
     },
   },
