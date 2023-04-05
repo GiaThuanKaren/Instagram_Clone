@@ -11,7 +11,7 @@ const Editor = ({
 }) => {
     return (
         <CKEditor
-        
+            className="outline-none border-none"
             editor={ClassicEditor}
             data={value}
             onChange={(event: any, editor: { getData: () => any; }) => {
@@ -19,6 +19,7 @@ const Editor = ({
                 console.log(data)
                 onChange(data);
             }}
+            
         />
     );
 };

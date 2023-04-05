@@ -9,7 +9,10 @@ module.exports = {
             // display: "none",
             // opacity: "0",
             transform: "translateX(-100%)",
-
+            opacity: "0"
+          },
+          "90%": {
+            opacity: "0.6"
           },
           "100%": {
             display: "block",

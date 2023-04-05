@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import React from "react"
 import Link from "next/link";
 import { ReactNode, useState } from "react";
 import Stories from "../src/Components/Stories";
@@ -10,9 +11,12 @@ import { ICON, IconRegular, IconSolid } from "../src/utils/icon";
 import styles from "../styles/Home.module.css";
 import CreatePostModal from "../src/Components/CreatePost";
 import { useSession } from "next-auth/react";
+
+import { GetServerSideProps } from "next";
 interface Props {
   children?: ReactNode;
 }
+
 export default function Home() {
   const WidthLeft = 70;
   const { data: session, status } = useSession()
@@ -40,6 +44,16 @@ export default function Home() {
       avatarLink: "",
     },
   ]);
+  React.useEffect(() => {
+    async function FetchApi() {
+      try {
+
+      } catch (e) {
+        throw e
+      }
+    }
+    FetchApi()
+  }, [])
   return (
     <>
       <MainLayout>
@@ -124,3 +138,5 @@ export default function Home() {
     </>
   );
 }
+
+

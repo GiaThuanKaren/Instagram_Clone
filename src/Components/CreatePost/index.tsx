@@ -78,7 +78,7 @@ function CreatePostModal({ HandleFUNC }: Props) {
 
               </div>
               <div className="h-[40%] max-h-[40%] overflow-y-auto w-full ">
-                <Editor value={valueText} onChange={(data:any) => {
+                <Editor value={valueText} onChange={(data: any) => {
                   setValueText(data)
                 }} />
               </div>
