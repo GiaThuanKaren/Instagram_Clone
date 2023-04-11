@@ -12,7 +12,7 @@ import { useScreen } from 'usehooks-ts'
 import { ICON, IconBrand, IconRegular, IconSolid } from "../../utils/icon";
 import { useRouter } from "next/router";
 import CreatePostModal from "../CreatePost";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 interface IconItem {
   icon: JSX.Element;
@@ -274,7 +274,9 @@ function LeftSideBar() {
     {
       icon: null,
       text: "Đăng Xuất",
-      functionHandle: () => { },
+      functionHandle: () => {
+        signOut()
+      },
     },
   ];
   const Items: IconItem[] = [
@@ -511,7 +513,7 @@ function LeftSideBar() {
         <img src={session?.user?.image ? session?.user?.image : ""} alt="" />
       </div>,
       text: "Trang Cá Nhân",
-      link: "/myprofile",
+      link: `/user/${session?.user?.name}`,
       functionHandle: () => { },
     },
   ];

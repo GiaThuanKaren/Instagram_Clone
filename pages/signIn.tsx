@@ -5,6 +5,7 @@ import { ICON, IconBrand } from '../src/utils/icon'
 import { useSession, signIn as SignIN, signOut, getSession } from "next-auth/react";
 
 function signIn() {
+    // const { data, status } = useSession()
     const providers = [
 
         {
@@ -19,23 +20,26 @@ function signIn() {
         },
     ];
     const handleOAuthSignIn = async (provider: string) => {
-        localStorage.setItem("salstream_provider",provider)
+        localStorage.setItem("salstream_provider", provider)
         try {
-          console.log("[PROVIDER]", provider);
-          let result = await SignIN(provider, {
-            redirect: true,
-            callbackUrl: "/"
-          })
-          if (!result?.error) {
-            const session = await getSession();
-    
-            console.log(session?.user, "USER AFTER LOGIN INNNNNNNNNN"); // full account information
-    
-          }
+            console.log("[PROVIDER]", provider);
+
+            let result = await SignIN(provider, {
+                redirect: true,
+                callbackUrl: "/",
+                addedParam: "My added parameter"
+            })
+
+            if (result?.error) {        
+
+
+                // console.log(session?.user, "USER AFTER LOGIN INNNNNNNNNN"); // full account information
+
+            }
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
+    };
     return (
         <>
             <div className='w-screen h-screen max-h-screen flex items-center justify-center'>

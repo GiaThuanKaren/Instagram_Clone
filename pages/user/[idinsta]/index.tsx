@@ -1,9 +1,9 @@
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import ModalPost from "../../src/Components/ModalPost";
-import { MainLayout } from "../../src/Layouts";
-import { ICON, IconRegular, IconSolid } from "../../src/utils/icon";
+import ModalPost from "../../../src/Components/ModalPost";
+import { MainLayout } from "../../../src/Layouts";
+import { ICON, IconRegular, IconSolid } from "../../../src/utils/icon";
 
 interface NavItemType {
   text: string;
