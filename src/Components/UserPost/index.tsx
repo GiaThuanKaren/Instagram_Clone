@@ -70,17 +70,22 @@ function UserPost({ name, image, reaction, _id, media = [] }: PropsUserPost) {
           <div className="relative">
             {
               media.length > 0 && indexImg > 0 &&
-              <ICON className="absolute left-0 top-1/2 p-3 rounded-full text-white hover:cursor-pointer bg-red-300 mx-1" icon={IconSolid.faChevronLeft} />
+              <ICON onClick={() => {
+                setIndexImag(prev => prev - 1)
+              }} className="absolute left-0 top-1/2 p-3 rounded-full text-white hover:cursor-pointer bg-red-300 mx-1" icon={IconSolid.faChevronLeft} />
             }
             <img
               className=" w-full overflow-hidden aspect-[2/3] object-contain"
               alt="123"
-              src="https://images.unsplash.com/photo-1670993744250-94a791464249?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
+              src={`https://drive.google.com/uc?id=${media[indexImg] as string}&export=download`}
             />
+
             {
               media.length >= 0 && indexImg < media.length &&
 
-              <ICON className="absolute right-0 top-1/2 p-3 rounded-full text-white hover:cursor-pointer bg-red-300 mx-1" icon={IconSolid.faChevronRight} />
+              <ICON onClick={() => {
+                setIndexImag(prev => prev + 1)
+              }} className="absolute right-0 top-1/2 p-3 rounded-full text-white hover:cursor-pointer bg-red-300 mx-1" icon={IconSolid.faChevronRight} />
             }
           </div>
           <div className="bg-white">
