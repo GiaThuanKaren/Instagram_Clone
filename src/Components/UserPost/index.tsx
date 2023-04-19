@@ -6,8 +6,16 @@ import "swiper/css/pagination";
 import { ICON, IconRegular, IconSolid } from "../../utils/icon";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
-import { ImagePost } from "../../Model";
+import { Author, ImagePost, PostHome } from "../../Model";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+
+interface PropsUserPost extends Author {
+  reaction: string[]
+  media: string[]
+}
+
+
+
 const ListImagePost = function ({ ArrImagePost }: any) {
   return (
     <>
@@ -34,8 +42,13 @@ const ListImagePost = function ({ ArrImagePost }: any) {
   );
 };
 
-function UserPost() {
+
+
+function UserPost({ name, image, reaction, _id, media = [] }: PropsUserPost) {
+
+
   const [text, settext] = useState<string>("");
+  const [indexImg, setIndexImag] = React.useState(0)
   const InputCommentEle = useRef(null);
 
   const [ArrImagePost, setArrImagePost] = useState([]);
@@ -47,19 +60,28 @@ function UserPost() {
             <div className="flex justify-between items-center">
               <div className="flex items-center ">
                 <div className="circle h-[50px] w-[50px] mr-2 overflow-hidden">
-                  <LazyLoadImage src="https://avatars.githubusercontent.com/u/86192249?v=4" className="w-full h-full " />
+                  <LazyLoadImage src={image ? image : "https://avatars.githubusercontent.com/u/86192249?v=4"} className="w-full h-full " />
                 </div>
-                <p className="font-medium">Gia Thuận</p>
+                <p className="font-medium">{name}</p>
               </div>
               <ICON icon={IconSolid.faEllipsis} />
             </div>
           </div>
-          <div>
+          <div className="relative">
+            {
+              media.length > 0 && indexImg > 0 &&
+              <ICON className="absolute left-0 top-1/2 p-3 rounded-full text-white hover:cursor-pointer bg-red-300 mx-1" icon={IconSolid.faChevronLeft} />
+            }
             <img
               className=" w-full overflow-hidden aspect-[2/3] object-contain"
               alt="123"
               src="https://images.unsplash.com/photo-1670993744250-94a791464249?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
             />
+            {
+              media.length >= 0 && indexImg < media.length &&
+
+              <ICON className="absolute right-0 top-1/2 p-3 rounded-full text-white hover:cursor-pointer bg-red-300 mx-1" icon={IconSolid.faChevronRight} />
+            }
           </div>
           <div className="bg-white">
             <div className="flex justify-between h-[53px] items-center ">
@@ -83,10 +105,10 @@ function UserPost() {
               />
             </div>
           </div>
-          <p className=" px-2 font-medium text-[1rem]">3.055.175 lượt thích</p>
+          <p className=" px-2 font-medium text-[1rem]">{reaction ? reaction.length : 0} lượt thích</p>
 
           <div className="flex  px-2 ">
-            <p className="font-medium mr-2">jennierubyjane</p>
+            <p className="font-medium mr-2">{name}</p>
             <p className="break-words ">havsdhjgajhsdgjhagsdgahsdghjg</p>
           </div>
 
@@ -125,9 +147,8 @@ function UserPost() {
               placeholder="Thêm bình luận"
             />
             <p
-              className={`font-medium ${
-                text === "" ? "text-[#B6DCFF]" : "text-[#0396F6]"
-              }  `}
+              className={`font-medium ${text === "" ? "text-[#B6DCFF]" : "text-[#0396F6]"
+                }  `}
             >
               Đăng
             </p>

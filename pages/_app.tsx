@@ -13,6 +13,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     async function Fetch() {
       const session = await getSession();
       console.log(session, "USER AFTER LOGIN INNNNNNNNNN");
+      const usersession: any = session?.user
+      localStorage.setItem("user", JSON.stringify(usersession?.id))
     }
     Fetch()
     setShowChild(true);

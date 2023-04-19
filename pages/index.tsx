@@ -13,6 +13,8 @@ import CreatePostModal from "../src/Components/CreatePost";
 import { useSession } from "next-auth/react";
 
 import { GetServerSideProps } from "next";
+import { GetAllPost } from "../src/services/api";
+import { PostHome } from "../src/Model";
 interface Props {
   children?: ReactNode;
 }
@@ -20,7 +22,7 @@ interface Props {
 export default function Home() {
   const WidthLeft = 70;
   const { data: session, status } = useSession()
-
+  const [homePost, setHomePost] = React.useState<PostHome[]>([])
 
   const [peopleSuggest, setpeopleSuggest] = useState([
     {
@@ -44,10 +46,15 @@ export default function Home() {
       avatarLink: "",
     },
   ]);
+
+
+
   React.useEffect(() => {
     async function FetchApi() {
       try {
-
+        let result = await GetAllPost();
+        console.log(result.data)
+        setHomePost(result.data)
       } catch (e) {
         throw e
       }
@@ -68,9 +75,17 @@ export default function Home() {
             className={`w-screen sm:w-[70%]  mx-[-2px] px-[2px] bg-white h-4 `}
           >
             <Stories />
+            {
+              homePost.map((item: PostHome, index: number) => {
+                let user = item.author[0]
+                return <>
+                  <UserPost reaction={item.reaction}  media={item.media} image={user.image} name={user.name} _id={user._id} email={user.email} email_verified={user.email_verified} />
+                </>
+              })
+            }
+            {/* 
             <UserPost />
-            <UserPost />
-            <UserPost />
+            <UserPost /> */}
             {/* <UserPost />
             <UserPost />
             <UserPost />

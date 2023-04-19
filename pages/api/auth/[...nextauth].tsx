@@ -54,6 +54,7 @@ export const authOptions: AuthOptions = {
       if (user) {
         
         session.user = user;
+        
       }
 
       return session;

@@ -31,11 +31,12 @@ function CreatePostModal({ HandleFUNC }: Props) {
     try {
 
       const formdata = new FormData();
+      let image = []
       for (let i = 0; i < ImageSource.length; i++) {
         formdata.append("tenfile", ImageSource[i].file)
       }
 
-      formdata.append("description", "kshdfkljhjskljdf")
+      formdata.append("description", valueText)
       console.log(formdata)
       let result = await CreateNewPost(formdata)
       console.log(result)

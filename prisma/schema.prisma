@@ -43,9 +43,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  
-
-
+  // bookmarks    
 }
 
 model VerificationToken {
@@ -63,7 +61,7 @@ model VerificationToken {
 //   author             String
 //   author_id          User    @relation(fields: [author], references: [id], onDelete: Cascade)
 //   commentid          String  @db.ObjectId
-  
+
 //   replied            Comment @relation("repliedcomment", fields: [commentid], references: [id])
 //   replied_id_comment String
 //   // commentreplies  Comment[] @relation(fields: [commentid], references: [id])
