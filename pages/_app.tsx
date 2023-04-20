@@ -6,6 +6,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { useEffect, useState } from "react";
 import NextNProgress from "nextjs-progressbar";
 import { ThemeProvider } from "next-themes";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import { SessionProvider, getSession, useSession } from "next-auth/react"
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [showChild, setShowChild] = useState(false);
@@ -33,6 +35,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
           <NextNProgress />
           <ThemeProvider attribute="class">
             <Component {...pageProps} />
+            <ToastContainer />
           </ThemeProvider>
         </SessionProvider>
       </>

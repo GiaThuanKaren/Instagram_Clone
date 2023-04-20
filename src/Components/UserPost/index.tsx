@@ -55,7 +55,7 @@ function UserPost({ name, image, reaction, _id, media = [] }: PropsUserPost) {
   return (
     <>
       <>
-        <div className="rounded-md border-[1px] border-[#DBDBDB] bg-white  py-3 my-10 pb-0 text-black">
+        <div className=" rounded-md border-[1px] border-[#DBDBDB] bg-white  py-3 my-10 pb-0 text-black">
           <div className="h-[53px] pb-2 py-2 mb-3 px-2  ">
             <div className="flex justify-between items-center">
               <div className="flex items-center ">
@@ -67,7 +67,9 @@ function UserPost({ name, image, reaction, _id, media = [] }: PropsUserPost) {
               <ICON icon={IconSolid.faEllipsis} />
             </div>
           </div>
-          <div className="relative">
+          <div onDoubleClick={() => {
+            console.log("Double Click")
+          }} className="relative">
             {
               media.length > 0 && indexImg > 0 &&
               <ICON onClick={() => {

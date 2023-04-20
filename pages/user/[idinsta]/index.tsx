@@ -4,6 +4,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import ModalPost from "../../../src/Components/ModalPost";
 import { MainLayout } from "../../../src/Layouts";
 import { ICON, IconRegular, IconSolid } from "../../../src/utils/icon";
+import { getAllPostByUser } from "../../../src/services/api";
 
 interface NavItemType {
   text: string;
@@ -13,6 +14,20 @@ interface NavItemType {
 interface ListPostType {
   type: string;
 }
+
+interface ListUserPost {
+  _id: string
+  title: string
+  descripttion: string
+  media: string[]
+  reaction: any[]
+  authorid: string
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+
 
 const NavItems: NavItemType[] = [
   {
@@ -154,13 +169,21 @@ const NavItems: NavItemType[] = [
   },
 ];
 
-const ListUserPost = function ({ ArrImagePost = [] }: any) {
+interface ListUserPostFCInf {
+  data: ListUserPost[]
+}
 
+
+const ListUserPost = function ({ data }: ListUserPostFCInf) {
+
+  React.useEffect(() => {
+
+  }, [])
   return (
     <>
       {/* <ModalPost /> */}
       <div className="flex flex-wrap ">
-        {ArrImagePost.map((item: any, index: number) => {
+        {data.map((item: ListUserPost, index: number) => {
           return (
             <>
               <div className="relative min-h-[100px]  basis-1/3 my-1  p-2">
@@ -168,7 +191,8 @@ const ListUserPost = function ({ ArrImagePost = [] }: any) {
                   <LazyLoadImage
                     className=" w-full overflow-hidden aspect-[2/3] object-cover"
                     alt="123"
-                    src="https://images.unsplash.com/photo-1670993744250-94a791464249?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
+                    src={`https://drive.google.com/uc?id=${item.media[0] as string}&export=download`}
+
                   />
 
                   <div className="absolute right-0 top-0 pt-1 pr-1  ">
@@ -214,6 +238,19 @@ const ListUserPost = function ({ ArrImagePost = [] }: any) {
 function PersonalProfile() {
   const [indexActive, setindexActive] = useState<number>(0);
   const { data: session, status } = useSession()
+  const [userPost, setUserPost] = React.useState<ListUserPost[]>([])
+  React.useEffect(() => {
+    async function FetchApi() {
+      try {
+        let result = await getAllPostByUser();
+        setUserPost(result.data)
+        console.log(result)
+      } catch (error) {
+        throw error
+      }
+    }
+    FetchApi()
+  }, [])
   return (
     <>
       <MainLayout>
@@ -336,7 +373,7 @@ function PersonalProfile() {
           </div>
         </div>
 
-        <ListUserPost ArrImagePost={[1, 2, 3, 4]} />
+        <ListUserPost data={userPost} />
       </MainLayout>
     </>
   );

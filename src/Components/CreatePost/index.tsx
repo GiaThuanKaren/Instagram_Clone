@@ -7,6 +7,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ICON, IconSolid } from "../../utils/icon";
 import dynamic from "next/dynamic";
 import { CreateNewPost } from "../../services/api";
+
 interface Props {
   HandleFUNC: React.Dispatch<React.SetStateAction<boolean>>;
 }
