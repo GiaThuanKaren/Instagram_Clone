@@ -7,17 +7,17 @@ import { useSession, signIn as SignIN, signOut, getSession } from "next-auth/rea
 function signIn() {
     // const { data, status } = useSession()
     const providers = [
-
-        {
-            name: "google",
-            Icon: <ICON icon={IconBrand.faGoogle as IconProp} />,
-            bgColor: "bg-red-300",
-        },
         {
             name: "facebook",
             Icon: <ICON icon={IconBrand.faFacebook as IconProp} />,
             bgColor: "bg-blue-300",
         },
+        {
+            name: "google",
+            Icon: <ICON icon={IconBrand.faGoogle as IconProp} />,
+            bgColor: "bg-red-300",
+        },
+
     ];
     const handleOAuthSignIn = async (provider: string) => {
         localStorage.setItem("salstream_provider", provider)
@@ -30,7 +30,7 @@ function signIn() {
                 addedParam: "My added parameter"
             })
 
-            if (result?.error) {        
+            if (result?.error) {
 
 
                 // console.log(session?.user, "USER AFTER LOGIN INNNNNNNNNN"); // full account information
