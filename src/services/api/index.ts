@@ -18,7 +18,7 @@ export const CreateNewPost = async function (formdata: FormData) {
 
 export const GetAllPost = async function () {
     try {
-        const reuslt = await axios.get(`${BASE_DEV}/api/post/get_all_post`)
+        const reuslt = await axios.get(`${BASE_PRO}/api/post/get_all_post`)
         return reuslt.data;
     } catch (error) {
         throw error
