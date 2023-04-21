@@ -9,15 +9,32 @@ import { ThemeProvider } from "next-themes";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { SessionProvider, getSession, useSession } from "next-auth/react"
+import { useRouter } from "next/router";
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [showChild, setShowChild] = useState(false);
+
+  const router = useRouter();
+
   useEffect(() => {
+
     async function Fetch() {
       const session = await getSession();
-      console.log(session, "USER AFTER LOGIN INNNNNNNNNN");
-      const usersession: any = session?.user
-      localStorage.setItem("user", JSON.stringify(usersession?.id))
+
+      if (session?.user) {
+        console.log(session, "USER AFTER LOGIN INNNNNNNNNN");
+        const usersession: any = session?.user
+        localStorage.setItem("user", JSON.stringify(usersession?.id))
+      } else {
+        router.push("/login")
+      }
+
     }
+    // if ( == "authenticated") {
+    //   Fetch()
+
+    // } else {
+    //   router.push("/login")
+    // }
     Fetch()
     setShowChild(true);
   }, []);
