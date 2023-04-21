@@ -79,7 +79,7 @@ export default function Home() {
               homePost.map((item: PostHome, index: number) => {
                 let user = item.author[0]
                 return <>
-                  <UserPost reaction={item.reaction}  media={item.media} image={user.image} name={user.name} _id={user._id} email={user.email} email_verified={user.email_verified} />
+                  <UserPost descripttion={item.descripttion} reaction={item.reaction}  media={item.media} image={user.image} name={user.name} _id={user._id} email={user.email} email_verified={user.email_verified} />
                 </>
               })
             }

@@ -12,6 +12,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 interface PropsUserPost extends Author {
   reaction: string[]
   media: string[]
+  descripttion:string 
 }
 
 
@@ -44,7 +45,7 @@ const ListImagePost = function ({ ArrImagePost }: any) {
 
 
 
-function UserPost({ name, image, reaction, _id, media = [] }: PropsUserPost) {
+function UserPost({ name, image, reaction, _id, media = [] ,descripttion="<p>default</p>"}: PropsUserPost) {
 
 
   const [text, settext] = useState<string>("");
@@ -116,7 +117,9 @@ function UserPost({ name, image, reaction, _id, media = [] }: PropsUserPost) {
 
           <div className="flex  px-2 ">
             <p className="font-medium mr-2">{name}</p>
-            <p className="break-words ">havsdhjgajhsdgjhagsdgahsdghjg</p>
+            <p className="break-words " dangerouslySetInnerHTML={{
+              __html:descripttion
+            }} ></p>
           </div>
 
           <p className=" px-2 font-light text-[0.9rem] cursor-pointer">
