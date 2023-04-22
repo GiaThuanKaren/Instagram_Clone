@@ -45,10 +45,18 @@ export const getAllPostByUser = async function () {
 }
 
 
-export const insertNewComment = async function () {
+export const insertNewComment = async function (IDPost: string, msg: string, parententIdComment: string = "") {
     try {
-        const result = await axios.post(`${BASE_PRO}/api/post/cr_new_comment`,
-        )
+        let userid = localStorage.getItem("user");
+        if (!userid) {
+            throw new Error("Please try to login again ")
+        }
+        const result = await axios.post(`${BASE_PRO}/api/post/cr_new_comment`, {
+            "IDpost": IDPost,
+            "msg": msg,
+            "IDUserComment": JSON.parse(userid as string) as string,
+            "parentIdComment": parententIdComment
+        })
         return result.data
     } catch (error) {
         throw error
@@ -59,6 +67,19 @@ export const getAllComment = async function (IDpost: string) {
     try {
         const result = await axios.post(`${BASE_PRO}/api/post/get_all_cmt`, {
             "IDPost": IDpost
+        })
+        return result.data
+    } catch (error) {
+        throw error
+    }
+}
+
+
+export const getAllReplied = async function (IDpost: string, parentID: string) {
+    try {
+        const result = await axios.post(`${BASE_PRO}/api/post/get_all_replied_cmt`, {
+            "IDPost": IDpost,
+            "parentID": parentID
         })
         return result.data
     } catch (error) {

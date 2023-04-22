@@ -5,3 +5,4 @@ services:
     container_name: "insta_client_fe"
     ports:
       - 3000:3000
+  

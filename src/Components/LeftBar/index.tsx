@@ -47,7 +47,7 @@ function SearchDrawer() {
   });
   return (
     <>
-      <div className="transition-all max-h-screen animate-SlideIn  rounded-tr-xl rounded-br-xl  border-[1px] border-[#DBDBDB] absolute left-full  right-0 top-0 bottom-0 h-screen z-[-2] w-[400px] bg-white pt-2 px-1 ">
+      <div className="transition-all max-h-screen animate-SlideIn  rounded-tr-xl rounded-br-xl  border-[1px] border-[#DBDBDB] absolute left-full  right-0 top-0 bottom-0 h-screen z-[2] w-[400px] bg-white pt-2 px-1 ">
         <div className="h-full ">
           <h3 className=" px-3 mb-2 font-bold text-[1.4rem] ">Tìm Kiếm</h3>
           <div className="flex justify-between items-center bg-[#EFEFEF] my-4  py-1 px-2 rounded-md">

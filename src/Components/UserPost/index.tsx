@@ -8,11 +8,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import { Author, ImagePost, PostHome } from "../../Model";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { insertNewComment } from "../../services/api";
+import { ShowToastify } from "../../utils";
+import ModalUserPost from "./ModalUserPost";
 
 interface PropsUserPost extends Author {
   reaction: string[]
   media: string[]
-  descripttion:string 
+  descripttion: string
+  idPost:string 
 }
 
 
@@ -45,17 +49,31 @@ const ListImagePost = function ({ ArrImagePost }: any) {
 
 
 
-function UserPost({ name, image, reaction, _id, media = [] ,descripttion="<p>default</p>"}: PropsUserPost) {
+function UserPost({ idPost,name, image, reaction, _id, media = [], descripttion = "<p>default</p>" }: PropsUserPost) {
 
 
   const [text, settext] = useState<string>("");
   const [indexImg, setIndexImag] = React.useState(0)
   const InputCommentEle = useRef(null);
-
   const [ArrImagePost, setArrImagePost] = useState([]);
+  const [opentModalPost, setOpenModalPost] = React.useState(false)
+
+  const handleComment = async function (parententIdComment: string) {
+    try {
+      const result = await insertNewComment(_id as string, text, parententIdComment)
+      settext("")
+      ShowToastify("Thanks Your Feedback")
+    } catch (error) {
+      ShowToastify("Opps Something Went Wrong , Pleasy Refresh Your Page")
+      throw error
+    }
+  }
+
+
   return (
     <>
       <>
+        {opentModalPost && <ModalUserPost _id={idPost} descripttion={descripttion} media={media} reaction={reaction} handleFN={setOpenModalPost} />}
         <div className=" rounded-md border-[1px] border-[#DBDBDB] bg-white  py-3 my-10 pb-0 text-black">
           <div className="h-[53px] pb-2 py-2 mb-3 px-2  ">
             <div className="flex justify-between items-center">
@@ -118,12 +136,14 @@ function UserPost({ name, image, reaction, _id, media = [] ,descripttion="<p>def
           <div className="flex  px-2 ">
             <p className="font-medium mr-2">{name}</p>
             <p className="break-words " dangerouslySetInnerHTML={{
-              __html:descripttion
+              __html: descripttion
             }} ></p>
           </div>
 
-          <p className=" px-2 font-light text-[0.9rem] cursor-pointer">
-            Xem tất cả 6.651 bình luận
+          <p onClick={() => {
+            setOpenModalPost(true)
+          }} className=" px-2 font-light text-[0.9rem] cursor-pointer">
+            Xem tất cả  bình luận
           </p>
           <p className="text-[0.6rem] font-[200] py-2  px-2 ">1 GIỜ TRƯỚC</p>
           <div className=" px-2 flex items-center justify-between border-t border-[#EFEFEF] py-[8px]">
@@ -149,6 +169,7 @@ function UserPost({ name, image, reaction, _id, media = [] ,descripttion="<p>def
               onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
                 if (e.code == "Enter") {
                   console.log([InputCommentEle.current]);
+                  handleComment("")
                 }
               }}
               ref={InputCommentEle}

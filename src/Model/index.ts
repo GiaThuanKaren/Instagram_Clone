@@ -17,6 +17,17 @@ export interface PostHome {
   author: Author[]
 }
 
+export interface CommentInf {
+  _id: string
+  content: string
+  parentCommentID: string
+  postId: string
+  authorId: string
+  replies: string[]
+  
+  author: Author[]
+}
+
 export interface Author {
   _id: string
   name: string
@@ -24,3 +35,6 @@ export interface Author {
   email_verified: any
   image: string
 }
+
+
+
