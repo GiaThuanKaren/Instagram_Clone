@@ -54,8 +54,9 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
   const [flagReact, setFlagReact] = React.useState<"REMOVE" | "INSERT">(() => {
     if (reaction.includes(_id)) {
       return "REMOVE"
+    } else {
+      return "INSERT"
     }
-    return "INSERT"
   })
   const [numReact, setNumReact] = React.useState(reaction.length)
   const [text, settext] = useState<string>("");
@@ -139,10 +140,19 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
           <div className="bg-white">
             <div className="flex justify-between h-[53px] items-center ">
               <div>
-                <ICON
-                  className="mx-2 text-[1.3rem]"
-                  icon={IconRegular.faHeart}
-                />
+                {
+                  reaction.includes(_id) ?
+                    <ICON
+                      className="text-red-400 mx-2 text-[1.3rem]"
+                      icon={IconSolid.faHeart}
+                    />
+                    :
+                    <ICON
+                      className="mx-2 text-[1.3rem]"
+                      icon={IconRegular.faHeart}
+                    />
+
+                }
                 <ICON
                   className="mx-2 text-[1.3rem]"
                   icon={IconRegular.faComment}
