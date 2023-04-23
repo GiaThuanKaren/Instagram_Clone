@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import { GetAllPost } from "../src/services/api";
 import { PostHome } from "../src/Model";
+import { ShowToastify } from "../src/utils";
 interface Props {
   children?: ReactNode;
 }
@@ -56,7 +57,7 @@ export default function Home() {
         console.log(result.data)
         setHomePost(result.data)
       } catch (e) {
-        throw e
+        ShowToastify("Opps , Something went wrong , Please Refresh Page")
       }
     }
     FetchApi()

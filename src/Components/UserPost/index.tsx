@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import { Author, ImagePost, PostHome } from "../../Model";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { insertNewComment } from "../../services/api";
+import { HandleUserReact, insertNewComment } from "../../services/api";
 import { ShowToastify } from "../../utils";
 import ModalUserPost from "./ModalUserPost";
 
@@ -16,7 +16,7 @@ interface PropsUserPost extends Author {
   reaction: string[]
   media: string[]
   descripttion: string
-  idPost:string 
+  idPost: string
 }
 
 
@@ -49,9 +49,15 @@ const ListImagePost = function ({ ArrImagePost }: any) {
 
 
 
-function UserPost({ idPost,name, image, reaction, _id, media = [], descripttion = "<p>default</p>" }: PropsUserPost) {
+function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion = "<p>default</p>" }: PropsUserPost) {
 
-
+  const [flagReact, setFlagReact] = React.useState<"REMOVE" | "INSERT">(() => {
+    if (reaction.includes(_id)) {
+      return "REMOVE"
+    }
+    return "INSERT"
+  })
+  const [numReact, setNumReact] = React.useState(reaction.length)
   const [text, settext] = useState<string>("");
   const [indexImg, setIndexImag] = React.useState(0)
   const InputCommentEle = useRef(null);
@@ -68,6 +74,26 @@ function UserPost({ idPost,name, image, reaction, _id, media = [], descripttion 
       throw error
     }
   }
+
+  const handleReaction = async function () {
+    try {
+      let result = await HandleUserReact(idPost, flagReact)
+
+      if (flagReact == "INSERT") {
+        setNumReact(prev => prev + 1)
+
+        setFlagReact("REMOVE")
+      } else {
+        setNumReact(prev => prev - 1)
+        setFlagReact("INSERT")
+      }
+      ShowToastify("Thanks Your Feedback")
+
+    } catch (error) {
+      ShowToastify("Opps Something Went Wrong , Pleasy Refresh Your Page")
+    }
+  }
+
 
 
   return (
@@ -88,6 +114,7 @@ function UserPost({ idPost,name, image, reaction, _id, media = [], descripttion 
           </div>
           <div onDoubleClick={() => {
             console.log("Double Click")
+            handleReaction()
           }} className="relative">
             {
               media.length > 0 && indexImg > 0 &&
@@ -131,7 +158,7 @@ function UserPost({ idPost,name, image, reaction, _id, media = [], descripttion 
               />
             </div>
           </div>
-          <p className=" px-2 font-medium text-[1rem]">{reaction ? reaction.length : 0} lượt thích</p>
+          <p className=" px-2 font-medium text-[1rem]">{numReact} lượt thích</p>
 
           <div className="flex  px-2 ">
             <p className="font-medium mr-2">{name}</p>

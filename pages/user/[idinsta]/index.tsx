@@ -215,14 +215,14 @@ const ListUserPost = function ({ data }: ListUserPostFCInf) {
                       <div className="flex items-center mx-0 sm:mx-5">
                         <ICON
                           icon={IconSolid.faHeart}
-                          className="icon-cog mx-3 "
+                          className="icon-cog mx-2 "
                         />
                         <p className="text-white font-medium">20</p>
                       </div>
-                      <div className="flex items-center mx-0 sm:mx-5">
+                      {/* <div className="flex items-center mx-0 sm:mx-5">
                         <ICON className="mx-3" icon={IconSolid.faComment} />
                         <p className="text-white font-medium">20</p>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

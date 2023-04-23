@@ -86,3 +86,20 @@ export const getAllReplied = async function (IDpost: string, parentID: string) {
         throw error
     }
 }
+
+
+export const HandleUserReact = async function (IDpost: string, flag: "REMOVE" | "INSERT") {
+    let userid = localStorage.getItem("user");
+    if (!userid) {
+        throw new Error("Please try to login again ")
+    }
+    try {
+        const result = await axios.post(`${BASE_PRO}/api/post/react_post`, {
+            "IDpost": IDpost,
+            "Flag": flag,
+            "IdUser": JSON.parse(userid as string) as string,
+        })
+    } catch (error) {
+        throw error
+    }
+}
