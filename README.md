@@ -1,9 +1,12 @@
 ## Instagram Clone 
 
 
-  ![Screenshot 2023-04-24 141536](https://user-images.githubusercontent.com/86192249/233925320-9b48a5ed-e76c-4d6a-92a8-b6c0539fe0cc.png)
+  
 
-
+<p align="center">
+<!--   [![Screenshot 2023-04-24 141536]()]() -->
+  <img src="https://user-images.githubusercontent.com/86192249/233925320-9b48a5ed-e76c-4d6a-92a8-b6c0539fe0cc.png"
+</p>
 
 ## My Workspace
 
