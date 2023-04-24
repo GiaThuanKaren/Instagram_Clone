@@ -18,6 +18,7 @@
 - Others
   - Docker
   - GG Drive API ( to store image )
+  - Firebase ( Firebase Cloud Messaging )
 - Addtional package 
   - react-insta-stories
   - react-lazy-load-image-component
@@ -32,6 +33,7 @@
     - [x] Login social
       - [X] Google 
       - [x] Facebook
+    - [ ] Push nofications when some users comments on posts or replies other's comments
     
     
   
