@@ -86,7 +86,7 @@ export const getAllReplied = async function (IDpost: string, parentID: string) {
         throw error
     }
 }
-
+    
 
 export const HandleUserReact = async function (IDpost: string, flag: "REMOVE" | "INSERT") {
     let userid = localStorage.getItem("user");
