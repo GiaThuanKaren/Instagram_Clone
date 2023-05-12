@@ -16,6 +16,7 @@ import { GetServerSideProps } from "next";
 import { GetAllPost } from "../src/services/api";
 import { PostHome } from "../src/Model";
 import { ShowToastify } from "../src/utils";
+import LoadingAnimated from "../src/Components/LoadingAnimation";
 interface Props {
   children?: ReactNode;
 }
@@ -24,7 +25,7 @@ export default function Home() {
   const WidthLeft = 70;
   const { data: session, status } = useSession()
   const [homePost, setHomePost] = React.useState<PostHome[]>([])
-
+  const [loading, setLoading] = React.useState(true)
   const [peopleSuggest, setpeopleSuggest] = useState([
     {
       name: "Thuan",
@@ -59,89 +60,96 @@ export default function Home() {
       } catch (e) {
         ShowToastify("Opps , Something went wrong , Please Refresh Page")
       }
+      finally {
+        setLoading(false)
+      }
     }
     FetchApi()
   }, [])
   return (
     <>
+      {/* <Cr eatePostModal /> */}
       <MainLayout>
-        {/* <Cr eatePostModal /> */}
-        <div className="flex    h-full sm:justify-center mt-10">
-          <div
-            style={
-              {
-                // width: `${WidthLeft}%`,
-              }
-            }
-            className={`w-screen sm:w-[70%]  mx-[-2px] px-[2px] bg-white h-4 `}
-          >
-            <Stories />
-            {
-              homePost.map((item: PostHome, index: number) => {
-                let user = item.author[0]
+        {loading ? <LoadingAnimated /> :
 
-                return <>
-                  <UserPost idPost={item._id} descripttion={item.descripttion} reaction={item.reaction} media={item.media} image={user.image} name={user.name} _id={user._id} email={user.email} email_verified={user.email_verified} />
-                </>
-              })
-            }
-            {/* 
+
+          <div className="flex    h-full sm:justify-center mt-10">
+            <div
+              style={
+                {
+                  // width: `${WidthLeft}%`,
+                }
+              }
+              className={`w-screen sm:w-[70%]  mx-[-2px] px-[2px] bg-white h-4 `}
+            >
+              <Stories />
+              {
+                homePost.map((item: PostHome, index: number) => {
+                  let user = item.author[0]
+
+                  return <>
+                    <UserPost idPost={item._id} descripttion={item.descripttion} reaction={item.reaction} media={item.media} image={user.image} name={user.name} _id={user._id} email={user.email} email_verified={user.email_verified} />
+                  </>
+                })
+              }
+              {/* 
             <UserPost />
             <UserPost /> */}
-            {/* <UserPost />
+              {/* <UserPost />
             <UserPost />
             <UserPost />
             <UserPost /> */}
-          </div>
-          <div
-            style={{
-              width: `${100 - WidthLeft}%`,
-            }}
-            className={`hidden lg:block pl-2 mx-[-2px] px-[2px]  max-h-max`}
-          >
-            <div className="h-[53px] flex justify-between items-center">
-              <div className="circle h-[50px] w-[50px] overflow-hidden">
-                <img src={session?.user?.image ? session?.user?.image : ""} alt="" />
-              </div>
-              <div>
-                <p className="text-[0.8rem] font-medium">{session?.user?.name}</p>
-                <p className="text-[0.8rem] whitespace-nowrap font-medium text-[#ACACAC] ">
-                  {session?.user?.name}
+            </div>
+            <div
+              style={{
+                width: `${100 - WidthLeft}%`,
+              }}
+              className={`hidden lg:block pl-2 mx-[-2px] px-[2px]  max-h-max`}
+            >
+              <div className="h-[53px] flex justify-between items-center">
+                <div className="circle h-[50px] w-[50px] overflow-hidden">
+                  <img src={session?.user?.image ? session?.user?.image : ""} alt="" />
+                </div>
+                <div>
+                  <p className="text-[0.8rem] font-medium">{session?.user?.name}</p>
+                  <p className="text-[0.8rem] whitespace-nowrap font-medium text-[#ACACAC] ">
+                    {session?.user?.name}
+                  </p>
+                </div>
+                <p className="text-base font-medium text-[0.75rem] text-[#20A2F7]">
+                  Chuyển
                 </p>
               </div>
-              <p className="text-base font-medium text-[0.75rem] text-[#20A2F7]">
-                Chuyển
-              </p>
-            </div>
 
-            <div className="flex justify-between py-4">
-              <p>Gợi ý cho bạn</p>
-              <Link href={"/explore/people"}>
-                <p>Xem tất cả</p>
-              </Link>
-            </div>
-            {peopleSuggest.map((item, index) => {
-              return (
-                <>
-                  <div className="py-2 flex items-center justify-between cursor-pointer">
-                    <div className="flex items-center">
-                      <div className="circle h-[20px] w-[20px] mr-3 "></div>
-                      <p className="font-medium text-black">{item.name}</p>
-                      {/* <FontAwesomeIcon icon="fa-sharp fa-solid fa-badge-check" /> */}
-                      {/* <ICON icon={IconSolid.faCheck} /> */}
-                      <BsPatchCheckFill className="ml-1 text-[#20A2F7]" />
+              <div className="flex justify-between py-4">
+                <p>Gợi ý cho bạn</p>
+                <Link href={"/explore/people"}>
+                  <p>Xem tất cả</p>
+                </Link>
+              </div>
+              {peopleSuggest.map((item, index) => {
+                return (
+                  <>
+                    <div className="py-2 flex items-center justify-between cursor-pointer">
+                      <div className="flex items-center">
+                        <div className="circle h-[20px] w-[20px] mr-3 "></div>
+                        <p className="font-medium text-black">{item.name}</p>
+                        {/* <FontAwesomeIcon icon="fa-sharp fa-solid fa-badge-check" /> */}
+                        {/* <ICON icon={IconSolid.faCheck} /> */}
+                        <BsPatchCheckFill className="ml-1 text-[#20A2F7]" />
+                      </div>
+
+                      <p className="text-[rgb(58,172,247)] font-[500] text-[0.8rem] ">
+                        Theo Dõi
+                      </p>
                     </div>
-
-                    <p className="text-[rgb(58,172,247)] font-[500] text-[0.8rem] ">
-                      Theo Dõi
-                    </p>
-                  </div>
-                </>
-              );
-            })}
+                  </>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </MainLayout>
+        }
+      </MainLayout >
       {/* <pre>
         𝐅𝐀𝐋𝐋 𝐖𝐈𝐍𝐓𝐄𝐑 𝟐𝟎𝟐𝟐 𝟎𝟒 - 𝐆𝐌 𝐒𝐓𝐔𝐃𝐈𝐎𝐒 📣 Hàng mới về Link album hàng mới :
         https://www.facebook.com/media/set/?vanity=Gossipman.Guy&set=a.3294243167491503

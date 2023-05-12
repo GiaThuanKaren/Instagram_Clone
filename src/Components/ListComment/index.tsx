@@ -3,6 +3,7 @@ import CommentInput from '../CommentInput'
 import { getAllComment, getAllReplied } from '../../services/api';
 import { CommentInf } from '../../Model';
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import LoadingAnimated from '../LoadingAnimation';
 
 interface Props {
     idPost: string;
@@ -17,6 +18,7 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
     const [openReplyInput, setopenReplyInput] = React.useState(false);
     const [openReplyComment, setopenReplyComment] = React.useState(false);
     const [ArrCommentReply, setArrCommentReply] = React.useState<any>([]);
+    const [loading, setLoading] = React.useState(false)
 
     const HandleLoadMoreComment = async function (parentID: string,
         Currstate: boolean) {
@@ -24,6 +26,7 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
             if (Currstate) {
                 setopenReplyComment(false)
             } else {
+                setLoading(true)
                 let result = await getAllReplied(postId, _id)
                 console.log(result)
 
@@ -32,6 +35,8 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
             }
         } catch (error) {
             throw error
+        }finally{
+            setLoading(false)
         }
     }
     return <>
@@ -74,7 +79,7 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
                 </>
             }
             {
-                openReplyComment && replies.length > 0 && ArrCommentReply.map((item: CommentInf, index: number) => {
+                loading ? <LoadingAnimated /> : openReplyComment && replies.length > 0 && ArrCommentReply.map((item: CommentInf, index: number) => {
                     return <>
                         <ReplyComment _id={item._id} author={item.author} authorId={item.authorId} content={item.content} parentCommentID={item.parentCommentID} postId={postId} replies={item.replies} key={index} />
                     </>
@@ -90,7 +95,7 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
 
 function ListComment({ idPost }: Props) {
     const [ArrComment, setArrComment] = React.useState<CommentInf[]>([]);
-
+    const [loading, setLoading] = React.useState(true)
     React.useEffect(() => {
         async function FetchApi() {
             try {
@@ -99,6 +104,8 @@ function ListComment({ idPost }: Props) {
                 setArrComment(result.data)
             } catch (error) {
                 throw error
+            } finally {
+                setLoading(false)
             }
         }
         FetchApi()
@@ -107,7 +114,7 @@ function ListComment({ idPost }: Props) {
     return (
         <>
             {
-                ArrComment.map((item: CommentInf, index: number) => {
+                loading ? <LoadingAnimated /> : ArrComment.map((item: CommentInf, index: number) => {
                     console.log(item)
                     return (
                         <>

@@ -19,7 +19,7 @@ export const authOptions: AuthOptions = {
       clientId:
         process.env.NEXT_PUBLIC_GGID as string,
       clientSecret: process.env.NEXT_PUBLIC_GGSEC as string,
-      
+
     }),
     FacebookProvider({
       clientId: process.env.NEXT_PUBLIC_FBID as string,
@@ -36,6 +36,7 @@ export const authOptions: AuthOptions = {
         console.log(credentials)
         console.log(req)
 
+
         if (!credentials?.email || !credentials.password) {
           throw new Error("Invail Credentail")
         }
@@ -50,16 +51,19 @@ export const authOptions: AuthOptions = {
       session: any;
       user: any
     }) {
-      console.log("CallBack signIN")
+
       if (user) {
-        
+
         session.user = user;
-        
+
       }
 
       return session;
     },
-   
+    signIn({ account, user, credentials, email, profile }) {
+
+      return true
+    }
   },
   session: {
     strategy: "database",
@@ -72,7 +76,7 @@ export const authOptions: AuthOptions = {
 
 
 // export default async function auth(req:NextApiRequest,res:NextApiResponse){
-  
+
 //   console.log(req.query)
 //   return await NextAuth({
 //     // Configure one or more authentication providers
@@ -81,7 +85,7 @@ export const authOptions: AuthOptions = {
 //         clientId:
 //           process.env.NEXT_PUBLIC_GGID as string,
 //         clientSecret: process.env.NEXT_PUBLIC_GGSEC as string,
-  
+
 //       }),
 //       FacebookProvider({
 //         clientId: process.env.NEXT_PUBLIC_FBID as string,
@@ -97,12 +101,12 @@ export const authOptions: AuthOptions = {
 //           console.log("Authorize function")
 //           console.log(credentials)
 //           console.log(req)
-  
+
 //           if (!credentials?.email || !credentials.password) {
 //             throw new Error("Invail Credentail")
 //           }
 //           return null
-  
+
 //         }
 //       })
 //       // ...add more providers here
@@ -115,12 +119,12 @@ export const authOptions: AuthOptions = {
 //         if (user) {
 //           session.user = user;
 //         }
-  
+
 //         return session;
 //       },
 //       async signIn() {
 //         let additionalAuthParams =req.cookies.additionalAuthParams ? JSON.parse(req.cookies.additionalAuthParams) : ""
-        
+
 //         console.log("Additional Param ",additionalAuthParams.appPublicKey)
 //         return true
 //       },
@@ -130,8 +134,8 @@ export const authOptions: AuthOptions = {
 //     },
 //     secret: "giathuan",
 //     adapter: PrismaAdapter(prisma1),
-  
-  
+
+
 //   });
 // }
 // 

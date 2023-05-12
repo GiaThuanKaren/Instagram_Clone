@@ -5,6 +5,7 @@ import ModalPost from "../../../src/Components/ModalPost";
 import { MainLayout } from "../../../src/Layouts";
 import { ICON, IconRegular, IconSolid } from "../../../src/utils/icon";
 import { getAllPostByUser } from "../../../src/services/api";
+import LoadingAnimated from "../../../src/Components/LoadingAnimation";
 
 interface NavItemType {
   text: string;
@@ -236,6 +237,8 @@ const ListUserPost = function ({ data }: ListUserPostFCInf) {
 };
 
 function PersonalProfile() {
+  const [loading, setLoading] = React.useState(true)
+
   const [indexActive, setindexActive] = useState<number>(0);
   const { data: session, status } = useSession()
   const [userPost, setUserPost] = React.useState<ListUserPost[]>([])
@@ -247,6 +250,8 @@ function PersonalProfile() {
         console.log(result)
       } catch (error) {
         throw error
+      } finally {
+        setLoading(false)
       }
     }
     FetchApi()
@@ -254,126 +259,131 @@ function PersonalProfile() {
   return (
     <>
       <MainLayout>
-        <div className="h-[90px] sm:h-[150px] mb-3  w-full flex justify-between  sm:px-0">
-          <div className="grow-[1]">
-            <div className=" circle h-[70px] w-[70px]  md:h-[150px] md:w-[150px]  overflow-hidden">
-              <LazyLoadImage
-                className="w-full h-ful"
-                src={session?.user?.image ? session?.user?.image : "https://avatars.githubusercontent.com/u/86192249?v=4"}
-              />
-            </div>
-          </div>
-          <div className="h-full grow-[3]">
-            {/* Heading */}
-            <div className="flex justify-between h-[32px] w-max ">
-              <h2>{session?.user?.name}</h2>
-              <div className=" border-[1px] border-[#DBDBDB] px-3 mx-3">
-                <p className="text-[0.8rem] font-medium">
-                  Chỉnh Sửa Trang Cá Nhân{" "}
-                </p>
+        {
+          loading ? <LoadingAnimated /> : <>
+
+            <div className="h-[90px] sm:h-[150px] mb-3  w-full flex justify-between  sm:px-0">
+              <div className="grow-[1]">
+                <div className=" circle h-[70px] w-[70px]  md:h-[150px] md:w-[150px]  overflow-hidden">
+                  <LazyLoadImage
+                    className="w-full h-ful"
+                    src={session?.user?.image ? session?.user?.image : "https://avatars.githubusercontent.com/u/86192249?v=4"}
+                  />
+                </div>
               </div>
-              <svg
-                aria-label="Tùy chọn"
-                className="_ab6-"
-                color="#262626"
-                fill="#262626"
-                height="24"
-                role="img"
-                viewBox="0 0 24 24"
-                width="24"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  fill="none"
-                  r="8.635"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                ></circle>
-                <path
-                  d="M14.232 3.656a1.269 1.269 0 0 1-.796-.66L12.93 2h-1.86l-.505.996a1.269 1.269 0 0 1-.796.66m-.001 16.688a1.269 1.269 0 0 1 .796.66l.505.996h1.862l.505-.996a1.269 1.269 0 0 1 .796-.66M3.656 9.768a1.269 1.269 0 0 1-.66.796L2 11.07v1.862l.996.505a1.269 1.269 0 0 1 .66.796m16.688-.001a1.269 1.269 0 0 1 .66-.796L22 12.93v-1.86l-.996-.505a1.269 1.269 0 0 1-.66-.796M7.678 4.522a1.269 1.269 0 0 1-1.03.096l-1.06-.348L4.27 5.587l.348 1.062a1.269 1.269 0 0 1-.096 1.03m11.8 11.799a1.269 1.269 0 0 1 1.03-.096l1.06.348 1.318-1.317-.348-1.062a1.269 1.269 0 0 1 .096-1.03m-14.956.001a1.269 1.269 0 0 1 .096 1.03l-.348 1.06 1.317 1.318 1.062-.348a1.269 1.269 0 0 1 1.03.096m11.799-11.8a1.269 1.269 0 0 1-.096-1.03l.348-1.06-1.317-1.318-1.062.348a1.269 1.269 0 0 1-1.03-.096"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                ></path>
-              </svg>
+              <div className="h-full grow-[3]">
+                {/* Heading */}
+                <div className="flex justify-between h-[32px] w-max ">
+                  <h2>{session?.user?.name}</h2>
+                  <div className=" border-[1px] border-[#DBDBDB] px-3 mx-3">
+                    <p className="text-[0.8rem] font-medium">
+                      Chỉnh Sửa Trang Cá Nhân{" "}
+                    </p>
+                  </div>
+                  <svg
+                    aria-label="Tùy chọn"
+                    className="_ab6-"
+                    color="#262626"
+                    fill="#262626"
+                    height="24"
+                    role="img"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      fill="none"
+                      r="8.635"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    ></circle>
+                    <path
+                      d="M14.232 3.656a1.269 1.269 0 0 1-.796-.66L12.93 2h-1.86l-.505.996a1.269 1.269 0 0 1-.796.66m-.001 16.688a1.269 1.269 0 0 1 .796.66l.505.996h1.862l.505-.996a1.269 1.269 0 0 1 .796-.66M3.656 9.768a1.269 1.269 0 0 1-.66.796L2 11.07v1.862l.996.505a1.269 1.269 0 0 1 .66.796m16.688-.001a1.269 1.269 0 0 1 .66-.796L22 12.93v-1.86l-.996-.505a1.269 1.269 0 0 1-.66-.796M7.678 4.522a1.269 1.269 0 0 1-1.03.096l-1.06-.348L4.27 5.587l.348 1.062a1.269 1.269 0 0 1-.096 1.03m11.8 11.799a1.269 1.269 0 0 1 1.03-.096l1.06.348 1.318-1.317-.348-1.062a1.269 1.269 0 0 1 .096-1.03m-14.956.001a1.269 1.269 0 0 1 .096 1.03l-.348 1.06 1.317 1.318 1.062-.348a1.269 1.269 0 0 1 1.03.096m11.799-11.8a1.269 1.269 0 0 1-.096-1.03l.348-1.06-1.317-1.318-1.062.348a1.269 1.269 0 0 1-1.03-.096"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </div>
+                <div className="hidden md:flex justify-between py-3 my-1">
+                  <p>
+                    <p className="inline font-medium">3</p> Bài viết
+                  </p>
+                  <p>
+                    <p className="inline font-medium">29</p> Người theo dõi
+                  </p>
+                  <p>
+                    Đang theo dõi <p className="inline font-medium">84</p> người
+                    dùng
+                  </p>
+                </div>
+                <h3 className="font-medium">{session?.user?.name}</h3>
+                <p>{session?.user?.name}</p>
+              </div>
             </div>
-            <div className="hidden md:flex justify-between py-3 my-1">
-              <p>
-                <p className="inline font-medium">3</p> Bài viết
+
+            <div className="flex min-h-[130px] items-center my-3 px-4 sm:px-0">
+              <div className="text-center mr-6">
+                <div className="circle overflow-hidden h-[50px] w-[50px]  md:h-[80px] md:w-[80px] mb-2">
+                  <LazyLoadImage
+                    src="https://avatars.githubusercontent.com/u/86192249?v=4"
+                    className="h-full w-full overflow-hidden"
+                  />
+                </div>
+                <p className="text-xs font-medium">Hug ??</p>
+              </div>
+              <div className="text-center ">
+                <div className="circle h-[50px] w-[50px]  md:h-[80px] md:w-[80px] mb-2 border-[4px] flex justify-center items-center text-[2rem]">
+                  <ICON icon={IconSolid.faPlus} />
+                </div>
+                <p className="text-xs font-medium">Tạo</p>
+              </div>
+            </div>
+
+            <div className="flex md:hidden justify-between py-3 my-1 px-3">
+              <p className="text-xs">
+                <p className=" text-center font-medium">3</p> Bài viết
               </p>
-              <p>
-                <p className="inline font-medium">29</p> Người theo dõi
+              <p className="text-xs">
+                <p className=" text-center font-medium">29</p> Người theo dõi
               </p>
-              <p>
-                Đang theo dõi <p className="inline font-medium">84</p> người
+              <p className="text-xs">
+                Đang theo dõi <p className=" text-center font-medium">84</p> người
                 dùng
               </p>
             </div>
-            <h3 className="font-medium">{session?.user?.name}</h3>
-            <p>{session?.user?.name}</p>
-          </div>
-        </div>
 
-        <div className="flex min-h-[130px] items-center my-3 px-4 sm:px-0">
-          <div className="text-center mr-6">
-            <div className="circle overflow-hidden h-[50px] w-[50px]  md:h-[80px] md:w-[80px] mb-2">
-              <LazyLoadImage
-                src="https://avatars.githubusercontent.com/u/86192249?v=4"
-                className="h-full w-full overflow-hidden"
-              />
+            <div className="border-t-[2px] mt-2 flex justify-center items-center ">
+              <div className="flex items-center">
+                {NavItems.map((item: NavItemType, index: number) => {
+                  return (
+                    <>
+                      <div
+                        onClick={() => {
+                          setindexActive(index);
+                        }}
+                        className={`mr-[60px] ${index == indexActive
+                          ? "border-t-black border-t-[2px]"
+                          : ""
+                          } flex items-center`}
+                      >
+                        <p className="text-xl">{item.icon}</p>
+
+                        <h3 className="px-2 mr-1 hidden sm:block ">{item.text}</h3>
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
             </div>
-            <p className="text-xs font-medium">Hug ??</p>
-          </div>
-          <div className="text-center ">
-            <div className="circle h-[50px] w-[50px]  md:h-[80px] md:w-[80px] mb-2 border-[4px] flex justify-center items-center text-[2rem]">
-              <ICON icon={IconSolid.faPlus} />
-            </div>
-            <p className="text-xs font-medium">Tạo</p>
-          </div>
-        </div>
 
-        <div className="flex md:hidden justify-between py-3 my-1 px-3">
-          <p className="text-xs">
-            <p className=" text-center font-medium">3</p> Bài viết
-          </p>
-          <p className="text-xs">
-            <p className=" text-center font-medium">29</p> Người theo dõi
-          </p>
-          <p className="text-xs">
-            Đang theo dõi <p className=" text-center font-medium">84</p> người
-            dùng
-          </p>
-        </div>
-
-        <div className="border-t-[2px] mt-2 flex justify-center items-center ">
-          <div className="flex items-center">
-            {NavItems.map((item: NavItemType, index: number) => {
-              return (
-                <>
-                  <div
-                    onClick={() => {
-                      setindexActive(index);
-                    }}
-                    className={`mr-[60px] ${index == indexActive
-                      ? "border-t-black border-t-[2px]"
-                      : ""
-                      } flex items-center`}
-                  >
-                    <p className="text-xl">{item.icon}</p>
-
-                    <h3 className="px-2 mr-1 hidden sm:block ">{item.text}</h3>
-                  </div>
-                </>
-              );
-            })}
-          </div>
-        </div>
-
-        <ListUserPost data={userPost} />
+            <ListUserPost data={userPost} />
+          </>
+        }
       </MainLayout>
     </>
   );
