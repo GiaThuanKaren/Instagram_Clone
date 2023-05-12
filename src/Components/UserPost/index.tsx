@@ -95,8 +95,6 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
     }
   }
 
-
-
   return (
     <>
       <>
@@ -123,7 +121,7 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
                 setIndexImag(prev => prev - 1)
               }} className="absolute left-0 top-1/2 p-3 rounded-full text-white hover:cursor-pointer bg-red-300 mx-1" icon={IconSolid.faChevronLeft} />
             }
-            <img
+            <LazyLoadImage
               className=" w-full overflow-hidden aspect-[2/3] object-contain"
               alt="123"
               src={`https://drive.google.com/uc?id=${media[indexImg] as string}&export=download`}

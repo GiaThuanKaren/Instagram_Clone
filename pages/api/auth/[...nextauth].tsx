@@ -11,68 +11,13 @@ import prisma from "../../../src/utils/lib/prisma"
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { AdapterUser } from "next-auth/adapters";
+import { UpdateToken } from "../../../src/services/api";
 
-export const authOptions: AuthOptions = {
-  // Configure one or more authentication providers
-  providers: [
-    GoogleProvider({
-      clientId:
-        process.env.NEXT_PUBLIC_GGID as string,
-      clientSecret: process.env.NEXT_PUBLIC_GGSEC as string,
-
-    }),
-    FacebookProvider({
-      clientId: process.env.NEXT_PUBLIC_FBID as string,
-      clientSecret: process.env.NEXT_PUBLIC_FBSEC as string,
-    }),
-    CredentialsProvider({
-      name: "credentials",
-      credentials: {
-        email: { label: "email", type: "text" },
-        password: { label: "password", type: "password" },
-      },
-      authorize: async function (credentials, req) {
-        console.log("Authorize function")
-        console.log(credentials)
-        console.log(req)
+// export const authOptions: AuthOptions = ;
 
 
-        if (!credentials?.email || !credentials.password) {
-          throw new Error("Invail Credentail")
-        }
-        return null
-
-      }
-    })
-    // ...add more providers here
-  ],
-  callbacks: {
-    session({ session, user }: {
-      session: any;
-      user: any
-    }) {
-
-      if (user) {
-
-        session.user = user;
-
-      }
-
-      return session;
-    },
-    signIn({ account, user, credentials, email, profile }) {
-
-      return true
-    }
-  },
-  session: {
-    strategy: "database",
-  },
-  secret: "giathuan",
-  adapter: PrismaAdapter(prisma),
 
 
-};
 
 
 // export default async function auth(req:NextApiRequest,res:NextApiResponse){
@@ -139,4 +84,72 @@ export const authOptions: AuthOptions = {
 //   });
 // }
 // 
-export default NextAuth(authOptions);
+// export default NextAuth(authOptions);
+
+
+export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+  return NextAuth(req, res, {
+    // Configure one or more authentication providers
+    providers: [
+      GoogleProvider({
+        clientId:
+          process.env.NEXT_PUBLIC_GGID as string,
+        clientSecret: process.env.NEXT_PUBLIC_GGSEC as string,
+
+      }),
+      FacebookProvider({
+        clientId: process.env.NEXT_PUBLIC_FBID as string,
+        clientSecret: process.env.NEXT_PUBLIC_FBSEC as string,
+      }),
+      CredentialsProvider({
+        name: "credentials",
+        credentials: {
+          email: { label: "email", type: "text" },
+          password: { label: "password", type: "password" },
+        },
+        authorize: async function (credentials, req) {
+          console.log("Authorize function")
+          console.log(credentials)
+          console.log(req)
+
+
+          if (!credentials?.email || !credentials.password) {
+            throw new Error("Invail Credentail")
+          }
+          return null
+
+        }
+      })
+      // ...add more providers here
+    ],
+    callbacks: {
+      session({ session, user }: {
+        session: any;
+        user: any
+      }) {
+
+        if (user) {
+
+          session.user = user;
+
+        }
+
+        return session;
+      },
+      signIn: async function ({ account, user, credentials, email, profile }) {
+        let additionalAuthParams = JSON.parse(req.cookies?.additionalAuthParams as string).appPublicKey
+        console.log(additionalAuthParams, "additionalAuthParams")
+        let result = await UpdateToken(user.id, "INSERT", additionalAuthParams);
+        return true
+      }
+    },
+    session: {
+      strategy: "database",
+    },
+    secret: "giathuan",
+    adapter: PrismaAdapter(prisma),
+
+
+  })
+}
+

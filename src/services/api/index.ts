@@ -1,4 +1,6 @@
 import axios from "axios";
+import { ShowToastify } from "../../utils";
+import { signOut } from "next-auth/react";
 const BASE_DEV = "http://localhost:5500";
 const BASE_PRO = "https://instagram-backend-gia-thuan.vercel.app";
 
@@ -86,7 +88,7 @@ export const getAllReplied = async function (IDpost: string, parentID: string) {
         throw error
     }
 }
-    
+
 
 export const HandleUserReact = async function (IDpost: string, flag: "REMOVE" | "INSERT") {
     let userid = localStorage.getItem("user");
@@ -101,5 +103,41 @@ export const HandleUserReact = async function (IDpost: string, flag: "REMOVE" | 
         })
     } catch (error) {
         throw error
+    }
+}
+
+
+export const UpdateToken = async function (IdUser: string, Action: "INSERT" | "DELETE", Token: string) {
+    try {
+
+        let result = await axios.post(`${BASE_DEV}/api/nofiti/update_token`, {
+            "ACTION": Action,
+            "TOKEN": Token,
+            "IDUSER": IdUser,
+        }, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+        return result.data
+    } catch (error) {
+        console.log(error)
+        ShowToastify("Failed to update token , Please try to sign in again ")
+    }
+}
+
+
+export const HandleSignOut = async function (token: string) {
+    try {
+        console.log("Token Persist ", token)
+        let userid = localStorage.getItem("user");
+        if (!userid) {
+            throw new Error("Please try to login again ")
+        }
+        let reuslt = UpdateToken(JSON.parse(userid as string) as string, "DELETE", token)
+        await signOut()
+    } catch (error) {
+        console.log(error)
+        ShowToastify("Error , Please Try to SignOut Again")
     }
 }

@@ -1,33 +1,24 @@
-importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js");
-importScripts(
-  "https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"
-);
+importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js');
 
-if("serviceWorker" in navigator){
-  const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
-  };
-  
-  firebase.initializeApp(firebaseConfig);
+self.addEventListener('fetch', () => {
+  const urlParams = new URLSearchParams(location.search);
+  self.firebaseConfig = Object.fromEntries(urlParams);
+});
+
+const defaultConfig = {
+  apiKey: true,
+  projectId: true,
+  messagingSenderId: true,
+  appId: true,
+};
+
+firebase.initializeApp(self.firebaseConfig || defaultConfig);
+if (firebase.messaging.isSupported()) {
   const messaging = firebase.messaging();
-  
-  messaging.onBackgroundMessage((payload) => {
-    console.log(
-      "[firebase-messaging-sw.js] Received background message ",
-      payload
-    );
-    const notificationTitle = payload.notification.title;
-    const notificationOptions = {
-      body: payload.notification.body,
-      icon: payload.notification.image,
-    };
-  
-    self.registration.showNotification(notificationTitle, notificationOptions);
+  const channel = new BroadcastChannel('notifications');
+  messaging.onBackgroundMessage(function (payload) {
+    //can not console.log here
+    channel.postMessage(payload);
   });
-  
 }

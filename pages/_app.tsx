@@ -10,10 +10,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { SessionProvider, getSession, useSession } from "next-auth/react"
 import { useRouter } from "next/router";
+import useToken from "../src/hook/useToken";
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [showChild, setShowChild] = useState(false);
-
-  const router = useRouter();
+  
+  
+  const router = useRouter(); 
 
   useEffect(() => {
 
