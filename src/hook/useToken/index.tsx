@@ -53,7 +53,7 @@ function useToken() {
                   // idTimeOut = setTimeout(() => {
                   //   setCommingMessage(false)
                   // }, 3000)
-                  ShowToastify("")
+                  ShowToastify(payload.notification?.body as string )
                   // ...
                 });
                 setTokenFCM({

@@ -3,7 +3,7 @@ import { ShowToastify } from "../../utils";
 import { signOut } from "next-auth/react";
 const BASE_DEV = "http://localhost:5500";
 const BASE_PRO = "https://instagram-backend-gia-thuan.vercel.app";
-
+import { deleteCookie } from "cookies-next"
 export const CreateNewPost = async function (formdata: FormData) {
     try {
         let userid = localStorage.getItem("user");
@@ -53,7 +53,7 @@ export const insertNewComment = async function (IDPost: string, msg: string, par
         if (!userid) {
             throw new Error("Please try to login again ")
         }
-        const result = await axios.post(`${BASE_PRO}/api/post/cr_new_comment`, {
+        const result = await axios.post(`${BASE_DEV}/api/post/cr_new_comment`, {
             "IDpost": IDPost,
             "msg": msg,
             "IDUserComment": JSON.parse(userid as string) as string,
@@ -136,6 +136,7 @@ export const HandleSignOut = async function (token: string) {
         }
         let reuslt = UpdateToken(JSON.parse(userid as string) as string, "DELETE", token)
         await signOut()
+        deleteCookie("additionalAuthParams")
     } catch (error) {
         console.log(error)
         ShowToastify("Error , Please Try to SignOut Again")

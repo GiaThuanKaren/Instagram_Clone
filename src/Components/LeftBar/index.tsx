@@ -277,11 +277,9 @@ function LeftSideBar() {
       icon: null,
       text: "Đăng Xuất",
       functionHandle: async () => {
-        let additionalAuthParams: any = getCookie("additionalAuthParams")
-        if (additionalAuthParams) {
-          await HandleSignOut(JSON.parse(additionalAuthParams).appPublicKey as string);
-
-        }
+        let tokensOld = localStorage.getItem("token_sal_stream")
+        // let additionalAuthParams: any = getCookie("additionalAuthParams")
+        await HandleSignOut(tokensOld?.toString() as string);
         // await UpdateToken()
       },
     },
@@ -606,7 +604,7 @@ function LeftSideBar() {
           <Link href={"/"}>
             <svg
               aria-label="Instagram"
-              className={"_ab6- xl:hidden"}
+              className={DrawerActiveArr !== "" ? "hidden" : "_ab6- xl:hidden"}
               color="#262626"
               fill="#262626"
               height="24"
