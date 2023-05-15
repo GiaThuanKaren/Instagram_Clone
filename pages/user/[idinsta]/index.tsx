@@ -274,8 +274,8 @@ function PersonalProfile() {
               <div className="h-full grow-[3] flex-1">
                 {/* Heading */}
                 <div className=" w-max flex flex-col items-center justify-center ">
-                  <div className=" flex justify-between   h-full w-full">
-                    <h2>{session?.user?.name}</h2>
+                  <div className=" flex justify-between items-center  h-full w-full">
+                    <h2 className="font-medium text-lg my-5" >{session?.user?.name}</h2>
                     <svg
                       aria-label="Tùy chọn"
                       className="_ab6- mx-3"
