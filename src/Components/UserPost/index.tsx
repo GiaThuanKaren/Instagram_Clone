@@ -128,7 +128,7 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
             />
 
             {
-              media.length >= 0 && indexImg < media.length &&
+              media.length >= 0 && indexImg < media.length - 1 &&
 
               <ICON onClick={() => {
                 setIndexImag(prev => prev + 1)
@@ -139,7 +139,7 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
             <div className="flex justify-between h-[53px] items-center ">
               <div>
                 {
-                  reaction.includes(_id) ?
+                  flagReact == "REMOVE" ?
                     <ICON
                       className="text-red-400 mx-2 text-[1.3rem]"
                       icon={IconSolid.faHeart}

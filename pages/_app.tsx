@@ -13,9 +13,9 @@ import { useRouter } from "next/router";
 import useToken from "../src/hook/useToken";
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [showChild, setShowChild] = useState(false);
-  
-  
-  const router = useRouter(); 
+
+
+  const router = useRouter();
 
   useEffect(() => {
 
@@ -52,10 +52,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
       <>
         <SessionProvider session={session}>
           <NextNProgress />
-          <ThemeProvider attribute="class">
-            <Component {...pageProps} />
-            <ToastContainer />
-          </ThemeProvider>
+          <Component {...pageProps} />
+          <ToastContainer />
         </SessionProvider>
       </>
     );
