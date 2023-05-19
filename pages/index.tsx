@@ -82,7 +82,7 @@ export default function Home() {
               }
               className={`w-screen sm:w-[70%]  mx-[-2px] px-[2px] bg-white h-4 `}
             >
-              {/* <Stories /> */}
+              <Stories />
               {
                 homePost.map((item: PostHome, index: number) => {
                   let user = item.author[0]

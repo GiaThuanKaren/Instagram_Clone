@@ -1,10 +1,12 @@
 import React from 'react'
 
 function RegisterPage() {
-    
+
     return (
         <>
-            <div>RegisterPage</div>
+            <div className='w-screen h-screen max-h-screen flex items-center'>
+
+            </div>
         </>
     )
 }
