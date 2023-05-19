@@ -85,11 +85,13 @@ function StoriesUserPage() {
                                         <div className='w-full md:w-[60%] h-full  flex flex-col justify-center'>
                                             <div className='h-[90%] '>
                                                 <Stories
+                                                    isPaused={false}
                                                     stories={stories}
                                                     defaultInterval={1500}
                                                     width={"100%"}
                                                     height={"100%"}
                                                     keyboardNavigation={true}
+                                                    
                                                 />
                                             </div>
                                             {/* <img className='w-full h-full  ' src="https://swiperjs.com/demos/images/nature-1.jpg" /> */}
