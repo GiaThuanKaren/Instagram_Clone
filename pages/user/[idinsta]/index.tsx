@@ -6,6 +6,7 @@ import { MainLayout } from "../../../src/Layouts";
 import { ICON, IconRegular, IconSolid } from "../../../src/utils/icon";
 import { getAllPostByUser } from "../../../src/services/api";
 import LoadingAnimated from "../../../src/Components/LoadingAnimation";
+import ModalUserPost from "../../../src/Components/UserPost/ModalUserPost";
 
 interface NavItemType {
   text: string;
@@ -174,6 +175,62 @@ interface ListUserPostFCInf {
   data: ListUserPost[]
 }
 
+const UserPostItem = function (item: ListUserPost) {
+  const [openModalPost, setOpenModalPost] = React.useState<boolean>(false)
+
+
+  return <>
+    {
+      openModalPost &&
+      <ModalUserPost _id={item._id} descripttion={item.descripttion} media={item.media} reaction={item.reaction} handleFN={setOpenModalPost} />
+    }
+    <div onClick={() => {
+      setOpenModalPost(true)
+    }} className="relative min-h-[100px]  basis-1/3 my-1  p-2 hover:cursor-pointer">
+      <div className="relative">
+        <LazyLoadImage
+          className=" w-full overflow-hidden aspect-[2/3] object-cover"
+          alt="123"
+          src={`https://drive.google.com/uc?id=${item.media[0] as string}&export=download`}
+
+        />
+
+        <div className="absolute right-0 top-0 pt-1 pr-1  ">
+          <svg
+            aria-label="Quay vòng"
+            className="x1lliihq x1n2onr6 x1hfr7tm"
+            color="#ffffff"
+            fill="#ffffff"
+            height="24"
+            role="img"
+            viewBox="0 0 48 48"
+            width="24"
+          >
+            <path d="M34.8 29.7V11c0-2.9-2.3-5.2-5.2-5.2H11c-2.9 0-5.2 2.3-5.2 5.2v18.7c0 2.9 2.3 5.2 5.2 5.2h18.7c2.8-.1 5.1-2.4 5.1-5.2zM39.2 15v16.1c0 4.5-3.7 8.2-8.2 8.2H14.9c-.6 0-.9.7-.5 1.1 1 1.1 2.4 1.8 4.1 1.8h13.4c5.7 0 10.3-4.6 10.3-10.3V18.5c0-1.6-.7-3.1-1.8-4.1-.5-.4-1.2 0-1.2.6z"></path>
+          </svg>
+        </div>
+
+        <div className="absolute w-full h-full top-0 left-0 right-0 bottom-0 bg-[#0000009e] flex items-center justify-center">
+          <div className="w-full h-4  flex items-center justify-center text-white">
+            <div className="flex items-center mx-0 sm:mx-5">
+              <ICON
+                icon={IconSolid.faHeart}
+                className="icon-cog mx-2 "
+              />
+              <p className="text-white font-medium">{item.reaction.length} </p>
+            </div>
+            {/* <div className="flex items-center mx-0 sm:mx-5">
+                        <ICON className="mx-3" icon={IconSolid.faComment} />
+                        <p className="text-white font-medium">20</p>
+                      </div> */}
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
+}
+
+
 
 const ListUserPost = function ({ data }: ListUserPostFCInf) {
 
@@ -182,52 +239,12 @@ const ListUserPost = function ({ data }: ListUserPostFCInf) {
   }, [])
   return (
     <>
-      {/* <ModalPost /> */}
+
       <div className="flex flex-wrap ">
         {data.map((item: ListUserPost, index: number) => {
           return (
             <>
-              <div className="relative min-h-[100px]  basis-1/3 my-1  p-2">
-                <div className="relative">
-                  <LazyLoadImage
-                    className=" w-full overflow-hidden aspect-[2/3] object-cover"
-                    alt="123"
-                    src={`https://drive.google.com/uc?id=${item.media[0] as string}&export=download`}
-
-                  />
-
-                  <div className="absolute right-0 top-0 pt-1 pr-1  ">
-                    <svg
-                      aria-label="Quay vòng"
-                      className="x1lliihq x1n2onr6 x1hfr7tm"
-                      color="#ffffff"
-                      fill="#ffffff"
-                      height="24"
-                      role="img"
-                      viewBox="0 0 48 48"
-                      width="24"
-                    >
-                      <path d="M34.8 29.7V11c0-2.9-2.3-5.2-5.2-5.2H11c-2.9 0-5.2 2.3-5.2 5.2v18.7c0 2.9 2.3 5.2 5.2 5.2h18.7c2.8-.1 5.1-2.4 5.1-5.2zM39.2 15v16.1c0 4.5-3.7 8.2-8.2 8.2H14.9c-.6 0-.9.7-.5 1.1 1 1.1 2.4 1.8 4.1 1.8h13.4c5.7 0 10.3-4.6 10.3-10.3V18.5c0-1.6-.7-3.1-1.8-4.1-.5-.4-1.2 0-1.2.6z"></path>
-                    </svg>
-                  </div>
-
-                  <div className="absolute w-full h-full top-0 left-0 right-0 bottom-0 bg-[#0000009e] flex items-center justify-center">
-                    <div className="w-full h-4  flex items-center justify-center text-white">
-                      <div className="flex items-center mx-0 sm:mx-5">
-                        <ICON
-                          icon={IconSolid.faHeart}
-                          className="icon-cog mx-2 "
-                        />
-                        <p className="text-white font-medium">{item.reaction.length} </p>
-                      </div>
-                      {/* <div className="flex items-center mx-0 sm:mx-5">
-                        <ICON className="mx-3" icon={IconSolid.faComment} />
-                        <p className="text-white font-medium">20</p>
-                      </div> */}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <UserPostItem {...item} />
             </>
           );
         })}
@@ -366,13 +383,14 @@ function PersonalProfile() {
                   return (
                     <>
                       <div
+                        key={index}
                         onClick={() => {
                           setindexActive(index);
                         }}
                         className={`mr-[60px] ${index == indexActive
                           ? "border-t-black border-t-[2px]"
                           : ""
-                          } flex items-center`}
+                          } flex items-center `}
                       >
                         <p className="text-xl">{item.icon}</p>
 

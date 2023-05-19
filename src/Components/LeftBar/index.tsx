@@ -622,6 +622,7 @@ function LeftSideBar() {
             return (
               <>
                 <li
+                  key={index}
                   className="py-1 cursor-pointer hover:bg-[#FAFAFA] hover:rounded-[20px]"
                   onClick={async () => {
                     if (item?.link != "") {
@@ -673,6 +674,7 @@ function LeftSideBar() {
               return (
                 <>
                   <li
+                    key={index}
                     onClick={item.functionHandle}
                     className={`${item.icon
                       ? "flex justify-between items-center text-base "

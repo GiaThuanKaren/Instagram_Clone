@@ -35,7 +35,7 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
             }
         } catch (error) {
             throw error
-        }finally{
+        } finally {
             setLoading(false)
         }
     }
@@ -79,7 +79,9 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
                 </>
             }
             {
-                loading ? <LoadingAnimated /> : openReplyComment && replies.length > 0 && ArrCommentReply.map((item: CommentInf, index: number) => {
+                loading ? <div className='my-2 py-5'>
+                    <LoadingAnimated />
+                </div> : openReplyComment && replies.length > 0 && ArrCommentReply.map((item: CommentInf, index: number) => {
                     return <>
                         <ReplyComment _id={item._id} author={item.author} authorId={item.authorId} content={item.content} parentCommentID={item.parentCommentID} postId={postId} replies={item.replies} key={index} />
                     </>

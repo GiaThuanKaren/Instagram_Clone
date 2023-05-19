@@ -25,8 +25,8 @@ function ModalUserPost({ _id, media, handleFN, reaction, descripttion }: PropsUs
                 <ICON onClick={() => {
                     handleFN(false)
                 }} icon={IconSolid.faTimes} className='text-white absolute top-0 right-0 p-5 m-5 text-2xl rounded-md' />
-                <div className=' bg-white flex w-[90%] h-[90%]'>
-                    <div className='w-[70%] relative flex justify-center'>
+                <div className=' bg-white flex w-[90%] h-[80%]'>
+                    <div className='w-full md:w-[70%] relative flex justify-center'>
                         {
                             media.length > 0 && indexImg > 0 &&
                             <ICON onClick={() => {
@@ -47,7 +47,8 @@ function ModalUserPost({ _id, media, handleFN, reaction, descripttion }: PropsUs
                             }} className="absolute right-0 top-1/2 p-3 rounded-full text-white hover:cursor-pointer bg-red-300 mx-1" icon={IconSolid.faChevronRight} />
                         }
                     </div>
-                    <div className='flex-1 h-full overflow-y-auto relative'>
+                    <div className='flex-[0] md:flex-1 h-full overflow-y-auto relative'>
+
                         <div className="h-[calc(100%_-_70px)] overflow-y-auto">
                             <ListComment idPost={_id} />
                         </div>

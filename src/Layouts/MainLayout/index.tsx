@@ -161,7 +161,7 @@ function MainLayout({ children }: Props) {
   console.log(router);
   return (
     <>
-    
+
       <HeaderMobile />
       <div className="mt-[60px] sm:mt-0 flex min-h-screen">
         <LeftSideBar />
@@ -170,8 +170,9 @@ function MainLayout({ children }: Props) {
           {Items.map((item: IconItem, index: number) => {
             return (
               <>
-                <Link href={`${item.link}`}>
+                <Link key={index} href={`${item.link}`}>
                   <li
+                    key={index}
                     className="cursor-pointer hover:bg-[#FAFAFA] hover:rounded-[20px]"
                     onClick={() => {
                       handleChooseItem(index);
