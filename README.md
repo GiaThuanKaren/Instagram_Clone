@@ -13,35 +13,41 @@
 ![image](https://user-images.githubusercontent.com/86192249/233915280-895f6837-4191-4994-a849-c421a9dbfc69.png)
 
 ## Ingredients 😈
-- Frontend
+  
+### Frontend
   - Nextjs 
   - NextAuth
   - Typescripts
   - Fontawesome
   - Tailwind 
   - Prisma 
-- Backend
+### Backend
   - Nodejs + Express 
   - Multter 
-- Others
+### Others
   - Docker
   - GG Drive API ( to store image )
   - Firebase ( Firebase Cloud Messaging )
-- Addtional package 
+### Addtional package 
   - react-insta-stories
   - react-lazy-load-image-component
   - react-toastify
   - swiper
   
 ## Features 🤔
-  - 
+  
     - [x] User can share their thoughts on post with customize image
     - [x] Responsive on mobile / tablet
     - [x] User can comment on others post , other's comments
     - [x] Login social
       - [X] Google 
       - [x] Facebook
-    - [ ] Push nofications when some users comments on posts or replies other's comments
+    - [x] Push nofications when some users comments on posts or replies other's comments
+    - [ ] Add Stories 
+    - [ ] Can chat 
+    - [ ] Can Livestream 
+    - [ ] Can comment on livestream
+    
     
     
   
@@ -52,11 +58,16 @@
 ## Screenshots
 
 
-### Home Page
+## Home Page
 
 ![image](https://user-images.githubusercontent.com/86192249/233914920-cb0ff13e-7f37-4a74-b27c-4911ceb77511.png)
 
-### Personal Page
+## Personal Page
 
 ![image](https://user-images.githubusercontent.com/86192249/233915067-96ffae45-b1e1-4062-a08a-4bc398b6541b.png)
+  
+## Stories 
+
+  ![image](https://github.com/GiaThuanKaren/Instagram_Clone/assets/86192249/d03318ca-7da7-47d2-b0f9-e5129b505e79)
+
 
