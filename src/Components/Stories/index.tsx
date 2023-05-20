@@ -6,8 +6,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { ICON, IconSolid } from "../../utils/icon";
 
 function Stories() {
+  const { data, status } = useSession()
 
   var settings = {
     dots: true,
@@ -32,17 +35,27 @@ function Stories() {
         modules={[Pagination, Navigation]}
         className="mySwiper h-28 "
       >
+        <SwiperSlide className="min-h-[70px] flex justify-center items-center mx-5">
+          <div className=" circle border-[5px] border-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 h-[50px] w-[50px]   relative">
+            <ICON icon={IconSolid.faPlus} className="z-[10] absolute bottom-0 right-0 translate-x-[50%] translate-y-[50%] bg-blue-400 p-1 text-white rounded-full" />
+            <LazyLoadImage
+              className=" circle  "
+              alt="123"
+              src={data?.user && data?.user?.image as string}
+            />
+          </div>
+        </SwiperSlide>
         {arr.map((item, index) => {
           return (
             <>
-              <SwiperSlide className="min-h-[70px] flex justify-center items-center mx-5">
+              <SwiperSlide key={index} className="min-h-[70px] flex justify-center items-center mx-5">
                 <Link href={`/stories/123/123`}>
-                  <div className=" circle bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 h-[50px] w-[50px] overflow-hidden  ">
-                    <LazyLoadImage
+                  <div className=" circle border-[5px] border-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 h-[50px] w-[50px] overflow-hidden  ">
+                    {/* <LazyLoadImage
                       className=" circle  "
                       alt="123"
                       src="https://images.unsplash.com/photo-1670993744250-94a791464249?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
-                    />
+                    /> */}
                   </div>
                 </Link>
               </SwiperSlide>
