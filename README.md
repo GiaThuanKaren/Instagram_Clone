@@ -35,7 +35,7 @@
   - swiper
   
 ## Features 🤔
-  
+  - ### Done 🎉🎉🎉🎉
     - [x] User can share their thoughts on post with customize image
     - [x] Responsive on mobile / tablet
     - [x] User can comment on others post , other's comments
@@ -43,6 +43,7 @@
       - [X] Google 
       - [x] Facebook
     - [x] Push nofications when some users comments on posts or replies other's comments
+  - ### Doing 🗒🗒🗒🗒
     - [ ] Add Stories 
     - [ ] Can chat 
     - [ ] Can Livestream 
