@@ -178,11 +178,11 @@ interface ListUserPostFCInf {
 const UserPostItem = function (item: ListUserPost) {
   const [openModalPost, setOpenModalPost] = React.useState<boolean>(false)
 
-
+  const { data: session, status } = useSession()
   return <>
     {
       openModalPost &&
-      <ModalUserPost _id={item._id} descripttion={item.descripttion} media={item.media} reaction={item.reaction} handleFN={setOpenModalPost} />
+      <ModalUserPost _id={item._id} imageAuthor={session?.user?.image as string} name={session?.user?.name as string} descripttion={item.descripttion} media={item.media} reaction={item.reaction} handleFN={setOpenModalPost} />
     }
     <div onClick={() => {
       setOpenModalPost(true)

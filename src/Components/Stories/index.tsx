@@ -24,8 +24,8 @@ function Stories() {
   return (
     <>
       <Swiper
-        slidesPerView={5}
-        spaceBetween={30}
+        slidesPerView={7}
+        spaceBetween={5}
         slidesPerGroup={4}
         loopFillGroupWithBlank={true}
         pagination={{
@@ -35,15 +35,19 @@ function Stories() {
         modules={[Pagination, Navigation]}
         className="mySwiper h-28 "
       >
-        <SwiperSlide className="min-h-[70px] flex justify-center items-center mx-5">
-          <div className=" circle border-[5px] border-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 h-[50px] w-[50px]   relative">
-            <ICON icon={IconSolid.faPlus} className="z-[10] absolute bottom-0 right-0 translate-x-[50%] translate-y-[50%] bg-blue-400 p-1 text-white rounded-full" />
-            <LazyLoadImage
-              className=" circle  "
-              alt="123"
-              src={data?.user && data?.user?.image as string}
-            />
+        <SwiperSlide className="min-h-[70px] flex justify-center items-center mx-5 hover:cursor-pointer ">
+          <div>
+            <div className=" circle border-[5px] border-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 h-[50px] w-[50px]   relative hover:shadow-md transition-all">
+              <ICON icon={IconSolid.faPlus} className="z-[10] absolute bottom-0 right-0 translate-x-[50%] translate-y-[50%] bg-blue-400 p-1 text-white rounded-full" />
+              <LazyLoadImage
+                className=" circle  "
+                alt="123"
+                src={data?.user && data?.user?.image as string}
+              />
+            </div>
+            <p className="text-center  text-xs">sfdkjl</p>
           </div>
+
         </SwiperSlide>
         {arr.map((item, index) => {
           return (

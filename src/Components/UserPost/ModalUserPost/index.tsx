@@ -5,16 +5,19 @@ import CommentInput from '../../CommentInput'
 import ListComment from '../../ListComment'
 import { ShowToastify } from '../../../utils'
 import { getAllComment } from '../../../services/api'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 interface PropsUserPost {
     reaction: string[]
     media: string[]
     descripttion: string
     handleFN: React.Dispatch<SetStateAction<boolean>>;
     _id: string
+    name: string;
+    imageAuthor: string
 }
 
 
-function ModalUserPost({ _id, media, handleFN, reaction, descripttion }: PropsUserPost) {
+function ModalUserPost({ _id, media, handleFN, reaction, descripttion, imageAuthor, name }: PropsUserPost) {
 
     const [indexImg, setIndexImag] = React.useState(0)
 
@@ -48,9 +51,19 @@ function ModalUserPost({ _id, media, handleFN, reaction, descripttion }: PropsUs
                         }
                     </div>
                     <div className='flex-[0] md:flex-1 h-full overflow-y-auto relative'>
-
-                        <div className="h-[calc(100%_-_70px)] overflow-y-auto">
+                        <div className='flex items-center my-4 border-b-[2px] '>
+                            <div className="circle h-[50px] w-[50px] mr-2 overflow-hidden">
+                                <LazyLoadImage src={imageAuthor ? imageAuthor : "https://avatars.githubusercontent.com/u/86192249?v=4"} className="w-full h-full " />
+                            </div>
+                            <p className="font-medium text-black">{name}</p>
+                        </div>
+                        <div className="h-[calc(100%_-_180px)] overflow-y-auto">
                             <ListComment idPost={_id} />
+                            {/* <ListComment idPost={_id} />
+                            <ListComment idPost={_id} />
+                            <ListComment idPost={_id} />
+                            <ListComment idPost={_id} />
+                            <ListComment idPost={_id} /> */}
                         </div>
                         <CommentInput idPost={_id} parentID="" />
                     </div>

@@ -55,11 +55,11 @@ function StoriesUserPage() {
     const [width, setWidth] = React.useState(0)
     const [numberSlide, SetNumberSlide] = React.useState(2)
     const swiperRef = React.useRef<any>();
-
     const stories: Story[] = [
 
         {
             url: "https://cdn.dribbble.com/userupload/7152172/file/original-4bf2ad31c5ff4e120d4d3c3177838631.jpg?compress=1&resize=1024x768",
+            
 
         },
         {
