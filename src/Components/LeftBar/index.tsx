@@ -15,7 +15,10 @@ import { getCookie } from 'cookies-next';
 import CreatePostModal from "../CreatePost";
 import { useSession, signOut } from "next-auth/react";
 import useToken from "../../hook/useToken";
-import { HandleSignOut, UpdateToken } from "../../services/api";
+import { HandleSignOut, UpdateToken, searchUser } from "../../services/api";
+import { ShowToastify } from "../../utils";
+import useDebounce, { ResultRespone } from "../../hook/useSeach";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 interface IconItem {
   icon: JSX.Element;
@@ -45,52 +48,74 @@ interface DrawerActiveLink {
 }
 
 function SearchDrawer() {
-  const [PeopleSearched, setPeopleSearched] = useState(() => {
-    return Array.from(Array(20).keys());
-  });
+  const [textSearch, setTextSearch] = React.useState("");
+
+  // const [PeopleSearched, setPeopleSearched] = useState(() => {
+  //   // return Array.from(Array(20).keys());
+  //   return []
+  // });
+  const PeopleSearched = useDebounce(textSearch);
+
+
   return (
     <>
       <div className="transition-all max-h-screen animate-SlideIn  rounded-tr-xl rounded-br-xl  border-[1px] border-[#DBDBDB] absolute left-full  right-0 top-0 bottom-0 h-screen z-[2] w-[400px] bg-white pt-2 px-1 ">
-        <div className="h-full ">
+        <div className="h-full px-2 ">
           <h3 className=" px-3 mb-2 font-bold text-[1.4rem] ">Tìm Kiếm</h3>
-          <div className="flex justify-between items-center bg-[#EFEFEF] my-4  py-1 px-2 rounded-md">
+          <div className="flex justify-between items-center bg-[#EFEFEF] my-4  py-1 px-4 rounded-md">
             <input
+              onChange={e => {
+                console.log(e.target.value)
+                setTextSearch(e.target.value)
+              }}
+              value={textSearch}
               type="text"
               name=""
               className="flex-1 outline-none border-none text-[1.1rem] bg-[#EFEFEF]"
               placeholder="Tìm Kiếm"
               id=""
+
             />
-            <ICON
-              className="text-[#D0D0D1] text-center px-2"
-              icon={IconSolid.faCircleXmark}
-            />
+            {
+              textSearch.trim() &&
+              <ICON
+                onClick={() => {
+                  setTextSearch("")
+                }}
+                className="text-[#D0D0D1] text-center px-2 hover:cursor-pointer"
+                icon={IconSolid.faCircleXmark}
+              />
+            }
           </div>
           <div className="w-full border-[1px] border-[#DBDBDB]"></div>
           <div className="px-3 overflow-y-auto max-h-screen">
-            <div className="flex justify-between items-center my-4">
+            {PeopleSearched.length > 0 && <div className="flex justify-between items-center my-4">
               <h3 className="font-medium">Gần Đây</h3>
               <h3 className="font-medium text-[#2AA7F8]">Xóa</h3>
-            </div>
+            </div>}
 
             {/* List People Is Searched */}
-            {PeopleSearched.length != 0 &&
-              PeopleSearched.map((item: any, index: number) => {
+            {textSearch.trim() && PeopleSearched.length != 0 &&
+              PeopleSearched.map((item: ResultRespone, index: number) => {
                 return (
                   <>
-                    <div className="h-[43px] flex items-center justify-between  my-2">
+                    <div className="h-[43px] flex items-center justify-between  my-6">
                       <div className="flex space-x-3">
-                        <div className="circle h-[40px] w-[40px] "></div>
+                        <div className="circle h-[40px] w-[40px] overflow-hidden  ">
+                          <LazyLoadImage
+                            src={item.image}
+                          />
+                        </div>
                         <div>
                           <p className="flex space-x-1 font-medium">
-                            jungkokk.97
+                            {item.name}
                           </p>
-                          <p className="font-light">skjdfjkhshdfl</p>
+                          <p className="font-light">{item.name}</p>
                         </div>
                       </div>
 
                       <ICON
-                        className="text-[#8E8E8E] text-[1.2rem]"
+                        className="text-[#8E8E8E] text-[1.2rem] hover:cursor-pointer"
                         icon={IconSolid.faXmark}
                       />
                     </div>
@@ -108,6 +133,7 @@ function NoftiDrawer() {
   const [PeopleSearched, setPeopleSearched] = useState(() => {
     return Array.from(Array(20).keys());
   });
+
   return (
     <>
       <div className="transition-all max-h-screen animate-SlideIn  z-[-100]  rounded-tr-xl rounded-br-xl  border-[1px] border-[#DBDBDB] absolute left-full  right-0 top-0 bottom-0 h-screen  w-[400px] bg-white pt-2 px-1 ">

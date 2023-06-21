@@ -4,6 +4,21 @@ import { signOut } from "next-auth/react";
 const BASE_DEV = "http://localhost:5500";
 const BASE_PRO = "https://instagram-backend-gia-thuan.vercel.app";
 import { deleteCookie } from "cookies-next"
+
+
+
+
+
+export const searchUser = async function (textSearch: string) {
+    try {
+        let resutl = await axios.get(`${BASE_PRO}/api/post/get_user?query=${textSearch}`)
+        return resutl.data
+    } catch (error) {
+
+    }
+}
+
+
 export const CreateNewPost = async function (formdata: FormData) {
     try {
         let userid = localStorage.getItem("user");
