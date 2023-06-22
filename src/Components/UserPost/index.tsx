@@ -69,7 +69,7 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
   const HeaderAnimatedRef = React.useRef<any>()
   const handleComment = async function (parententIdComment: string) {
     try {
-      const result = await insertNewComment(_id as string, text, parententIdComment)
+      const result = await insertNewComment(idPost as string, text, parententIdComment)
       settext("")
       ShowToastify("Thanks Your Feedback")
     } catch (error) {
