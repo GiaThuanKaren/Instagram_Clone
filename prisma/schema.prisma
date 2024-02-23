@@ -43,7 +43,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  
+  following     String[]
+  userPots      Post[]
   // bookmarks    
 }
 
@@ -55,25 +56,17 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// model Comment {
-//   id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-//   parentCommentId    String  @default("") @map("parent_comment_id")
-//   postid             String
-//   author             String
-//   author_id          User    @relation(fields: [author], references: [id], onDelete: Cascade)
-//   commentid          String  @db.ObjectId
+model Comment {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  content         String
+  parentCommentId String @default("") @map("parent_comment_id")
+  postid          String
+}
 
-//   replied            Comment @relation("repliedcomment", fields: [commentid], references: [id])
-//   replied_id_comment String
-//   // commentreplies  Comment[] @relation(fields: [commentid], references: [id])
-
-//   commentId String? @db.ObjectId
-// }
-
-// model Post {
-//   id      String   @id @default(auto()) @map("_id") @db.ObjectId
-//   id_user String
-//   user    User     @relation(fields: [id_user], references: [id], onDelete: Cascade)
-//   contend String
-//   images  String[]
-// }
+model Post {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  contend String
+  images  String[]
+  userId  String   @unique
+  user    User     @relation(fields: [userId], references: [id])
+}

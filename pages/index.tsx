@@ -14,7 +14,7 @@ import { useSession } from "next-auth/react";
 
 import { GetServerSideProps } from "next";
 import { GetAllPost } from "../src/services/api";
-import { PostHome } from "../src/Model";
+import { PostHome, PostWithUserModel } from "../src/Model";
 import { ShowToastify } from "../src/utils";
 import LoadingAnimated from "../src/Components/LoadingAnimation";
 interface Props {
@@ -24,8 +24,10 @@ interface Props {
 export default function Home() {
   const WidthLeft = 70;
   const { data: session, status } = useSession()
-  const [homePost, setHomePost] = React.useState<PostHome[]>([])
-  const [loading, setLoading] = React.useState(true)
+  const [homePost, setHomePost] = React.useState<PostWithUserModel[]>([
+
+  ])
+  const [loading, setLoading] = React.useState(false)
   const [peopleSuggest, setpeopleSuggest] = useState([
     {
       name: "Thuan",
@@ -48,7 +50,7 @@ export default function Home() {
       avatarLink: "",
     },
   ]);
-  
+
 
 
   React.useEffect(() => {
@@ -71,34 +73,23 @@ export default function Home() {
       {/* <Cr eatePostModal /> */}
       <MainLayout>
         {loading ? <LoadingAnimated /> :
-
-
           <div className="flex    h-full sm:justify-center mt-10">
             <div
-              style={
-                {
-                  // width: `${WidthLeft}%`,
-                }
-              }
-              className={`w-screen sm:w-[70%]  mx-[-2px] px-[2px] bg-white h-4 `}
+              className={`w-screen sm:w-[70%]  mx-[-2px] px-[2px] bg-white h-4  `}
             >
               <Stories />
               {
-                homePost.map((item: PostHome, index: number) => {
-                  let user = item.author[0]
-
+                homePost.map((item: PostWithUserModel, index: number) => {
+                  let user = item.user
                   return <>
-                    <UserPost idPost={item._id} descripttion={item.descripttion} reaction={item.reaction} media={item.media} image={user.image} name={user.name} _id={user._id} email={user.email} email_verified={user.email_verified} />
+                    <UserPost
+
+                      {...item}
+                    // email_verified={"123123"}
+                    />
                   </>
                 })
               }
-              {/* 
-            <UserPost />
-            <UserPost /> */}
-              {/* <UserPost />
-            <UserPost />
-            <UserPost />
-            <UserPost /> */}
             </div>
             <div
               style={{

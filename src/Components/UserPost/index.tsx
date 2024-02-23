@@ -6,19 +6,12 @@ import "swiper/css/pagination";
 import { ICON, IconRegular, IconSolid } from "../../utils/icon";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
-import { Author, ImagePost, PostHome } from "../../Model";
+import { Author, ImagePost, PostHome, PostWithUserModel } from "../../Model";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { HandleUserReact, insertNewComment } from "../../services/api";
 import { ShowToastify } from "../../utils";
 import ModalUserPost from "./ModalUserPost";
 
-interface PropsUserPost extends Author {
-  reaction: string[]
-  media: string[]
-  descripttion: string
-  idPost: string
-  isLoading?: boolean
-}
 
 
 
@@ -50,10 +43,10 @@ const ListImagePost = function ({ ArrImagePost }: any) {
 
 
 
-function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion = "<p>default</p>" }: PropsUserPost) {
+function UserPost({ contend, id, images, reaction, user, userId }: PostWithUserModel) {
 
   const [flagReact, setFlagReact] = React.useState<"REMOVE" | "INSERT">(() => {
-    if (reaction.includes(_id)) {
+    if (reaction.includes(user?.id as string)) {
       return "REMOVE"
     } else {
       return "INSERT"
@@ -69,7 +62,7 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
   const HeaderAnimatedRef = React.useRef<any>()
   const handleComment = async function (parententIdComment: string) {
     try {
-      const result = await insertNewComment(idPost as string, text, parententIdComment)
+      const result = await insertNewComment(id as string, text, parententIdComment)
       settext("")
       ShowToastify("Thanks Your Feedback")
     } catch (error) {
@@ -80,7 +73,7 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
 
   const handleReaction = async function () {
     try {
-      let result = await HandleUserReact(idPost, flagReact)
+      let result = await HandleUserReact(id, flagReact)
 
       if (flagReact == "INSERT") {
         setNumReact(prev => prev + 1)
@@ -100,26 +93,27 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
   return (
 
     <>
-      {opentModalPost && <ModalUserPost imageAuthor={image} name={name} _id={idPost} descripttion={descripttion} media={media} reaction={reaction} handleFN={setOpenModalPost} />}
+      {opentModalPost &&
+        <ModalUserPost imageAuthor={user?.image as string} name={user?.name as string} _id={id} descripttion={contend} media={images} reaction={reaction} handleFN={setOpenModalPost} />}
 
       <div className=" rounded-md border-[1px] border-[#DBDBDB] bg-white  py-3 my-10 pb-0 text-black">
         <div className="h-[53px] pb-2 py-2 mb-3 px-2  ">
           <div className="flex justify-between items-center">
             <div className="flex items-center ">
               <div className="circle h-[50px] w-[50px] mr-2 overflow-hidden">
-                <LazyLoadImage src={image ? image : "https://avatars.githubusercontent.com/u/86192249?v=4"} className="w-full h-full " />
+                <LazyLoadImage src={user?.image as string ? user?.image as string : "https://avatars.githubusercontent.com/u/86192249?v=4"} className="w-full h-full " />
               </div>
-              <p className="font-medium">{name}</p>
+              <p className="font-medium">{user?.name as string}</p>
             </div>
             <ICON icon={IconSolid.faEllipsis} />
           </div>
         </div>
         <div onDoubleClick={() => {
           console.log("Double Click")
-          handleReaction()
+          // handleReaction()
         }} className="relative">
           {
-            media.length > 0 && indexImg > 0 &&
+            images.length > 0 && indexImg > 0 &&
             <ICON onClick={() => {
               setIndexImag(prev => prev - 1)
             }} className="absolute left-0 top-1/2 p-3 rounded-full text-white hover:cursor-pointer bg-red-300 mx-1" icon={IconSolid.faChevronLeft} />
@@ -128,10 +122,12 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
             onLoad={() => {
               console.log("Load Image DOne 1")
             }}
-            
+
             className=" w-full overflow-hidden aspect-[2/3] object-contain"
             alt="123"
-            src={`https://drive.google.com/uc?id=${media[indexImg] as string}&export=download`}
+            // src={`https://drive.google.com/uc?id=${media[indexImg] as string}&export=download`}
+            // src="https://images.unsplash.com/photo-1536195892759-c8a3c8e1945e?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={images[indexImg]}
           />
 
 
@@ -156,7 +152,7 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
 
 
           {
-            media.length >= 0 && indexImg < media.length - 1 &&
+            images.length >= 0 && indexImg < images.length - 1 &&
 
             <ICON onClick={() => {
               setIndexImag(prev => prev + 1)
@@ -197,9 +193,9 @@ function UserPost({ idPost, name, image, reaction, _id, media = [], descripttion
         <p className=" px-2 font-medium text-[1rem]">{numReact} lượt thích</p>
 
         <div className="flex  px-2 ">
-          <p className="font-medium mr-2">{name}</p>
+          <p className="font-medium mr-2">{contend}</p>
           <p className="break-words " dangerouslySetInnerHTML={{
-            __html: descripttion
+            __html: contend
           }} ></p>
         </div>
 

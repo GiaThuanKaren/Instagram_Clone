@@ -6,6 +6,7 @@ import ListComment from '../../ListComment'
 import { ShowToastify } from '../../../utils'
 import { getAllComment } from '../../../services/api'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { ModalLog } from '../../ModalLog'
 interface PropsUserPost {
     reaction: string[]
     media: string[]
@@ -20,10 +21,15 @@ interface PropsUserPost {
 function ModalUserPost({ _id, media, handleFN, reaction, descripttion, imageAuthor, name }: PropsUserPost) {
 
     const [indexImg, setIndexImag] = React.useState(0)
-
+    const [modalLogOpen, setmodalLogOpen] = React.useState(false)
     return (
         <>
-            <div className='fixed w-screen h-screen top-0 bottom-0 right-0 left-0   bg-[#595959be] z-[100] flex justify-center items-center'>
+            {
+                modalLogOpen && <ModalLog onCancel={()=>{
+                    setmodalLogOpen(false)
+                }}  />
+            }
+            <div className='fixed w-screen h-screen top-0 bottom-0 right-0 left-0   bg-[#595959be] z-[40] flex justify-center items-center'>
 
                 <ICON onClick={() => {
                     handleFN(false)
@@ -39,7 +45,8 @@ function ModalUserPost({ _id, media, handleFN, reaction, descripttion, imageAuth
                         <img
                             className=" w-[90%] overflow-hidden h-full object-contain"
                             alt="123"
-                            src={`https://drive.google.com/uc?id=${media[indexImg] as string}&export=download`}
+                            // src={`https://drive.google.com/uc?id=${media[indexImg] as string}&export=download`}
+                            src={media[indexImg]}
 
                         />
                         {
@@ -51,11 +58,18 @@ function ModalUserPost({ _id, media, handleFN, reaction, descripttion, imageAuth
                         }
                     </div>
                     <div className='flex-[0] md:flex-1 h-full overflow-y-auto relative'>
-                        <div className='flex items-center my-4 border-b-[2px] '>
-                            <div className="circle h-[50px] w-[50px] mr-2 overflow-hidden">
-                                <LazyLoadImage src={imageAuthor ? imageAuthor : "https://avatars.githubusercontent.com/u/86192249?v=4"} className="w-full h-full " />
+                        <div className='flex items-center my-4 border-b-[2px] px-3 justify-between'>
+                            <div className='flex items-center h-full py-1'>
+                                <div className="circle h-[50px] w-[50px] mr-2 overflow-hidden">
+                                    <LazyLoadImage src={imageAuthor ? imageAuthor : "https://avatars.githubusercontent.com/u/86192249?v=4"} className="w-full h-full " />
+                                </div>
+                                <p className="font-medium text-black">{name}</p>
                             </div>
-                            <p className="font-medium text-black">{name}</p>
+                            <ICON onClick={() => {
+                                setmodalLogOpen(!modalLogOpen)
+                            }
+
+                            } className='px-2' icon={IconSolid.faEllipsis} />
                         </div>
                         <div className="h-[calc(100%_-_180px)] overflow-y-auto">
                             <ListComment idPost={_id} />

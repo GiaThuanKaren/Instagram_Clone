@@ -123,29 +123,39 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       // ...add more providers here
     ],
     callbacks: {
-      session({ session, user }: {
+      session({ session, user, token }: {
         session: any;
         user: any
+        token: any
       }) {
 
-        if (user) {
+        // if (user) {
 
-          session.user = user;
+        //   session.user = user;
 
+        // }
+
+        if (session) {
+          session.user.id = user.id
+          session.user.token = token
         }
-
-        return session;
+        return session
       },
       signIn: async function ({ account, user, credentials, email, profile }) {
-        let additionalAuthParams = JSON.parse(req.cookies?.additionalAuthParams as string).appPublicKey
-        console.log(additionalAuthParams, "additionalAuthParams")
-        let result = await UpdateToken(user.id, "INSERT", additionalAuthParams);
+        console.log("Sign In Function ")
+        console.log(
+          { account, user, credentials, email, profile }
+        )
+        // { account, user, credentials, email, profile }
+        // let additionalAuthParams = JSON.parse(req.cookies?.additionalAuthParams as string).appPublicKey
+        // console.log(additionalAuthParams, "additionalAuthParams")
+        // let result = await UpdateToken(user.id, "INSERT", additionalAuthParams);
         return true
       }
     },
-    session: {
-      strategy: "database",
-    },
+    // session: {
+    //   strategy: "database",
+    // },
     secret: "giathuan",
     adapter: PrismaAdapter(prisma),
 

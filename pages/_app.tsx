@@ -27,7 +27,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
         const usersession: any = session?.user
         localStorage.setItem("user", JSON.stringify(usersession?.id))
       } else {
-        router.push("/login")
+        // router.push("/login")
       }
 
     }

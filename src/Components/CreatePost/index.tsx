@@ -6,7 +6,13 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ICON, IconSolid } from "../../utils/icon";
 import dynamic from "next/dynamic";
-import { CreateNewPost } from "../../services/api";
+import { CreateNewPost, handleUploadImagesPostsCloudinary } from "../../services/api";
+import { handleUploadImagesPostsCloudinary2 } from "../../../pages/api/upload";
+import { useSession } from "next-auth/react";
+import { CreateNewPostModel } from "../../Model";
+import { useRouter } from "next/router";
+import { ShowToastify } from "../../utils";
+import { Session } from "next-auth";
 
 interface Props {
   HandleFUNC: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,23 +29,45 @@ interface ImageSourceInf {
 const Editor = dynamic(() => import("../Editor"), { ssr: false });
 
 function CreatePostModal({ HandleFUNC }: Props) {
+  const { data, status } = useSession()
+  console.log("Session ", data)
   const InputFIleRef = React.useRef<any>();
   const [valueText, setValueText] = React.useState<any>()
   const [ImageSource, SetImageSource] = React.useState<ImageSourceInf[]>([]);
+  const { push } = useRouter()
 
   const [ImageIndexPreview, setImageIndexPreview] = React.useState<number>(0);
   const handleUploadPost = async function () {
     try {
 
-      const formdata = new FormData();
-      let image = []
-      for (let i = 0; i < ImageSource.length; i++) {
-        formdata.append("tenfile", ImageSource[i].file)
-      }
 
-      formdata.append("description", valueText)
-      console.log(formdata)
+      // let image = []
+      // console.log("Image Source", ImageSource)
+      // ImageSource.forEach((file: ImageSourceInf) => {
+      //   formdata.append("files", file.file)
+      // })
+      // // formdata.append("description", valueText)
+      // console.log(formdata.getAll("files"))
+      // // await handleUploadImagesPostsCloudinary(formdata.getAll("files"));
+      // await handleUploadImagesPostsCloudinary2()
+      if (status == "unauthenticated") {
+        ShowToastify("Error When Creating New Post , Please Login Again")
+        push("/")
+        return
+      }
+      let userData: any = data?.user
+      let userId = userData.id
+      const formdata: CreateNewPostModel = {
+        contend: valueText,
+        images: [
+          "https://images.unsplash.com/photo-1501186758051-167ca3c0fde8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNvenl8ZW58MHwxfDB8fHww",
+          "https://images.unsplash.com/photo-1603097122177-5d9820645ac5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNvenl8ZW58MHwxfDB8fHww",
+          "https://images.unsplash.com/photo-1604999928967-c98795bf3ee9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNvenl8ZW58MHwxfDB8fHww"
+        ],
+        userId: userId
+      }
       let result = await CreateNewPost(formdata)
+      ShowToastify("Done")
       console.log(result)
     } catch (e) {
       throw e
@@ -50,6 +78,7 @@ function CreatePostModal({ HandleFUNC }: Props) {
       <div className="transition-all fixed w-screen h-screen top-0 bottom-0 right-0 left-0 overflow-hidden  bg-[#595959be] z-[2] flex justify-center items-center">
         <input onChange={(e) => {
           const Arrfiles = Object.values(e.target.files as FileList)
+
           console.log(Arrfiles)
           let StringURLIMG = Arrfiles.map((item: File, index) => {
             let obj = {
@@ -60,7 +89,7 @@ function CreatePostModal({ HandleFUNC }: Props) {
           })
 
           SetImageSource(StringURLIMG)
-          console.log(StringURLIMG)
+          console.log(Arrfiles)
           console.log("Number of files")
         }} multiple className="hidden" ref={InputFIleRef} type="file" name="tenfile" id="" />
 
@@ -78,6 +107,7 @@ function CreatePostModal({ HandleFUNC }: Props) {
             <h3 className="font-medium text-white ">Tạo bài viết mới</h3>
             <h3 className="font-medium">Tạo bài viết mới</h3>
             <div onClick={(e) => {
+              console.log(" Nút Up ảnh")
               if (ImageSource.length > 0) {
                 handleUploadPost()
               } else e.preventDefault();
@@ -96,28 +126,40 @@ function CreatePostModal({ HandleFUNC }: Props) {
             </div> : <>
 
               <div className="h-[60%] overflow-y-hidden  ">
+
                 <div className="h-full w-full relative">
+                  <ICON
+                    onClick={() => {
+                      console.log(`Current Image Idx ${ImageIndexPreview}`)
+                    }}
+                    className="p-2 absolute right-0 mr-2 mt-2 top-0" icon={IconSolid.faX}
+                  />
+
                   {
                     ImageIndexPreview > 0
                     &&
-                    <ICON className="absolute left-0  top-1/2 p-5" onClick={() => {
+                    <ICON className="absolute left-0  top-1/2 p-2 ml-3  rounded-full text-white bg-gray-400" onClick={() => {
                       setImageIndexPreview(prev => prev - 1)
                     }} icon={IconSolid.faAngleLeft} />
 
                   }
-                  <img className="object-contain h-full w-full" src={ImageSource[ImageIndexPreview].linkURL} />
+                  <div className=" my-3 w-full">
+                    <img className=" object-contain h-full w-full" src={ImageSource[ImageIndexPreview].linkURL} />
+
+                  </div>
+
                   {
                     ImageIndexPreview < ImageSource.length - 1 &&
                     <ICON onClick={() => {
                       setImageIndexPreview(prev => prev + 1)
-                    }} className="absolute right-0  top-1/2 p-5" icon={IconSolid.faAngleRight} />
+                    }} className="absolute right-0  top-1/2 p-2 rounded-full mr-3 text-white bg-gray-400" icon={IconSolid.faAngleRight} />
                   }
 
                 </div>
 
 
               </div>
-              <div className="h-[40%] max-h-[40%] overflow-y-auto w-full ">
+              <div className="h-[50%] max-h-[50vh]   w-full ">
                 <Editor value={valueText} onChange={(data: any) => {
                   setValueText(data)
                 }} />

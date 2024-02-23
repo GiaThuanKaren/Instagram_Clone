@@ -11,7 +11,7 @@ const Editor = ({
 }) => {
     return (
         <CKEditor
-            className="outline-none border-none"
+            className="outline-none border-none h-full bg-red-300 "
             editor={ClassicEditor}
             data={value}
             onChange={(event: any, editor: { getData: () => any; }) => {

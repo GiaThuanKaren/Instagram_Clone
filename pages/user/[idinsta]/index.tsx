@@ -7,6 +7,7 @@ import { ICON, IconRegular, IconSolid } from "../../../src/utils/icon";
 import { getAllPostByUser } from "../../../src/services/api";
 import LoadingAnimated from "../../../src/Components/LoadingAnimation";
 import ModalUserPost from "../../../src/Components/UserPost/ModalUserPost";
+import { PostWithUserModel } from "../../../src/Model";
 
 interface NavItemType {
   text: string;
@@ -175,15 +176,16 @@ interface ListUserPostFCInf {
   data: ListUserPost[]
 }
 
-const UserPostItem = function (item: ListUserPost) {
+const UserPostItem = function (item: PostWithUserModel) {
   const [openModalPost, setOpenModalPost] = React.useState<boolean>(false)
   const [loading, setLoading] = React.useState<boolean>(true)
   const { data: session, status } = useSession()
   return <>
     {
       openModalPost &&
-      <ModalUserPost _id={item._id} imageAuthor={session?.user?.image as string} name={session?.user?.name as string} descripttion={item.descripttion} media={item.media} reaction={item.reaction} handleFN={setOpenModalPost} />
+      <ModalUserPost _id={item.id} imageAuthor={session?.user?.image as string} name={session?.user?.name as string} descripttion={item.contend} media={item.images} reaction={item.reaction} handleFN={setOpenModalPost} />
     }
+
     {
       loading && <div
         role="status"
@@ -222,7 +224,8 @@ const UserPostItem = function (item: ListUserPost) {
           }}
           className={!loading ? " w-full overflow-hidden aspect-[2/3] object-cover" : " "}
           alt="123"
-          src={`https://drive.google.com/uc?id=${item.media[0] as string}&export=download`}
+          // src={`https://drive.google.com/uc?id=${item.media[0] as string}&export=download`}
+          src={item.images[0]}
         />
 
         <div className="absolute right-0 top-0 pt-1 pr-1  ">
@@ -267,22 +270,26 @@ const UserPostItem = function (item: ListUserPost) {
 
 
 
-const ListUserPost = function ({ data }: ListUserPostFCInf) {
+const ListUserPost = function ({ data }: {
+  data: PostWithUserModel[]
+}) {
 
   React.useEffect(() => {
 
   }, [])
+
+
   return (
     <>
 
       <div className="flex flex-wrap ">
-        {data.map((item: ListUserPost, index: number) => {
-          return (
-            <>
+        {
+          data.map((item: PostWithUserModel) => {
+            return <>
               <UserPostItem {...item} />
             </>
-          );
-        })}
+          })
+        }
       </div>
     </>
   );
@@ -293,11 +300,14 @@ function PersonalProfile() {
 
   const [indexActive, setindexActive] = useState<number>(0);
   const { data: session, status } = useSession()
-  const [userPost, setUserPost] = React.useState<ListUserPost[]>([])
+  const [userPost, setUserPost] = React.useState<PostWithUserModel[]>([])
   React.useEffect(() => {
     async function FetchApi() {
       try {
-        let result = await getAllPostByUser();
+
+        let userData: any = session?.user;
+        let idUser = userData.id
+        let result = await getAllPostByUser(idUser);
         setUserPost(result.data)
         console.log(result)
       } catch (error) {
@@ -306,8 +316,10 @@ function PersonalProfile() {
         setLoading(false)
       }
     }
-    FetchApi()
-  }, [])
+    status == "authenticated" && FetchApi()
+
+  }, [status])
+  console.log(userPost)
   return (
     <>
       <MainLayout>
