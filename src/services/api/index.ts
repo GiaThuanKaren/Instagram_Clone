@@ -3,7 +3,7 @@ import axios from "axios";
 import { ShowToastify } from "../../utils";
 import { deleteCookie } from "cookies-next"
 import { signOut } from "next-auth/react";
-import { CreateNewPostModel, PostWithUserModel, ResponeModel } from "../../Model";
+import { CommentFromIdPost, CreateNewPostModel, PostWithUserModel, ResponeModel } from "../../Model";
 const BASE_DEV = "http://localhost:5000";
 const BASE_PRO = "https://instagram-backend-gia-thuan.vercel.app";
 const URL_ = process.env.NODE_ENV == "development" ? BASE_DEV : BASE_PRO
@@ -76,17 +76,22 @@ export const getAllPostByUser = async function (idUser: string) {
 }
 
 
-export const insertNewComment = async function (IDPost: string, msg: string, parententIdComment: string = "") {
+export const insertNewComment = async function (idUser: string, IDPost: string, msg: string, parententIdComment: string = "") {
     try {
         let userid = localStorage.getItem("user");
         if (!userid) {
             throw new Error("Please try to login again ")
         }
-        const result = await axios.post(`${BASE_DEV}/api/post/cr_new_comment`, {
-            "IDpost": IDPost,
-            "msg": msg,
-            "IDUserComment": JSON.parse(userid as string) as string,
-            "parentIdComment": parententIdComment
+        const result = await axios.post(`${URL_}/comment`, {
+            // "IDpost": IDPost,
+            // "msg": msg,
+            // "IDUserComment": JSON.parse(userid as string) as string,
+            // "parentIdComment": parententIdComment,
+            "content": msg,
+            "postid": IDPost,
+            "userId": idUser,
+            "parentid": parententIdComment
+
         })
         return result.data
     } catch (error) {
@@ -94,10 +99,12 @@ export const insertNewComment = async function (IDPost: string, msg: string, par
     }
 }
 
-export const getAllComment = async function (IDpost: string) {
+export const getAllComment = async function (IDpost: string, parentID: string = "") {
     try {
-        const result = await axios.post(`${BASE_PRO}/api/post/get_all_cmt`, {
-            "IDPost": IDpost
+        const result = await axios.post<ResponeModel<CommentFromIdPost[]>>(`${URL_}/comment/findAllCommentByIdPost`, {
+            // "IDPost": IDpost,
+            "idPost": IDpost,
+            "parentIdComment": parentID
         })
         return result.data
     } catch (error) {
@@ -119,18 +126,20 @@ export const getAllReplied = async function (IDpost: string, parentID: string) {
 }
 
 
-export const HandleUserReact = async function (IDpost: string, flag: "REMOVE" | "INSERT") {
-    let userid = localStorage.getItem("user");
-    if (!userid) {
+export const HandleUserReact = async function (iduser: string, IDpost: string, flag: "REMOVE" | "INSERT") {
+
+    if (!iduser) {
         throw new Error("Please try to login again ")
     }
     try {
-        const result = await axios.post(`${BASE_PRO}/api/post/react_post`, {
+        const result = await axios.post(`${URL_}/post/react_post/${IDpost}`, {
             "IDpost": IDpost,
-            "Flag": flag,
-            "IdUser": JSON.parse(userid as string) as string,
+            "flag": flag,
+            "userId": iduser
         })
+
     } catch (error) {
+        ShowToastify("Ooppss Something Went Wrong , Please Refresh The Page")
         throw error
     }
 }

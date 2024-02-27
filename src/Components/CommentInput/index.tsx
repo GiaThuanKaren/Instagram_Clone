@@ -1,17 +1,30 @@
 import React from 'react'
 import { ShowToastify } from '../../utils';
 import { insertNewComment } from '../../services/api';
+import { useSession } from 'next-auth/react';
 interface Props {
     idPost: string;
-    parentID?: string;
+    parentID: string;
 }
 
 function CommentInput({ idPost, parentID }: Props) {
     const [text, settext] = React.useState<string>("");
     const InputCommentEle = React.useRef(null);
+    const { data, status } = useSession()
     const handleComment = async function (parententIdComment: string) {
         try {
-            const result = await insertNewComment(idPost as string, text, parententIdComment)
+            let dataUser: any = data?.user
+            if (status == "unauthenticated") {
+                // push("/")
+            }
+            if (parententIdComment) {
+                console.log("Id Parent Post 123123", parententIdComment)
+
+            } else {
+                console.log("Id Parent Post", parententIdComment)
+
+            }
+            const result = await insertNewComment(dataUser.id, idPost as string, text, parententIdComment as string)
             ShowToastify("Thanks Your Feedback")
 
         } catch (error) {
@@ -46,17 +59,19 @@ function CommentInput({ idPost, parentID }: Props) {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         settext(e.target.value);
                     }}
-                    onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                         if (e.code == "Enter") {
                             console.log([InputCommentEle.current]);
-                            handleComment("")
+                            handleComment(parentID)
+                            settext("")
                         }
                     }}
                     ref={InputCommentEle}
                     type="text"
                     className="bg-transparent flex-1 px-3 outline-none break-words "
-                    placeholder="Thêm bình luận"
+                    placeholder={"Thêm bình luận"}
                 />
+
                 <p
                     className={`font-medium ${text === "" ? "text-[#B6DCFF]" : "text-[#0396F6]"
                         }  `}

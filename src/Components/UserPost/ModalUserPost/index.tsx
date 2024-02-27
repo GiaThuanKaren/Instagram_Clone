@@ -29,7 +29,7 @@ function ModalUserPost({ _id, media, handleFN, reaction, descripttion, imageAuth
                     setmodalLogOpen(false)
                 }}  />
             }
-            <div className='fixed w-screen h-screen top-0 bottom-0 right-0 left-0   bg-[#595959be] z-[40] flex justify-center items-center'>
+            <div className='fixed w-screen h-screen top-0 bottom-0 right-0 left-0   bg-[#595959be] z-[100] flex justify-center items-center'>
 
                 <ICON onClick={() => {
                     handleFN(false)
@@ -72,7 +72,7 @@ function ModalUserPost({ _id, media, handleFN, reaction, descripttion, imageAuth
                             } className='px-2' icon={IconSolid.faEllipsis} />
                         </div>
                         <div className="h-[calc(100%_-_180px)] overflow-y-auto">
-                            <ListComment idPost={_id} />
+                            <ListComment idPost={_id}  />
                             {/* <ListComment idPost={_id} />
                             <ListComment idPost={_id} />
                             <ListComment idPost={_id} />

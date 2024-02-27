@@ -1,7 +1,7 @@
 import React from 'react'
 import CommentInput from '../CommentInput'
 import { getAllComment, getAllReplied } from '../../services/api';
-import { CommentInf } from '../../Model';
+import { CommentFromIdPost, CommentInf } from '../../Model';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import LoadingAnimated from '../LoadingAnimation';
 
@@ -14,20 +14,22 @@ interface Comment {
 }
 
 
-const ReplyComment = function ({ _id, author, replies, authorId, content, parentCommentID, postId }: CommentInf) {
+const ReplyComment = function ({ id, user, postid, replies, userId, content, parentid, }: CommentFromIdPost) {
     const [openReplyInput, setopenReplyInput] = React.useState(false);
     const [openReplyComment, setopenReplyComment] = React.useState(false);
     const [ArrCommentReply, setArrCommentReply] = React.useState<any>([]);
     const [loading, setLoading] = React.useState(false)
 
-    const HandleLoadMoreComment = async function (parentID: string,
-        Currstate: boolean) {
+    const HandleLoadMoreComment = async function (
+        parentID: string,
+        Currstate: boolean
+    ) {
         try {
             if (Currstate) {
                 setopenReplyComment(false)
             } else {
                 setLoading(true)
-                let result = await getAllReplied(postId, _id)
+                let result = await getAllComment(postid, parentID)
                 console.log(result)
 
                 setArrCommentReply(result.data);
@@ -44,8 +46,9 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
             <div className="h-10 w-10 rounded-full overflow-hidden mr-5 mt-1 mb-3">
                 <LazyLoadImage
                     className="h-full w-full object-cover"
-                    src={author[0].image}
+                    src={user.image}
                 />
+
             </div>
             <div>
                 <p className="text-black text-base font-medium">{content} </p>
@@ -62,8 +65,9 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
                 </p>
             </div>
         </div>
+
         {openReplyInput && (
-            <CommentInput idPost={postId} parentID={_id} />
+            <CommentInput idPost={postid} parentID={id} />
         )}
         {
             openReplyInput && replies.length > 0 && replies.map((item: string, index: number) => {
@@ -74,16 +78,16 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
             {
                 replies.length > 0 && <>
                     <p onClick={() => {
-                        HandleLoadMoreComment(_id, openReplyComment)
+                        HandleLoadMoreComment(parentid, openReplyComment)
                     }} className='text-black font-medium'> {openReplyComment ? "Hide" : "View More"}</p>
                 </>
             }
             {
                 loading ? <div className='my-2 py-5'>
                     <LoadingAnimated />
-                </div> : openReplyComment && replies.length > 0 && ArrCommentReply.map((item: CommentInf, index: number) => {
+                </div> : openReplyComment && replies.length > 0 && ArrCommentReply.map((item: CommentFromIdPost, index: number) => {
                     return <>
-                        <ReplyComment _id={item._id} author={item.author} authorId={item.authorId} content={item.content} parentCommentID={item.parentCommentID} postId={postId} replies={item.replies} key={index} />
+                        <ReplyComment {...item} key={index} />
                     </>
                 })
             }
@@ -96,7 +100,7 @@ const ReplyComment = function ({ _id, author, replies, authorId, content, parent
 }
 
 function ListComment({ idPost }: Props) {
-    const [ArrComment, setArrComment] = React.useState<CommentInf[]>([]);
+    const [ArrComment, setArrComment] = React.useState<CommentFromIdPost[]>([]);
     const [loading, setLoading] = React.useState(true)
     React.useEffect(() => {
         async function FetchApi() {
@@ -116,11 +120,17 @@ function ListComment({ idPost }: Props) {
     return (
         <>
             {
-                loading ? <LoadingAnimated /> : ArrComment.map((item: CommentInf, index: number) => {
+                loading ? <LoadingAnimated /> : ArrComment.map((item: CommentFromIdPost, index: number) => {
                     console.log(item)
                     return (
                         <>
-                            <ReplyComment _id={item._id} author={item.author} authorId={item.authorId} content={item.content} parentCommentID={item.parentCommentID} postId={idPost} replies={item.replies} key={index} />
+                            <ReplyComment
+                                // parentid={item.parentid}
+                                {
+                                ...item
+                                }
+                                key={index}
+                            />
                         </>
                     )
                 })

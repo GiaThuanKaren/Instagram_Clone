@@ -11,6 +11,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { HandleUserReact, insertNewComment } from "../../services/api";
 import { ShowToastify } from "../../utils";
 import ModalUserPost from "./ModalUserPost";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 
 
@@ -52,6 +54,10 @@ function UserPost({ contend, id, images, reaction, user, userId }: PostWithUserM
       return "INSERT"
     }
   })
+  const { data, status } = useSession()
+  const {
+    push
+  } = useRouter()
   const [numReact, setNumReact] = React.useState(reaction.length)
   const [loadingImg, setLoadingImag] = React.useState(true)
   const [text, settext] = useState<string>("");
@@ -62,7 +68,11 @@ function UserPost({ contend, id, images, reaction, user, userId }: PostWithUserM
   const HeaderAnimatedRef = React.useRef<any>()
   const handleComment = async function (parententIdComment: string) {
     try {
-      const result = await insertNewComment(id as string, text, parententIdComment)
+      let dataUser: any = data?.user
+      if (status == "unauthenticated") {
+        push("/")
+      }
+      const result = await insertNewComment(dataUser.id, id as string, text, parententIdComment)
       settext("")
       ShowToastify("Thanks Your Feedback")
     } catch (error) {
@@ -73,7 +83,12 @@ function UserPost({ contend, id, images, reaction, user, userId }: PostWithUserM
 
   const handleReaction = async function () {
     try {
-      let result = await HandleUserReact(id, flagReact)
+      let dataUser: any = data?.user
+      if (status == "unauthenticated") {
+        push("/")
+      }
+      console.log(flagReact)
+      let result = await HandleUserReact(dataUser.id, id, flagReact)
 
       if (flagReact == "INSERT") {
         setNumReact(prev => prev + 1)
@@ -86,6 +101,9 @@ function UserPost({ contend, id, images, reaction, user, userId }: PostWithUserM
       ShowToastify("Thanks Your Feedback")
 
     } catch (error) {
+      console.log(
+        error
+      )
       ShowToastify("Opps Something Went Wrong , Pleasy Refresh Your Page")
     }
   }
@@ -94,7 +112,16 @@ function UserPost({ contend, id, images, reaction, user, userId }: PostWithUserM
 
     <>
       {opentModalPost &&
-        <ModalUserPost imageAuthor={user?.image as string} name={user?.name as string} _id={id} descripttion={contend} media={images} reaction={reaction} handleFN={setOpenModalPost} />}
+        <ModalUserPost
+          imageAuthor={user?.image as string}
+          name={user?.name as string}
+          _id={id}
+          descripttion={contend}
+          media={images}
+          reaction={reaction}
+          handleFN={setOpenModalPost}
+        />
+      }
 
       <div className=" rounded-md border-[1px] border-[#DBDBDB] bg-white  py-3 my-10 pb-0 text-black">
         <div className="h-[53px] pb-2 py-2 mb-3 px-2  ">
@@ -110,7 +137,7 @@ function UserPost({ contend, id, images, reaction, user, userId }: PostWithUserM
         </div>
         <div onDoubleClick={() => {
           console.log("Double Click")
-          // handleReaction()
+          handleReaction()
         }} className="relative">
           {
             images.length > 0 && indexImg > 0 &&
@@ -225,12 +252,22 @@ function UserPost({ contend, id, images, reaction, user, userId }: PostWithUserM
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               settext(e.target.value);
             }}
-            onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.code == "Enter") {
-                console.log([InputCommentEle.current]);
+                // console.log([InputCommentEle.current]);
+
                 handleComment("")
+                settext("")
               }
             }}
+            // onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            //   if (e.code == "Enter") {
+            //     // console.log([InputCommentEle.current]);
+            //     console.log("skdjhflksdhflk")
+            //     // handleComment("")
+            //     settext("")
+            //   }
+            // }}
             ref={InputCommentEle}
             type="text"
             className="bg-transparent flex-1 px-3 outline-none break-words "

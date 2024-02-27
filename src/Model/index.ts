@@ -44,6 +44,16 @@ export interface User {
 }
 
 
+export interface CommentFromIdPost {
+  id: string
+  content: string
+  userId: string
+  postid: string
+  parentid: string
+  replies: any[]
+  user: User
+}
+
 
 
 
