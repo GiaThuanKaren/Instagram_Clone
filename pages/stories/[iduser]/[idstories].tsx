@@ -10,41 +10,56 @@ import "swiper/css/pagination";
 import { EffectCoverflow, Pagination } from "swiper";
 import { Story } from 'react-insta-stories/dist/interfaces';
 import { useRouter } from 'next/router';
+import { v4 as uuidv4 } from 'uuid';
 interface StoriesItemProps {
     stories: Story[]
-    handleStoryEnd ?:Function
-    handleAllStoriesEnd?:Function
+    handleStoryEnd?: Function
+    handleAllStoriesEnd?: Function
 
 }
-const StoriesItem = function ({ stories,handleAllStoriesEnd,handleStoryEnd }: StoriesItemProps) {
+const StoriesItem = function ({ stories, handleAllStoriesEnd, handleStoryEnd }: StoriesItemProps) {
     const [currentId, setCurrentId] = React.useState(0);
     const [play, setPlay] = React.useState(false)
     const router = useRouter();
+    const refEle = React.useRef()
     return <>
-        <div className='h-full'>
+        <div className='h-full w-[500px] relative'>
+            <button onClick={() => {
+                setPlay(!play)
+            }}>click me {JSON.stringify(play)}</button>
             <Stories
-                onStoryEnd={()=>{
-                
+                // preventDefault={true}
+                isPaused={true}
+                onStoryEnd={() => {
+
                     handleStoryEnd && handleStoryEnd()
-                    console.log("store end")
+
                 }}
-                onAllStoriesEnd={()=>{
-                    if(handleAllStoriesEnd ){
+
+                onAllStoriesEnd={() => {
+                    console.log("All Stories End")
+                    if (handleAllStoriesEnd) {
                         handleAllStoriesEnd();
-                    }else{
-                        router.push("/")
+                    } else {
+                        // router.push("/")
                     }
 
-                }}   
+                }}
                 defaultInterval={5500}
-                isPaused={true}
+                key={Date.now().toString() + uuidv4().toString()}
+
+                onStoryStart={() => {
+                    console.log()
+                }}
+                // isPaused={true}
                 stories={stories}
                 width={"100%"}
                 height={"90%"}
+                // loop={false}
                 keyboardNavigation={true}
-                />      
+            />
         </div>
-       
+
     </>
 }
 
@@ -54,24 +69,42 @@ function StoriesUserPage() {
     const data = Array.from(Array(10).keys());
     const [width, setWidth] = React.useState(0)
     const [numberSlide, SetNumberSlide] = React.useState(2)
+    const { push } = useRouter()
     const swiperRef = React.useRef<any>();
+    const [listStories, setListStories] = React.useState<Story[][]>([
+        [
+            {
+
+            }
+        ]
+    ])
     const stories: Story[] = [
 
         {
-            url: "https://cdn.dribbble.com/userupload/7152172/file/original-4bf2ad31c5ff4e120d4d3c3177838631.jpg?compress=1&resize=1024x768",
-            
+            url: "https://images.unsplash.com/photo-1501186758051-167ca3c0fde8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNvenl8ZW58MHwxfDB8fHww",
+
 
         },
         {
-            url: "https://cdn.dribbble.com/userupload/7130453/file/original-f707b0a15bb2cc4c72330b68b70d8570.jpg?compress=1&resize=1024x768",
+            url: "https://images.unsplash.com/photo-1631663027447-faf7074440ec?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNvenl8ZW58MHwxfDB8fHww",
 
-        }
+
+        },
+
     ]
 
     const handleSlideChange = () => {
         const activeIndex = swiperRef.current.swiper.realIndex;
         console.log('Active slide:', activeIndex);
     };
+
+    async function FetchNextStories(idUser: string) {
+        // fetch dữ liệu của user tiếp theo có stories 
+        let idStoriesByIdUser = Date.now().toFixed(4).toString()
+        push(`/stories/${idUser}/${idStoriesByIdUser}`)
+
+    }
+
     React.useEffect(() => {
         function handleResize() {
             setWidth(window.innerWidth)
@@ -85,10 +118,12 @@ function StoriesUserPage() {
             window.removeEventListener("resize", handleResize)
         }
     }, [setWidth])
+
+
     console.log(width)
     return (
         <>
-        
+
             <div className='w-screen h-screen bg-black '>
                 <div className='flex justify-between items-center h-[70px] px-5'>
                     <svg
@@ -111,56 +146,61 @@ function StoriesUserPage() {
                     <Link href={"/"}>
                         <ICON className='text-white text-2xl' icon={IconSolid.faTimes} />
                     </Link>
+
                 </div>
-                    <div className='h-[calc(100vh_-_70px)]  relative flex  justify-center'>
-                        <div className='w-[90%] md:w-[40%] h-[90%]  '>
-                            <StoriesItem  stories={stories}/>
-                        </div>
-                    </div>
+                <div className='h-[cacl(100vh_-_70px)] w-full flex justify-center'>
+                    <StoriesItem
+                        stories={stories}
+                        handleAllStoriesEnd={() => {
+                            FetchNextStories(uuidv4())
+                        }}
+                        handleStoryEnd={() => {
+
+                        }}
+                    />
+                </div>
+
             </div>
+            {/* <div className='w-screen h-scre'>
+                <Swiper
+                    effect={'coverflow'}
+                    grabCursor={true}
+                    centeredSlides={true}
+                    slidesPerView={'auto'}
+                    coverflowEffect={{
+                        rotate: 0,
+                        stretch: 0,
+                        depth: 300,
+                        modifier: 1,
+                        slideShadows: true,
+                    }}
+                    pagination={true}
+                    modules={[EffectCoverflow, Pagination]}
+                    className="mySwiper w-"
+                >
+                    {
+                        Array.from(Array(10).keys()).map(() => {
+                            return <>
+                                <SwiperSlide>
+                                    <StoriesItem
+                                        stories={stories}
+                                        handleAllStoriesEnd={() => {
+
+                                        }}
+                                        handleStoryEnd={() => {
+
+                                        }}
+                                    />
+                                </SwiperSlide>
+                            </>
+                        })
+                    }
+
+
+                </Swiper>
+            </div> */}
         </>
     )
 }
 
 export default StoriesUserPage
-
-// {/* <Swiper
-//                         ref={swiperRef}
-//                         onSlideChange={handleSlideChange}
-
-//                         effect={"fade"}
-
-//                         centeredSlides={true}
-//                         slidesPerView={'auto'}
-//                         coverflowEffect={{
-//                             rotate: 0,
-//                             stretch: 0,
-//                             depth: 500,
-//                             modifier: 10,
-//                             slideShadows: true,
-//                             scale: 1,
-
-//                         }}
-//                         pagination={true}
-//                         modules={[EffectCoverflow, Pagination]}
-//                         className="mySwiper h-full w-screen "
-//                     >
-                       
-//                         {
-//                             data.map((item: any, index: number) => {
-//                                 return <>
-//                                     <SwiperSlide className='h-full w-full  flex justify-center'>
-//                                         <div className='w-[90%] md:w-[50%] h-full  flex flex-col justify-center'>
-//                                             <div className='h-[90%] '>
-                                                
-//                                             </div>
-//                                             {/* <img className='w-full h-full  ' src="https://swiperjs.com/demos/images/nature-1.jpg" /> */}
-
-//                                         </div>
-//                                     </SwiperSlide>
-//                                 </>
-//                             })
-//                         }
-
-
-//                     </Swiper> */}

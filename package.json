@@ -41,18 +41,20 @@
     "react-drag-drop-files": "^2.3.8",
     "react-easy-crop": "^4.7.3",
     "react-icons": "^4.7.1",
-    "react-insta-stories": "^2.4.2",
+    "react-insta-stories": "^2.6.2",
     "react-lazy-load-image-component": "^1.5.6",
     "react-toastify": "^9.1.2",
     "slick-carousel": "^1.8.1",
     "swiper": "^8.4.5",
     "typescript": "4.9.4",
-    "usehooks-ts": "^2.9.1"
+    "usehooks-ts": "^2.9.1",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/ckeditor__ckeditor5-build-classic": "^29.0.1",
     "@types/formidable": "^3.4.5",
     "@types/react-lazy-load-image-component": "^1.5.2",
+    "@types/uuid": "^9.0.8",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",
     "prisma": "^4.12.0",
