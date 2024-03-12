@@ -8,7 +8,7 @@ interface ReelVideos {
 function ReelsVideo({ isMute = true }: ReelVideos) {
   const [IsVolumMute, setIsVolumMute] = useState<boolean>(isMute);
   return (
-    <div className="flex w-full    h-[90%] my-[20px]    overflow-hidden">
+    <div className="flex w-full snap-center    h-[80vh] my-[20px]    overflow-hidden">
       <div className="w-[470px] h-full bg-black rounded-md relative">
         <video src=""></video>
         <div

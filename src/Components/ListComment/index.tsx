@@ -29,7 +29,7 @@ const ReplyComment = function ({ id, user, postid, replies, userId, content, par
                 setopenReplyComment(false)
             } else {
                 setLoading(true)
-                let result = await getAllComment(postid, parentID)
+                let result = await getAllComment(postid, id)
                 console.log(result)
 
                 setArrCommentReply(result.data);
@@ -51,7 +51,7 @@ const ReplyComment = function ({ id, user, postid, replies, userId, content, par
 
             </div>
             <div>
-                <p className="text-black text-base font-medium">{content} </p>
+                <p className="text-black text-base font-medium">{content} {id} </p>
                 <p className="text-white text-xs font-light">
 
                 </p>
@@ -78,6 +78,7 @@ const ReplyComment = function ({ id, user, postid, replies, userId, content, par
             {
                 replies.length > 0 && <>
                     <p onClick={() => {
+
                         HandleLoadMoreComment(parentid, openReplyComment)
                     }} className='text-black font-medium'> {openReplyComment ? "Hide" : "View More"}</p>
                 </>
@@ -86,8 +87,9 @@ const ReplyComment = function ({ id, user, postid, replies, userId, content, par
                 loading ? <div className='my-2 py-5'>
                     <LoadingAnimated />
                 </div> : openReplyComment && replies.length > 0 && ArrCommentReply.map((item: CommentFromIdPost, index: number) => {
+                    console.log("ParentId",)
                     return <>
-                        <ReplyComment {...item} key={index} />
+                        <ReplyComment {...item} parentid={item.id} key={index} />
                     </>
                 })
             }

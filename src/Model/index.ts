@@ -50,7 +50,7 @@ export interface CommentFromIdPost {
   userId: string
   postid: string
   parentid: string
-  replies: any[]
+  replies: string[]
   user: User
 }
 

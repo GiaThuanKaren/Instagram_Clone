@@ -5,10 +5,12 @@ import { MainLayout } from "../../../src/Layouts";
 function ReelPage() {
   return (
     <MainLayout>
-      
-      <ReelsVideo />
-      <ReelsVideo />
-      <ReelsVideo />
+      <div className="snap-mandatory snap-y">
+
+        <ReelsVideo />
+        <ReelsVideo />
+        <ReelsVideo />
+      </div>
     </MainLayout>
   );
 }

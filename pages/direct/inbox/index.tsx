@@ -5,7 +5,7 @@ function InboxPage() {
   return (
     <>
       <MainLayout>
-        <div className="h-screen w-full bg-slate-400">InboxPage</div>
+        
       </MainLayout>
     </>
   );
