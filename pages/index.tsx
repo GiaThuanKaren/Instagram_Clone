@@ -14,7 +14,7 @@ import { useSession } from "next-auth/react";
 
 import { GetServerSideProps } from "next";
 import { GetAllPost } from "../src/services/api";
-import { PostHome, PostWithUserModel } from "../src/Model";
+import { PostWithUserModel } from "../src/Model";
 import { ShowToastify } from "../src/utils";
 import LoadingAnimated from "../src/Components/LoadingAnimation";
 interface Props {
@@ -71,7 +71,7 @@ export default function Home() {
   return (
     <>
       {/* <Cr eatePostModal /> */}
-      <MainLayout>
+      <MainLayout iscenterContainerLayout>
         {loading ? <LoadingAnimated /> :
           <div className="flex    h-full sm:justify-center mt-10">
             <div

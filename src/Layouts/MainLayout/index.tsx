@@ -7,6 +7,7 @@ import { ICON, IconBrand, IconRegular, IconSolid } from "../../utils/icon";
 
 interface Props {
   children: ReactNode;
+  iscenterContainerLayout?: true | boolean
 }
 
 interface IconItem {
@@ -20,7 +21,7 @@ const HeaderMobile = function () {
 
   return (
     <>
-      <div className=" bg-white flex items-center justify-between px-4 fixed z-[2] h-[60px] top-0 left-0 right-0 w-full sm:hidden border-b-2  boder-[#DBDBDB]">
+      <div className=" bg-white flex items-center justify-between px-4 fixed z-[2] h-[60px] top-0 left-0 right-0 w-full md:hidden border-b-2  boder-[#DBDBDB]">
 
         <div className="flex items-center">
           <svg
@@ -58,7 +59,7 @@ const HeaderMobile = function () {
   );
 };
 
-function MainLayout({ children }: Props) {
+function MainLayout({ children, iscenterContainerLayout }: Props) {
   const [isActive, setisActive] = useState<number>(0);
   const [isOpenCreateNewPost, setisOpenCreateNewPost] = useState(false);
   const Items: IconItem[] = [
@@ -165,7 +166,7 @@ function MainLayout({ children }: Props) {
       <HeaderMobile />
       <div className="mt-[60px] sm:mt-0 flex min-h-screen">
         <LeftSideBar />
-        <RightSideBar>{children}</RightSideBar>
+        <RightSideBar iscenterContainerLayout={ iscenterContainerLayout} >{children}</RightSideBar>
         <ul className="sm:hidden  bg-white border-t-[2px] w-full  px-1 z-[2] flex items-center justify-between  fixed bottom-0 left-0 right-0">
           {Items.map((item: IconItem, index: number) => {
             return (

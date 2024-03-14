@@ -322,7 +322,7 @@ function PersonalProfile() {
   console.log(userPost)
   return (
     <>
-      <MainLayout>
+      <MainLayout iscenterContainerLayout>
         {
           loading ? <LoadingAnimated /> : <>
 

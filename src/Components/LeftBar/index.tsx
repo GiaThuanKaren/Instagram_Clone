@@ -578,7 +578,7 @@ function LeftSideBar() {
     <>
       {/* w-[250px] */}
 
-      <div className="transition-all fixed z-[100] border-l  border-r-2 border-red-50 py-3 px-2 pb-3 hidden sm:block h-screen  w-max  bg-white">
+      <div className="transition-all fixed z-[100] border-l  border-r-2 border-red-50 py-3 px-2 pb-3 hidden md:block h-screen  w-max  bg-white">
         {/*  Thong bao Drawer */}
         {isOpenCreateNewPost && (
           <CreatePostModal HandleFUNC={setisOpenCreateNewPost} />

@@ -4,7 +4,7 @@ import Pusher from "pusher-js";
 
 
 function InboxPage() {
-  React.useEffect(()=>{
+  React.useEffect(() => {
     var pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
       cluster: 'ap1'
     });
@@ -19,7 +19,7 @@ function InboxPage() {
     return () => {
       pusher.unsubscribe("chat");
     };
-  },[])
+  }, [])
 
   // var pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
   //   cluster: 'ap1'
@@ -35,7 +35,9 @@ function InboxPage() {
   return (
     <>
       <MainLayout>
-
+        <div className="h-screen w-full bg-red-300">
+          Thuan slkdfjlksdhjskldhjfklsfdklj
+        </div>
       </MainLayout>
     </>
   );

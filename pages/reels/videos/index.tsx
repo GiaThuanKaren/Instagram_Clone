@@ -4,7 +4,7 @@ import { MainLayout } from "../../../src/Layouts";
 
 function ReelPage() {
   return (
-    <MainLayout>
+    <MainLayout iscenterContainerLayout>
       <div className="snap-mandatory snap-y">
 
         <ReelsVideo />

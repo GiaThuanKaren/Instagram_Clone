@@ -8,7 +8,7 @@ function Explore() {
   });
   return (
     <>
-      <MainLayout>
+      <MainLayout iscenterContainerLayout>
         <div className="flex flex-wrap justify-center ">
           {ArrPost.map((item, index) => {
             return (
