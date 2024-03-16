@@ -8,6 +8,7 @@ import { ICON, IconBrand, IconRegular, IconSolid } from "../../utils/icon";
 interface Props {
   children: ReactNode;
   iscenterContainerLayout?: true | boolean
+  hideLeftSideBar?:boolean
 }
 
 interface IconItem {
@@ -59,7 +60,7 @@ const HeaderMobile = function () {
   );
 };
 
-function MainLayout({ children, iscenterContainerLayout }: Props) {
+function MainLayout({ children, iscenterContainerLayout,hideLeftSideBar }: Props) {
   const [isActive, setisActive] = useState<number>(0);
   const [isOpenCreateNewPost, setisOpenCreateNewPost] = useState(false);
   const Items: IconItem[] = [
@@ -164,9 +165,9 @@ function MainLayout({ children, iscenterContainerLayout }: Props) {
     <>
 
       <HeaderMobile />
-      <div className="mt-[60px] sm:mt-0 flex min-h-screen">
-        <LeftSideBar />
-        <RightSideBar iscenterContainerLayout={ iscenterContainerLayout} >{children}</RightSideBar>
+      <div className="mt-[60px] sm:mt-0 flex min-h-screen w-screen">
+        <LeftSideBar hideLeftSideBar={hideLeftSideBar} />
+        <RightSideBar  hideLeftSideBar={hideLeftSideBar} iscenterContainerLayout={ iscenterContainerLayout} >{children}</RightSideBar>
         <ul className="sm:hidden  bg-white border-t-[2px] w-full  px-1 z-[2] flex items-center justify-between  fixed bottom-0 left-0 right-0">
           {Items.map((item: IconItem, index: number) => {
             return (

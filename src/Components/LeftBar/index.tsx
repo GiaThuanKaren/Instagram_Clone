@@ -20,6 +20,11 @@ import { ShowToastify } from "../../utils";
 import useDebounce, { ResultRespone } from "../../hook/useSeach";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
+interface LeftSideBarProps {
+  hideLeftSideBar?: boolean
+}
+
+
 interface IconItem {
   icon: JSX.Element;
   text: string;
@@ -257,13 +262,13 @@ function NoftiDrawer() {
   );
 }
 
-function LeftSideBar() {
+function LeftSideBar({ hideLeftSideBar }: LeftSideBarProps) {
   const router = useRouter();
   const screen = useScreen()
   const { data: session, status } = useSession()
   console.log({ width: screen?.width, height: screen?.height })
   const [isActive, setisActive] = useState<number>(0);
-  const [DrawerActiveArr, setDrawerActiveArr] = useState<string>("");
+  const [DrawerActiveArr, setDrawerActiveArr] = useState<string>(hideLeftSideBar ? " " : "");
   const [IsOpen, setIsOpen] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -368,7 +373,7 @@ function LeftSideBar() {
       functionHandle: () => {
         setDrawerActiveArr((prev) => {
           if (prev === "/search") {
-            return "";
+            return hideLeftSideBar ? " " : "";
           } else return "/search";
         });
       },
@@ -488,7 +493,7 @@ function LeftSideBar() {
       functionHandle: () => {
 
         setDrawerActiveArr((prev) => {
-          if (prev === "/nofti") return "";
+          if (prev === "/nofti") return hideLeftSideBar ? " " : "";
           else {
             setCommingMessage(false)
             return "/nofti";
