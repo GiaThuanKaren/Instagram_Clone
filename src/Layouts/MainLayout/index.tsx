@@ -163,9 +163,9 @@ function MainLayout({ children, iscenterContainerLayout,hideLeftSideBar }: Props
   console.log(router);
   return (
     <>
-
-      <HeaderMobile />
-      <div className="mt-[60px] sm:mt-0 flex min-h-screen w-screen">
+{/* mt-[60px] */}
+      {/* <HeaderMobile /> */}
+      <div className=" sm:mt-0 flex min-h-screen w-screen">
         <LeftSideBar hideLeftSideBar={hideLeftSideBar} />
         <RightSideBar  hideLeftSideBar={hideLeftSideBar} iscenterContainerLayout={ iscenterContainerLayout} >{children}</RightSideBar>
         <ul className="sm:hidden  bg-white border-t-[2px] w-full  px-1 z-[2] flex items-center justify-between  fixed bottom-0 left-0 right-0">
