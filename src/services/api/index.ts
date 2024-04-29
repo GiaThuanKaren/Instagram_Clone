@@ -239,3 +239,31 @@ export const uploadCloudinary = async (file: File | null) => {
     const imageData = await upload.post('/', formData);
     return imageData.data.url;
 };
+
+
+
+
+
+export const handleSendMessageService = async function (
+    idTarget: string,
+    userCurrent: any,
+    message: string
+) {
+    try {
+        let { data } = await axios.post(
+            BASE_DEV + "/chat",
+            {
+                "fromUser": userCurrent,
+                "targetUser": {
+                    "id": idTarget,
+
+                },
+                "message": message
+            }
+        )
+        console.log(data)
+        return data
+    } catch (error) {
+        throw error
+    }
+}

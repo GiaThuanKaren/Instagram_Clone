@@ -3,78 +3,102 @@ import { MainLayout } from '../../../src/Layouts'
 import { useRouter } from 'next/router'
 import { v4 as uuidv4 } from 'uuid';
 import { MessageInbox } from '.';
+import InboxLayout from '../../../src/Layouts/InboxLayout';
+import { useSession } from 'next-auth/react';
+import { handleSendMessageService } from '../../../src/services/api';
+
+interface MessageItemCompProps {
+    IdUserChatItem: string,
+    message: string,
+    imgUser?: string
+}
+
+function MessageItemComp(
+    {
+        IdUserChatItem, message, imgUser
+    }: MessageItemCompProps
+) {
+    const { data, status } = useSession()
+    const userData: any = data?.user
+
+    return <>
+        <div className={'flex px-3 items-center w-full mb-6 mt-2 ' + ` ${userData.id == IdUserChatItem ? " justify-end" : " justify-start"}`}>
+            <div className={'basis-1/2 '}>
+                <div className=' w-full' >
+                    {
+                        userData.id != IdUserChatItem &&
+                        <>
+                            <div className='h-10 w-10 rounded-full bg-red-300 '>
+
+                            </div>
+                        </>
+                    }
+
+                    <p className='break-words'>
+                        {
+                            message
+                        }
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </>
+}
+
 
 function InboxPageByIdConversation() {
     const {
-        push
+        push,
+        query
     } = useRouter()
+    const { data, status } = useSession()
+    let userData: any = data?.user
+    console.log(query.idconver, " Id Conver")
+    const [textChat, setTextChat] = React.useState("")
+    const handleSendMessage = async function () {
+        try {
+            let result = await handleSendMessageService(
+                query.idconver as string,
+                data?.user,
+                textChat
+            )
+
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    }
     return (
         <>
             <MainLayout hideLeftSideBar>
-                <div className="h-screen w-full  flex px-2">
+                <InboxLayout>
+                    <div className='w-full h-full relative'>
+                        <div
+                            className='h-full w-full overflow-y-auto pb-16 '
+                        >
 
-                    <div className="basis-1/3 h-full overflow-y-auto">
-
-
-
-                        <div onClick={() => {
-                            push(`/direct/inbox/${uuidv4()}`)
-                        }} className="h-[72px] w-full mb-2 bg-gray-400 flex items-center px-2 py-1">
-                            <div className="h-14 w-14  bg-red-400 rounded-full">
-
-                            </div>
-                            <div className="ml-2 ">
-                                <p className="font-medium text-white ">Gia Thuan </p>
-                                <p>Gia Thuan Test 1</p>
-                            </div>
-                        </div>
-                        {/* 
-
-            <div className="h-[72px] w-full mb-2 bg-gray-400 flex items-center px-2 py-1">
-              <div className="h-14 w-14  bg-red-400 rounded-full">
-
-              </div>
-              <div className="ml-2 ">
-                <p className="font-medium text-white ">Gia Thuan </p>
-                <p>Gia Thuan Test 2</p>
-              </div>
-            </div> */}
-
-
-
-                        {/* {
-              Array.from(Array(100).keys()).map(() => {
-                return <>
-                  <div className="h-[72px] w-full mb-2 bg-gray-400 flex items-center px-2 py-1">
-                    <div className="h-14 w-14  bg-red-400 rounded-full">
-
-                    </div>
-                    <div className="ml-2 ">
-                      <p className="font-medium text-white ">Gia Thuan </p>
-                      <p>Gia Thuan </p>
-                    </div>
-                  </div>
-                </>
-              })
-            } */}
-
-
-                    </div>
-                    <div className="basis-2/3 h-screen  relative w-full" >
-
-                        <div className="overflow-y-auto h-full">
+                            {/*  Message Display Area */}
                             {
-                                Array.from(Array(100).keys()).map((item, index) => {
+                                Array.from(Array(10).keys()).map((item: number) => {
                                     return <>
-                                        <MessageInbox toId={index.toString()} fromId={index.toString()} msg={item.toString()} />
-
+                                        <MessageItemComp
+                                            IdUserChatItem={item % 2 == 0 ? userData.id : item}
+                                            message={
+                                                "Lorem ipsum dolor sit amet consectetur adipisicing elit. At, numquam nihil. Cumque, maxime inventore distinctio harum est, officiis ratione repudiandae sapiente delectus quisquam similique quia modi accusamus molestias adipisci aut!"
+                                            }
+                                        />
                                     </>
                                 })
                             }
 
 
                         </div>
-                        <div className="absolute bottom-0 left-0 right-0 px-3 flex items-center justify-between border-t border-[#EFEFEF] bg-white  py-[8px]">
+
+
+                        <div
+                            className="absolute bottom-0 left-0 right-0 px-2 flex items-center justify-between border-t border-[#EFEFEF] bg-white py-[8px]"
+                        >
                             <div>
                                 <svg
                                     aria-label="Biểu tượng cảm xúc"
@@ -89,42 +113,35 @@ function InboxPageByIdConversation() {
                                     <path d="M15.83 10.997a1.167 1.167 0 1 0 1.167 1.167 1.167 1.167 0 0 0-1.167-1.167Zm-6.5 1.167a1.167 1.167 0 1 0-1.166 1.167 1.167 1.167 0 0 0 1.166-1.167Zm5.163 3.24a3.406 3.406 0 0 1-4.982.007 1 1 0 1 0-1.557 1.256 5.397 5.397 0 0 0 8.09 0 1 1 0 0 0-1.55-1.263ZM12 .503a11.5 11.5 0 1 0 11.5 11.5A11.513 11.513 0 0 0 12 .503Zm0 21a9.5 9.5 0 1 1 9.5-9.5 9.51 9.51 0 0 1-9.5 9.5Z"></path>
                                 </svg>
                             </div>
+
+
                             <input
-                                // value={text}
-                                // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                //   settext(e.target.value);
-                                // }}
-                                // onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                //   if (e.code == "Enter") {
-                                //     // console.log([InputCommentEle.current]);
-
-                                //     handleComment("")
-                                //     settext("")
-                                //   }
-                                // }}
-                                // onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                //   if (e.code == "Enter") {
-                                //     // console.log([InputCommentEle.current]);
-                                //     console.log("skdjhflksdhflk")
-                                //     // handleComment("")
-                                //     settext("")
-                                //   }
-                                // }}
-                                // ref={InputCommentEle}
-                                type="text"
                                 className="bg-transparent flex-1 px-3 outline-none break-words "
-                                placeholder="Thêm bình luận"
-                            />
-                            <p
-                                className={`font-medium ${true == "" ? "text-[#B6DCFF]" : "text-[#0396F6]"
-                                    }  `}
-                            >
-                                Đăng
-                            </p>
-                        </div>
-                    </div>
-                </div>
 
+                                value={textChat}
+                                type="text"
+                                onChange={(e) => {
+                                    setTextChat(e.target.value)
+                                }}
+                                onKeyDown={async (e) => {
+                                    if (e.key === "Enter") {
+                                        await handleSendMessage()
+                                        setTextChat("")
+                                    }
+
+                                }}
+                                placeholder="Messages"
+
+                            />
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </InboxLayout>
             </MainLayout>
         </>
     )

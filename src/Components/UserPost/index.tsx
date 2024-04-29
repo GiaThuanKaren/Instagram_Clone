@@ -232,7 +232,8 @@ function UserPost({ contend, id, images, reaction, user, userId }: PostWithUserM
           Xem tất cả  bình luận
         </p>
         <p className="text-[0.6rem] font-[200] py-2  px-2 ">1 GIỜ TRƯỚC</p>
-        <div className=" px-2 flex items-center justify-between border-t border-[#EFEFEF] py-[8px]">
+        <div 
+        className=" px-2 flex items-center justify-between border-t border-[#EFEFEF] py-[8px]">
           <div>
             <svg
               aria-label="Biểu tượng cảm xúc"

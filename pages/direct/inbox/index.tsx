@@ -4,6 +4,7 @@ import Pusher from "pusher-js";
 import { useSession } from "next-auth/react";
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from "next/router";
+import InboxLayout from "../../../src/Layouts/InboxLayout";
 interface MessageInboxInf {
   fromId: string,
   toId: string,
@@ -47,28 +48,7 @@ function InboxPage() {
   const {
     push
   } = useRouter()
-  React.useEffect(() => {
-    if (status == "authenticated") {
-      let datauser: any = data.user
-      let idUser = datauser.id
-      console.log(idUser)
-      var pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
-        cluster: 'ap1'
-      });
-      var channel = pusher.subscribe('chat');
-      channel.bind(idUser, function (data: any) {
-        alert(JSON.stringify(data));
-      });
-
-      // channel.bind('my-event1', function (data: any) {
-      //   alert(JSON.stringify(data) + "123123");
-      // });
-      return () => {
-        pusher.unsubscribe("chat");
-      };
-    }
-
-  }, [status])
+  
 
   // var pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
   //   cluster: 'ap1'
@@ -84,119 +64,32 @@ function InboxPage() {
   return (
     <>
       <MainLayout hideLeftSideBar>
-        <div className="h-screen w-full  flex px-2">
 
-          <div className="basis-1/3 h-full overflow-y-auto">
-
-
-
-            <div onClick={()=>{
-              push(`/direct/inbox/${uuidv4()}`)
-            }} className="h-[72px] w-full mb-2 bg-gray-400 flex items-center px-2 py-1">
-              <div className="h-14 w-14  bg-red-400 rounded-full">
-
-              </div>
-              <div className="ml-2 ">
-                <p className="font-medium text-white ">Gia Thuan </p>
-                <p>Gia Thuan Test 1</p>
-              </div>
-            </div>
-            {/* 
-
-            <div className="h-[72px] w-full mb-2 bg-gray-400 flex items-center px-2 py-1">
-              <div className="h-14 w-14  bg-red-400 rounded-full">
-
-              </div>
-              <div className="ml-2 ">
-                <p className="font-medium text-white ">Gia Thuan </p>
-                <p>Gia Thuan Test 2</p>
-              </div>
-            </div> */}
-
-
-
-            {/* {
-              Array.from(Array(100).keys()).map(() => {
-                return <>
-                  <div className="h-[72px] w-full mb-2 bg-gray-400 flex items-center px-2 py-1">
-                    <div className="h-14 w-14  bg-red-400 rounded-full">
-
-                    </div>
-                    <div className="ml-2 ">
-                      <p className="font-medium text-white ">Gia Thuan </p>
-                      <p>Gia Thuan </p>
-                    </div>
-                  </div>
-                </>
-              })
-            } */}
-
-
-          </div>
-          <div className="basis-2/3 h-screen  relative w-full" >
-
-            {/* <div className="overflow-y-auto h-full">
-              {
-                Array.from(Array(100).keys()).map((item, index) => {
-                  return <>
-                    <MessageInbox toId={index.toString()} fromId={index.toString()} msg={item.toString()} />
-
-                  </>
-                })
-              }
-
-
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 px-2 flex items-center justify-between border-t border-[#EFEFEF] py-[8px]">
-              <div>
-                <svg
-                  aria-label="Biểu tượng cảm xúc"
-                  className="_ab6-"
-                  color="#262626"
-                  fill="#262626"
-                  height="24"
-                  role="img"
-                  viewBox="0 0 24 24"
-                  width="24"
-                >
-                  <path d="M15.83 10.997a1.167 1.167 0 1 0 1.167 1.167 1.167 1.167 0 0 0-1.167-1.167Zm-6.5 1.167a1.167 1.167 0 1 0-1.166 1.167 1.167 1.167 0 0 0 1.166-1.167Zm5.163 3.24a3.406 3.406 0 0 1-4.982.007 1 1 0 1 0-1.557 1.256 5.397 5.397 0 0 0 8.09 0 1 1 0 0 0-1.55-1.263ZM12 .503a11.5 11.5 0 1 0 11.5 11.5A11.513 11.513 0 0 0 12 .503Zm0 21a9.5 9.5 0 1 1 9.5-9.5 9.51 9.51 0 0 1-9.5 9.5Z"></path>
-                </svg>
-              </div>
-              <input
-                // value={text}
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                //   settext(e.target.value);
-                // }}
-                // onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                //   if (e.code == "Enter") {
-                //     // console.log([InputCommentEle.current]);
-
-                //     handleComment("")
-                //     settext("")
-                //   }
-                // }}
-                // onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                //   if (e.code == "Enter") {
-                //     // console.log([InputCommentEle.current]);
-                //     console.log("skdjhflksdhflk")
-                //     // handleComment("")
-                //     settext("")
-                //   }
-                // }}
-                // ref={InputCommentEle}
-                type="text"
-                className="bg-transparent flex-1 px-3 outline-none break-words "
-                placeholder="Thêm bình luận"
-              />
-              <p
-                className={`font-medium ${true == "" ? "text-[#B6DCFF]" : "text-[#0396F6]"
-                  }  `}
+        <InboxLayout>
+          <div className='w-full flex items-center justify-center h-full '>
+            <div className="text-center flex flex-col items-center">
+              <svg
+                className="x1lliihq x1n2onr6 x5n08af text-center" 
+                fill="currentColor"
+                height={96}
+                viewBox="0 0 96 96"
+                width={96}
+                // {...props}
               >
-                Đăng
-              </p>
-            </div> */}
+                <path d="M48 0C21.532 0 0 21.533 0 48s21.532 48 48 48 48-21.532 48-48S74.468 0 48 0zm0 94C22.636 94 2 73.364 2 48S22.636 2 48 2s46 20.636 46 46-20.636 46-46 46zm12.227-53.284l-7.257 5.507c-.49.37-1.166.375-1.661.005l-5.373-4.031a3.453 3.453 0 00-4.989.921l-6.756 10.718c-.653 1.027.615 2.189 1.582 1.453l7.257-5.507a1.382 1.382 0 011.661-.005l5.373 4.031a3.453 3.453 0 004.989-.92l6.756-10.719c.653-1.027-.615-2.189-1.582-1.453zM48 25c-12.958 0-23 9.492-23 22.31 0 6.706 2.749 12.5 7.224 16.503.375.338.602.806.62 1.31l.125 4.091a1.845 1.845 0 002.582 1.629l4.563-2.013a1.844 1.844 0 011.227-.093c2.096.579 4.331.884 6.659.884 12.958 0 23-9.491 23-22.31S60.958 25 48 25zm0 42.621c-2.114 0-4.175-.273-6.133-.813a3.834 3.834 0 00-2.56.192l-4.346 1.917-.118-3.867a3.833 3.833 0 00-1.286-2.727C29.33 58.54 27 53.209 27 47.31 27 35.73 36.028 27 48 27s21 8.73 21 20.31-9.028 20.31-21 20.31z" />
+              </svg>
+              <h3 className="font-medium">
+                Your Messages
+              </h3>
+              <h3 className="my-2">
+              Send private photos and messages to a friend or group
+              </h3>
+              <div className="rounded-lg font-medium  my-2 px-3 py-2 bg-blue-300 text-white">
+                Send Message
+              </div>
+            </div>
           </div>
-        </div>
+        </InboxLayout>
       </MainLayout>
     </>
   );

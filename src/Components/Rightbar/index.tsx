@@ -42,7 +42,7 @@ function RightSideBar({ children, iscenterContainerLayout, hideLeftSideBar }: Pr
         + `${iscenterContainerLayout && "flex-1 flex sm:justify-center"}`
       }
       >
-        <div className={" w-screen sm:w-[calc(100vw_-_100px)]  sm:px-0 mt-10  "
+        <div className={" w-screen sm:w-[calc(100vw_-_100px)]  sm:px-0   "
           + ` ${hideLeftSideBar ? " w-full sm:w-[calc(100vw_-_100px)]  " : " lg:w-[820px] "}`
         }
         >
