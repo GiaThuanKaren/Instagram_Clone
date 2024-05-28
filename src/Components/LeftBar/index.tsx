@@ -19,6 +19,7 @@ import { HandleSignOut, UpdateToken, searchUser } from "../../services/api";
 import { ShowToastify } from "../../utils";
 import useDebounce, { ResultRespone } from "../../hook/useSeach";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { NameCustomEvents, subscribe, unsubscribe } from "../../utils/event";
 
 interface LeftSideBarProps {
   hideLeftSideBar?: boolean
@@ -565,6 +566,17 @@ function LeftSideBar({ hideLeftSideBar }: LeftSideBarProps) {
 
 
   useEffect(() => {
+    subscribe(NameCustomEvents.closeModalCreatePost, (data: any) => {
+      // console.log("Custom evenet", data)
+      setisOpenCreateNewPost(false)
+    })
+
+
+    return () => {
+      unsubscribe(NameCustomEvents.closeModalCreatePost, () => {
+
+      })
+    }
     // setIsMounted(true);
     // setDrawerActiveArr("");
   }, [isActive]);

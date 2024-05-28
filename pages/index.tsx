@@ -81,11 +81,16 @@ export default function Home() {
               {
                 homePost.map((item: PostWithUserModel, index: number) => {
                   let user = item.user
-                  console.log("User", user)
+                  // console.log("User", user)
+                  console.log("Home post" ,item)
                   return <>
                     <UserPost
                       user={user}
+                      
                       {...item}
+                      images={
+                        item.images
+                      }
                     // email_verified={"123123"}
                     />
                   </>

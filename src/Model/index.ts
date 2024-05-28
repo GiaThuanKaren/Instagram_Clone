@@ -57,8 +57,63 @@ export interface CommentFromIdPost {
 
 
 
+export interface ConversationListMessage {
+  id: string
+  message: string
+  targetUserId: string
+  fromUserId: string
+  conversationId: string
+  createdAt: string
+  UserFrom: UserFrom
+  UserSend: UserSend
+}
+
+export interface UserFrom {
+  id: string
+  name: string
+  email: string
+  emailVerified: any
+  image: string
+  following: any[]
+  follower: any[]
+  conversationIds: any[]
+}
+
+export interface UserSend {
+  id: string
+  name: string
+  email: string
+  emailVerified: any
+  image: string
+  following: any[]
+  follower: any[]
+  conversationIds: any[]
+}
 
 
+export interface CloudinaryRespone {
+  asset_id: string
+  public_id: string
+  api_key: string
+  version: number
+  version_id: string
+  signature: string
+  width: number
+  height: number
+  format: string
+  resource_type: string
+  created_at: string
+  tags: any[]
+  pages: number
+  bytes: number
+  type: string
+  etag: string
+  placeholder: boolean
+  url: string
+  secure_url: string
+  access_mode: string
+  original_filename: string
+}
 
 
 

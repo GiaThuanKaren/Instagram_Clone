@@ -154,7 +154,10 @@ function UserPost({ contend, id, images, reaction, user, userId }: PostWithUserM
             alt="123"
             // src={`https://drive.google.com/uc?id=${media[indexImg] as string}&export=download`}
             // src="https://images.unsplash.com/photo-1536195892759-c8a3c8e1945e?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            src={images[indexImg]}
+            // src={images[indexImg]}
+            src = {
+              JSON.parse(images[indexImg]).url
+            }
           />
 
 

@@ -46,7 +46,8 @@ function ModalUserPost({ _id, media, handleFN, reaction, descripttion, imageAuth
                             className=" w-[90%] overflow-hidden h-full object-contain"
                             alt="123"
                             // src={`https://drive.google.com/uc?id=${media[indexImg] as string}&export=download`}
-                            src={media[indexImg]}
+                            // src={media[indexImg]}
+                            src = {JSON.parse(media[indexImg]).url}
 
                         />
                         {

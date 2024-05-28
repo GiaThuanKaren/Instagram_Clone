@@ -1,3 +1,5 @@
+
+
 import React from "react";
 import Cropper from "react-easy-crop";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -7,12 +9,15 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ICON, IconSolid } from "../../utils/icon";
 import dynamic from "next/dynamic";
 import { CreateNewPost, handleUploadImagesPostsCloudinary } from "../../services/api";
-import { handleUploadImagesPostsCloudinary2 } from "../../../pages/api/upload";
 import { useSession } from "next-auth/react";
-import { CreateNewPostModel } from "../../Model";
+import { CloudinaryRespone, CreateNewPostModel } from "../../Model";
 import { useRouter } from "next/router";
 import { ShowToastify } from "../../utils";
 import { Session } from "next-auth";
+import cloudinary from "cloudinary"
+import axios from "axios";
+import { log } from "console";
+import { NameCustomEvents, publish } from "../../utils/event";
 
 interface Props {
   HandleFUNC: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,6 +37,9 @@ function CreatePostModal({ HandleFUNC }: Props) {
   const { data, status } = useSession()
   console.log("Session ", data)
   const InputFIleRef = React.useRef<any>();
+  const [fileImage, setFileImage] = React.useState<File[]>([
+
+  ])
   const [valueText, setValueText] = React.useState<any>()
   const [ImageSource, SetImageSource] = React.useState<ImageSourceInf[]>([]);
   const { push } = useRouter()
@@ -39,40 +47,69 @@ function CreatePostModal({ HandleFUNC }: Props) {
   const [ImageIndexPreview, setImageIndexPreview] = React.useState<number>(0);
   const handleUploadPost = async function () {
     try {
+      // await axios.post("/api/upload", fileImage,{
+
+      // for(let item of fileImage){
+      //   console.log(item)
+      //   formData.append("file",item)
+      // }
 
 
-      // let image = []
-      // console.log("Image Source", ImageSource)
-      // ImageSource.forEach((file: ImageSourceInf) => {
-      //   formdata.append("files", file.file)
-      // })
-      // // formdata.append("description", valueText)
-      // console.log(formdata.getAll("files"))
-      // // await handleUploadImagesPostsCloudinary(formdata.getAll("files"));
-      // await handleUploadImagesPostsCloudinary2()
-      if (status == "unauthenticated") {
-        ShowToastify("Error When Creating New Post , Please Login Again")
-        push("/")
-        return
-      }
+      // console.log(asyncManyFile)
+
+      let result = await Promise.all(
+        fileImage.map((item: File) => {
+          async function upImage() {
+            const formData = new FormData()
+            formData.append("upload_preset", "giathuanstograge")
+            formData.append("file", item)
+            const data: CloudinaryRespone = await fetch('https://api.cloudinary.com/v1_1/dkohegbsh/image/upload', {
+              method: 'POST',
+              body: formData
+            }).then(r => r.json());
+            console.log(data)
+            return data
+          }
+          return upImage()
+        })
+      )
+      console.log("Data up ảnht thành công ")
+      console.log(result)
+
+      // formData.append(
+      //   "file", fileImage[0]
+      // )
+
+      // // // }})
+      // const data: CloudinaryRespone = await fetch('https://api.cloudinary.com/v1_1/dkohegbsh/image/upload', {
+      //   method: 'POST',
+      //   body: formData
+      // }).then(r => r.json());
+      // console.log("Data up ảnht thành công ")
+      // console.log(data)
+
+
       let userData: any = data?.user
       let userId = userData.id
       const formdata: CreateNewPostModel = {
         contend: valueText,
-        images: [
-          "https://images.unsplash.com/photo-1501186758051-167ca3c0fde8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNvenl8ZW58MHwxfDB8fHww",
-          "https://images.unsplash.com/photo-1603097122177-5d9820645ac5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNvenl8ZW58MHwxfDB8fHww",
-          "https://images.unsplash.com/photo-1604999928967-c98795bf3ee9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNvenl8ZW58MHwxfDB8fHww"
-        ],
+        images: result.map((item: CloudinaryRespone) => {
+          return JSON.stringify(item)
+        }),
         userId: userId
       }
-      let result = await CreateNewPost(formdata)
+      let resultUploadPost = await CreateNewPost(formdata)
       ShowToastify("Done")
-      console.log(result)
+      publish(NameCustomEvents.closeModalCreatePost)
+      // console.log(result)
     } catch (e) {
-      throw e
+      console.log(
+        e
+      )
     }
   }
+
+
   return (
     <>
       <div className="transition-all fixed w-screen h-screen top-0 bottom-0 right-0 left-0 overflow-hidden  bg-[#595959be] z-[2] flex justify-center items-center">
@@ -89,6 +126,13 @@ function CreatePostModal({ HandleFUNC }: Props) {
           })
 
           SetImageSource(StringURLIMG)
+          if (Arrfiles.length > 0) {
+            setFileImage(
+              Arrfiles
+            )
+          } else {
+            ShowToastify("Can not load these images , please try again")
+          }
           console.log(Arrfiles)
           console.log("Number of files")
         }} multiple className="hidden" ref={InputFIleRef} type="file" name="tenfile" id="" />
@@ -115,6 +159,27 @@ function CreatePostModal({ HandleFUNC }: Props) {
             }}>
               <h3 className={`font-medium px-3  ${ImageSource.length > 0 ? "text-blue-400 hover:cursor-pointer" : "text-white"}`}>Share</h3>
             </div>
+            <h3 onClick={async () => {
+              const timestamp = Math.round((new Date).getTime() / 1000);
+
+              // let {timestamp,signature}  = signuploadwidget()
+              // let result = await axios.get("/api/upload/signature")
+              // console.log(result.data)
+              let body = new FormData()
+              body.append("public_id", "giathuanstograge/pllyaz76rqmc5frzt6uf")
+              body.append("upload_preset", "giathuanstograge")
+              body.append("api_key", "244115717283225")
+              body.append("signature", "94f9ef1ec5bbcbe42b5e99e0e79f1a5d39f26ae1")
+              body.append("timestamp", timestamp.toString())
+              const data = await fetch('https://api.cloudinary.com/v1_1/dkohegbsh/image/destroy', {
+                method: 'POST',
+                body: body
+              }).then(r => r.json());
+              console.log(data)
+            }}>
+
+              Delete
+            </h3>
           </div>
           {
             ImageSource.length == 0 ? <div className="h-full w-full flex justify-center items-center">
