@@ -40,7 +40,10 @@ export interface User {
   email: string
   emailVerified: any
   image: string
+  
   following: any[]
+  follower: any[]
+  conversationIds: any[]
 }
 
 
@@ -57,7 +60,17 @@ export interface CommentFromIdPost {
 
 
 
-export interface ConversationListMessage {
+export interface ConversationListMessage{
+  id: string
+  messages: Message[]
+  isGroup: any
+  name: any
+  lastMessageAt: string
+  createdAt: string
+}
+
+
+export interface Message {
   id: string
   message: string
   targetUserId: string
@@ -68,11 +81,12 @@ export interface ConversationListMessage {
   UserSend: UserSend
 }
 
+
 export interface UserFrom {
   id: string
   name: string
   email: string
-  emailVerified: any
+  emailVerified: any      
   image: string
   following: any[]
   follower: any[]

@@ -5,29 +5,35 @@ import { v4 as uuidv4 } from 'uuid';
 import { MessageInbox } from '.';
 import InboxLayout from '../../../src/Layouts/InboxLayout';
 import { useSession } from 'next-auth/react';
-import { handleSendMessageService } from '../../../src/services/api';
+import { getConversationByListIdUser, handleSendMessageService } from '../../../src/services/api';
 import LoadingAnimated from '../../../src/Components/LoadingAnimation';
+import { hashObjectIds } from '../../../src/utils/lib/crypto';
+import { ConversationListMessage, Message, User } from '../../../src/Model';
 
-interface MessageItemCompProps {
-    IdUserChatItem: string,
-    message: string,
-    imgUser?: string
+interface MessageItemCompProps extends Message {
+    currentUserId: string
+    alignLeft?: boolean
 }
 
 function MessageItemComp(
     {
-        IdUserChatItem, message, imgUser
+        alignLeft = true, message,
+        UserFrom, UserSend,
+        currentUserId
     }: MessageItemCompProps
 ) {
-    const { data, status } = useSession()
-    const userData: any = data?.user
-    
+    console.log(currentUserId)
+    // const { data, status } = useSession()
+    // const userData: any = data?.user
+    // console.log(
+    //     userData.id
+    // )
     return <>
-        <div className={'flex px-3 items-center w-full mb-6 mt-2 ' + ` ${userData.id == IdUserChatItem ? " justify-end" : " justify-start"}`}>
+        <div className={'flex px-3 items-center w-full mb-6 mt-2 ' + ` ${alignLeft ? " justify-end" : " justify-start"}`}>
             <div className={'basis-1/2 '}>
                 <div className=' w-full' >
                     {
-                        userData.id != IdUserChatItem &&
+                        currentUserId == UserFrom.id &&
                         <>
                             <div className='h-10 w-10 rounded-full bg-red-300 '>
 
@@ -37,13 +43,16 @@ function MessageItemComp(
 
                     <p className='break-words'>
                         {
-                            message
+                            message + JSON.stringify(alignLeft) 
+                        }
+                        {
+                            UserFrom.id + " F - S " + UserSend.id
                         }
                     </p>
                 </div>
             </div>
 
-        </div>
+        </div >
     </>
 }
 
@@ -51,12 +60,14 @@ function MessageItemComp(
 function InboxPageByIdConversation() {
     const {
         push,
-        query
+        query,
+        isReady
     } = useRouter()
     const { data, status } = useSession()
     let userData: any = data?.user
     console.log(query.idconver, " Id Conver")
     const [textChat, setTextChat] = React.useState("")
+    const [listMessage, setListMessage] = React.useState<Message[]>([])
     const handleSendMessage = async function () {
         try {
             let result = await handleSendMessageService(
@@ -71,9 +82,59 @@ function InboxPageByIdConversation() {
         }
     }
 
+    React.useEffect(() => {
+
+
+        async function FetchApi() {
+            try {
+                let result: ConversationListMessage = await getConversationByListIdUser(
+                    [
+                        "65f2b01ebe65c5610f001bfd",
+                        "65d1db14eba524ec07de1db3"
+                    ]
+                )
+                console.log(
+                    result.messages
+                )
+
+                setListMessage(
+                    result.messages
+                )
+            } catch (error) {
+                throw error
+            }
+        }
+
+
+        if (isReady) {
+            FetchApi()
+
+        }
+        // console.log(
+        //     query.idconver
+        // )
+        // console.log(
+        //     "new Object id ",
+        //     hashObjectIds(
+        //         "65f2b01ebe65c5610f001bfd",
+        //         "65d1db14eba524ec07de1db3"
+        //     )
+        // )
+
+
+
+
+    }, [isReady])
+
+
+
     return (
         <>
+        {/* <p>
+            Current Id User { userData.id}
+        </p> */}
             <MainLayout hideLeftSideBar>
+
                 {
                     status != "authenticated" ? <LoadingAnimated /> :
 
@@ -84,7 +145,7 @@ function InboxPageByIdConversation() {
                                 >
 
                                     {/*  Message Display Area */}
-                                    {
+                                    {/* {
                                         Array.from(Array(10).keys()).map((item: number) => {
                                             return <>
                                                 <MessageItemComp
@@ -94,6 +155,27 @@ function InboxPageByIdConversation() {
                                                         "Lorem ipsum dolor sit amet consectetur adipisicing elit. At, numquam nihil. Cumque, maxime inventore distinctio harum est, officiis ratione repudiandae sapiente delectus quisquam similique quia modi accusamus molestias adipisci aut!"
                                                     }
                                                 />
+                                            </>
+                                        })
+                                    } */}
+
+                                    {
+                                        listMessage.map((item: Message, index: number) => {
+                                            console.log("Aligh Status ", item.UserFrom.id == userData.id)
+                                            return <>
+                                                <MessageItemComp
+                                                    currentUserId={
+                                                        userData.id
+                                                    }
+                                                    alignLeft={
+                                                        item.UserSend.id == userData.id
+                                                    }
+                                                    {
+                                                    ...item
+                                                    }
+                                                />
+
+
                                             </>
                                         })
                                     }

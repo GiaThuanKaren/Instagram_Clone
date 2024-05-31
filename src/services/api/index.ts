@@ -267,3 +267,18 @@ export const handleSendMessageService = async function (
         throw error
     }
 }
+
+
+export const getConversationByListIdUser = async function (
+    listidUser: string[]
+) {
+    try {
+
+
+        let { data } = await axios.post(BASE_DEV + "/conversation/findConversationsByListIdUser", listidUser)
+        return data.data
+    } catch (error) {
+        ShowToastify("Failed to fetch this conversation ")
+        throw error
+    }
+}
