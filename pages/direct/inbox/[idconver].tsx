@@ -13,16 +13,19 @@ import { ConversationListMessage, Message, User } from '../../../src/Model';
 interface MessageItemCompProps extends Message {
     currentUserId: string
     alignLeft?: boolean
+    image: string
 }
 
 function MessageItemComp(
     {
         alignLeft = true, message,
         UserFrom, UserSend,
-        currentUserId
+        currentUserId,
+        image
     }: MessageItemCompProps
 ) {
     console.log(currentUserId)
+    
     // const { data, status } = useSession()
     // const userData: any = data?.user
     // console.log(
@@ -32,22 +35,28 @@ function MessageItemComp(
         <div className={'flex px-3 items-center w-full mb-6 mt-2 ' + ` ${alignLeft ? " justify-end" : " justify-start"}`}>
             <div className={'basis-1/2 '}>
                 <div className=' w-full' >
-                    {
+                    {/* {
                         currentUserId == UserFrom.id &&
                         <>
                             <div className='h-10 w-10 rounded-full bg-red-300 '>
-
+                                    
                             </div>
                         </>
-                    }
-
+                    } */}
+                    <div className='h-10 w-10 rounded-full bg-red-300 '>
+                        <img
+                            src={image}
+                            alt=""
+                        />
+                    </div>
                     <p className='break-words'>
                         {
-                            message + JSON.stringify(alignLeft) 
+                            message
+                            // + JSON.stringify(alignLeft)
                         }
-                        {
+                        {/* {
                             UserFrom.id + " F - S " + UserSend.id
-                        }
+                        } */}
                     </p>
                 </div>
             </div>
@@ -81,7 +90,7 @@ function InboxPageByIdConversation() {
             throw error
         }
     }
-
+    console.log(listMessage, "listMessage")
     React.useEffect(() => {
 
 
@@ -94,9 +103,11 @@ function InboxPageByIdConversation() {
                     ]
                 )
                 console.log(
+                    Object.keys(result), "ConversationListMessage"
+                )
+                console.log(
                     result.messages
                 )
-
                 setListMessage(
                     result.messages
                 )
@@ -130,7 +141,7 @@ function InboxPageByIdConversation() {
 
     return (
         <>
-        {/* <p>
+            {/* <p>
             Current Id User { userData.id}
         </p> */}
             <MainLayout hideLeftSideBar>
@@ -169,6 +180,9 @@ function InboxPageByIdConversation() {
                                                     }
                                                     alignLeft={
                                                         item.UserSend.id == userData.id
+                                                    }
+                                                    image={
+                                                        item.UserSend.id == userData.id ? item.UserSend.image : item.UserFrom.image
                                                     }
                                                     {
                                                     ...item

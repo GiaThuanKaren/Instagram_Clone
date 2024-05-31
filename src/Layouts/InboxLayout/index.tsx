@@ -53,6 +53,14 @@ function InboxLayout({ children }: InboxLayoutProp) {
         }
 
     }, [status])
+
+
+    React.useEffect(()=>{
+        
+
+    },[])
+
+
     return (
         <>
             <div className="h-screen w-full  flex px-2">
