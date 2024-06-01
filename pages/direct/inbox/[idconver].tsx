@@ -1,6 +1,7 @@
 import React from 'react'
 import { MainLayout } from '../../../src/Layouts'
 import { useRouter } from 'next/router'
+import Pusher from "pusher-js"
 import { v4 as uuidv4 } from 'uuid';
 import { MessageInbox } from '.';
 import InboxLayout from '../../../src/Layouts/InboxLayout';
@@ -15,7 +16,9 @@ interface MessageItemCompProps extends Message {
     alignLeft?: boolean
     image: string
 }
-
+var pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
+    cluster: 'ap1'
+});
 function MessageItemComp(
     {
         alignLeft = true, message,
@@ -25,7 +28,7 @@ function MessageItemComp(
     }: MessageItemCompProps
 ) {
     console.log(currentUserId)
-    
+
     // const { data, status } = useSession()
     // const userData: any = data?.user
     // console.log(
@@ -43,16 +46,16 @@ function MessageItemComp(
                             </div>
                         </>
                     } */}
-                    <div className='h-10 w-10 rounded-full bg-red-300 '>
+                    {/* <div className='h-10 w-10 rounded-full bg-red-300 '>
                         <img
                             src={image}
                             alt=""
                         />
-                    </div>
-                    <p className='break-words'>
+                    </div> */}
+                    <p className={'break-words px-2 py-1  ' + `${alignLeft ? " bg-blue-300 " : " bg-gray-300 "}`}>
                         {
                             message
-                            // + JSON.stringify(alignLeft)
+                            // + " "  + JSON.stringify(alignLeft)
                         }
                         {/* {
                             UserFrom.id + " F - S " + UserSend.id
@@ -77,6 +80,7 @@ function InboxPageByIdConversation() {
     console.log(query.idconver, " Id Conver")
     const [textChat, setTextChat] = React.useState("")
     const [listMessage, setListMessage] = React.useState<Message[]>([])
+    const [loading, setLoading] = React.useState(true)
     const handleSendMessage = async function () {
         try {
             let result = await handleSendMessageService(
@@ -91,36 +95,49 @@ function InboxPageByIdConversation() {
         }
     }
     console.log(listMessage, "listMessage")
-    React.useEffect(() => {
 
+    async function FetchApi() {
+        try {
+            let result: ConversationListMessage = await getConversationByListIdUser(
+                [
+                    "65f2b01ebe65c5610f001bfd",
+                    "65d1db14eba524ec07de1db3"
+                ]
+            )
+            // console.log(result)
+            // console.log(
+            //     Object.keys(result), "ConversationListMessage"
+            // )
+            // setListMessage(
+            //     result.messages
+            // )
 
-        async function FetchApi() {
-            try {
-                let result: ConversationListMessage = await getConversationByListIdUser(
-                    [
-                        "65f2b01ebe65c5610f001bfd",
-                        "65d1db14eba524ec07de1db3"
-                    ]
-                )
-                console.log(
-                    Object.keys(result), "ConversationListMessage"
-                )
-                console.log(
-                    result.messages
-                )
+            if (result) {
+
                 setListMessage(
                     result.messages
                 )
-            } catch (error) {
-                throw error
+            } else {
+                setListMessage([])
             }
+
+        } catch (error) {
+            throw error
         }
+        finally {
+            setLoading(false)
+        }
+    }
+
+    React.useEffect(() => {
+
 
 
         if (isReady) {
             FetchApi()
 
         }
+
         // console.log(
         //     query.idconver
         // )
@@ -136,6 +153,27 @@ function InboxPageByIdConversation() {
 
 
     }, [isReady])
+
+
+    React.useEffect(() => {
+
+        if (status == "authenticated") {
+            let idUser = userData.id
+            console.log("IdUser ", idUser)
+
+            var channel = pusher.subscribe('chat');
+            channel.bind(idUser, function (data: any) {
+                console.log(data, typeof (data))
+                setListMessage(prev => [
+                    ...prev, data
+                ])
+                // alert(JSON.stringify(data));
+            });
+        }
+        return () => {
+            pusher.unsubscribe("chat");
+        };
+    }, [status])
 
 
 
@@ -171,7 +209,7 @@ function InboxPageByIdConversation() {
                                     } */}
 
                                     {
-                                        listMessage.map((item: Message, index: number) => {
+                                        loading ? <LoadingAnimated /> : listMessage.map((item: Message, index: number) => {
                                             console.log("Aligh Status ", item.UserFrom.id == userData.id)
                                             return <>
                                                 <MessageItemComp

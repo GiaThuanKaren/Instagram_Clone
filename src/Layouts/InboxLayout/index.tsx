@@ -55,10 +55,10 @@ function InboxLayout({ children }: InboxLayoutProp) {
     }, [status])
 
 
-    React.useEffect(()=>{
-        
+    React.useEffect(() => {
 
-    },[])
+
+    }, [])
 
 
     return (
