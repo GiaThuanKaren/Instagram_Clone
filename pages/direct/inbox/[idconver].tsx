@@ -16,9 +16,7 @@ interface MessageItemCompProps extends Message {
     alignLeft?: boolean
     image: string
 }
-var pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
-    cluster: 'ap1'
-});
+
 function MessageItemComp(
     {
         alignLeft = true, message,
@@ -88,7 +86,13 @@ function InboxPageByIdConversation() {
                 data?.user,
                 textChat
             )
-
+            setListMessage((prev)=>{
+                return [
+                    ...prev,
+                    result.data
+                ]
+            })
+6
         } catch (error) {
             console.log(error)
             throw error
@@ -160,7 +164,9 @@ function InboxPageByIdConversation() {
         if (status == "authenticated") {
             let idUser = userData.id
             console.log("IdUser ", idUser)
-
+            var pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
+                cluster: 'ap1'
+            });
             var channel = pusher.subscribe('chat');
             channel.bind(idUser, function (data: any) {
                 console.log(data, typeof (data))
@@ -169,10 +175,11 @@ function InboxPageByIdConversation() {
                 ])
                 // alert(JSON.stringify(data));
             });
+            return () => {
+                pusher.unsubscribe("chat");
+            };
         }
-        return () => {
-            pusher.unsubscribe("chat");
-        };
+
     }, [status])
 
 
