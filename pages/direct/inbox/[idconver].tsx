@@ -86,13 +86,13 @@ function InboxPageByIdConversation() {
                 data?.user,
                 textChat
             )
-            setListMessage((prev)=>{
+            setListMessage((prev) => {
                 return [
                     ...prev,
                     result.data
                 ]
             })
-6
+            6
         } catch (error) {
             console.log(error)
             throw error
@@ -102,10 +102,12 @@ function InboxPageByIdConversation() {
 
     async function FetchApi() {
         try {
+            // let userData: any = data?.user
+            console.log("USer Data", userData.id)
             let result: ConversationListMessage = await getConversationByListIdUser(
                 [
-                    "65f2b01ebe65c5610f001bfd",
-                    "65d1db14eba524ec07de1db3"
+                    query.idconver as string,
+                    userData.id,
                 ]
             )
             // console.log(result)
@@ -137,7 +139,8 @@ function InboxPageByIdConversation() {
 
 
 
-        if (isReady) {
+        if (status == "authenticated") {
+            // window.scrollTo(0, document.body.scrollHeight);
             FetchApi()
 
         }
@@ -156,7 +159,7 @@ function InboxPageByIdConversation() {
 
 
 
-    }, [isReady])
+    }, [query.idconver, status])
 
 
     React.useEffect(() => {
@@ -217,7 +220,7 @@ function InboxPageByIdConversation() {
 
                                     {
                                         loading ? <LoadingAnimated /> : listMessage.map((item: Message, index: number) => {
-                                            console.log("Aligh Status ", item.UserFrom.id == userData.id)
+                                            // console.log("Aligh Status ", item.UserFrom.id == userData.id)
                                             return <>
                                                 <MessageItemComp
                                                     currentUserId={

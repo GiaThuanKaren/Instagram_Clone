@@ -282,3 +282,19 @@ export const getConversationByListIdUser = async function (
         throw error
     }
 }
+
+
+export const getAllConverByFromIdUser = async function (
+    idUser: string
+) {
+    try {
+        let { data } = await axios.get(
+            BASE_DEV + "/conversation/getAllConverByIdConver/" + idUser
+        )
+        console.log(data)
+        return data.data
+    } catch (error) {
+        ShowToastify("Failed")
+        throw error
+    }
+}

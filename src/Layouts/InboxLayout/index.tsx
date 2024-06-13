@@ -2,6 +2,9 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Pusher from "pusher-js"
 import React from 'react'
+import { ShowToastify } from '../../utils'
+import { getAllConverByFromIdUser, getConversationByListIdUser } from '../../services/api'
+import { Message } from '../../Model'
 
 interface InboxLayoutProp {
     children: React.ReactNode
@@ -18,16 +21,18 @@ type UserType = {
 function InboxLayout({ children }: InboxLayoutProp) {
     const {
         push,
-        query
+        query,
+        isReady
     } = useRouter()
-    const { data, status } = useSession()
-    const [listUserChat, setListUserChat] = React.useState<UserType[]>([
-        {
-            id: "",
-            name: "",
-            message: "",
-            img: ""
-        }
+    const { data, status, } = useSession()
+
+    const [listUserChat, setListUserChat] = React.useState<Message[]>([
+        // {
+        //     id: "",
+        //     name: "",
+        //     message: "",
+        //     img: ""
+        // }
     ])
     React.useEffect(() => {
         if (status == "authenticated") {
@@ -38,8 +43,9 @@ function InboxLayout({ children }: InboxLayoutProp) {
                 cluster: 'ap1'
             });
             var channel = pusher.subscribe('chat');
-            channel.bind(idUser, function (data: any) {
+            channel.bind(idUser, function (data: Message) {
                 console.log(data, typeof (data))
+                // setListUserChat((prev)=>{})
                 // alert(JSON.stringify(data));
             });
 
@@ -58,7 +64,25 @@ function InboxLayout({ children }: InboxLayoutProp) {
     React.useEffect(() => {
 
 
-    }, [])
+        async function fetchApi() {
+            let datauser: any = data?.user
+            let idUser = datauser.id
+            try {
+                let result = await getAllConverByFromIdUser(
+                    idUser
+                )
+                console.log(
+                    "Conversation ", result
+                )
+            } catch (error) {
+
+            }
+        }
+        if (status == "authenticated")
+            fetchApi()
+
+
+    }, [isReady, status])
 
 
     return (
@@ -119,9 +143,22 @@ function InboxLayout({ children }: InboxLayoutProp) {
                         </div>
                     </div>
 
+                    {/* 65f5ad0f883b2422171e1aa5 */}
 
+                    <div onClick={() => {
+                        push(`/direct/inbox/65f5ad0f883b2422171e1aa5`)
+                    }} className={"h-[72px] w-full mb-2 flex items-center px-2 py-1" + `${query.idconver == "65f5ad0f883b2422171e1aa5" ? " bg-gray-200" : " hover:bg-gray-100"}`}>
+                        <div className="h-14 w-14  bg-red-400 rounded-full">
 
-
+                        </div>
+                        <div className="ml-2 ">
+                            <p className="font-medium text-black">
+                                {"Workspace SGU "}
+                            </p>
+                            <p>New Message</p>
+                            {/* <p>Gia Thuan Test 22</p> */}
+                        </div>
+                    </div>
 
                 </div>
                 <div className="basis-2/3 h-screen  relative w-full" >
